@@ -1,0 +1,124 @@
+#product {
+  display: flex;
+}
+
+.filter {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid blue;
+  &__header {
+    background-color: aqua;
+  }
+}
+
+.catalog {
+  width: 80%;
+  border: 2px solid blue;
+  &__header {
+    background-color: green;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__block {
+    background-color: yellow;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+  }
+  &__sort {
+    height: 100%;
+    vertical-align: middle;
+    margin-left: 1%;
+    //margin: 20% 0 20% 2%; 
+    //margin-top: 5%;
+  }
+
+  &__found {
+    color: bisque;
+    margin: 0;
+  }
+
+  &__search {
+    height: 100%;
+  }
+
+  &__choose-viev {
+    text-align: center;
+    display: flex;
+    margin-right: 1%;
+    color: bisque;
+    // div {
+    //   border: 1px solid bisque;
+    //   margin-right: 1%;
+    //   border-radius: 6px;
+    //   //padding: 2%;
+    //   //font-size: 32px;
+
+    // }
+  }
+
+  &__var-view {
+    border: 1px solid bisque;
+    margin-right: 1%;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  &__sort,
+  &__found,
+  &__search,
+  &__choose-viev {
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+}
+
+.card {
+  width: 24%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  border: 2px solid rgb(0, 255, 234);
+  border-radius: 10px;
+  margin-bottom: 1%;
+  cursor: pointer;
+  //margin: 1%;
+  //padding: 1%;
+  //height: 150px;
+  &__title{
+    background-color: rgb(63, 59, 59, 80%);
+    color: Orange;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  &__description {
+    width: 50%;
+    //height: 60%;
+    background-color: rgb(63, 59, 59, 80%);
+    border-radius: 5px;
+
+  }
+  p {
+    color: orange;
+    margin: 0;
+  }
+
+  span {
+    color: white;
+  }
+  &__button {
+background-color: rgba(11, 11, 3, 0.6);
+padding: 3%;
+margin-top: 3%;
+margin-bottom: 2%;
+margin-right: 5%;
+margin-left: 5%;
+color: bisque;
+width: 40%;
+border-radius: 5px;
+cursor: pointer;
+  }
+}

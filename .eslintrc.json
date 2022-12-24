@@ -18,7 +18,7 @@
     "node": true
   },
   "rules": {
-    "prettier/prettier": 2,
+    "prettier/prettier": ["error", { "endOfLine":"auto" }],
     "no-debugger": "off",
     "no-console": 0,
     "class-methods-use-this": "off",
