@@ -1,5 +1,6 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
+import "./cards.scss";
 class CardsPage extends Page {
   dataBase = data.products;
   dataIdBase = this.dataBase.map((x) => x.id);
@@ -115,7 +116,7 @@ class CardsPage extends Page {
   }
 
   render() {
-    const page = this.createContent(55);
+    const page = this.createContent(88); // id product put here
     if (page instanceof HTMLDivElement) {
       this.container.append(page);
       return this.container;
