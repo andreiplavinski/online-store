@@ -30,7 +30,7 @@ class App {
     if (idPage === pageIds.product) {
       page = new ProductsPage("main", idPage, "main");
     } else if (idPage === "") {
-      page = new ProductsPage("main", idPage, "main");
+      page = new ProductsPage("main", pageIds.product, "main");
     } else if (idPage === pageIds.basket) {
       page = new BascetPage("main", idPage, "main");
     } else if (idPage === pageIds.cards) {
