@@ -42,14 +42,23 @@ class CardsPage extends Page {
           mainPhoto.className = "description-card__main-photo";
           mainPhoto.style.backgroundImage = `url(${photoLinks[0]})`;
           photoWraper.append(mainPhoto);
-        } else {
-          const miniPhoto = document.createElement("div");
-          miniPhoto.className = "description-card__mini-photo";
-          miniPhoto.style.backgroundImage = `url(${photoLinks[i]})`;
-          photoMiniWraper.append(miniPhoto);
         }
+        const miniPhoto = document.createElement("div");
+        miniPhoto.className = "description-card__mini-photo";
+        miniPhoto.style.backgroundImage = `url(${photoLinks[i]})`;
+        photoMiniWraper.append(miniPhoto);
+        miniPhoto.addEventListener("click", (event) => {
+          if (event.target instanceof HTMLElement) {
+            const selectPhotoBackground = event.target.style.backgroundImage;
+            const mainPhoto = document.querySelector(
+              ".description-card__main-photo"
+            );
+            if (mainPhoto instanceof HTMLElement) {
+              mainPhoto.style.backgroundImage = selectPhotoBackground;
+            }
+          }
+        });
       }
-
       photoWraper.append(photoMiniWraper);
       const descriptionTable = document.createElement("div");
       descriptionTable.className = "description-card__table";
