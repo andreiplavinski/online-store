@@ -63,7 +63,7 @@ class App {
     });
   }
 
-  async run() {
+  run() {
     App.container.append(this.header.render());
     this.enableRoundChange();
     this.windowLoad();

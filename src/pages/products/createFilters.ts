@@ -17,7 +17,7 @@ class CreateFilters {
 
   renderContainer() {
     const filterProduct = document.createElement("div");
-    filterProduct.className = "filter-block";
+    //filterProduct.className = "filter-block";
     this.container.append(filterProduct);
     const filterProductHeader = document.createElement("div");
     filterProductHeader.textContent = this.headerName;
@@ -28,6 +28,7 @@ class CreateFilters {
 
   renderFilterCheckbox(): HTMLElement {
     const filterBlock = this.renderContainer();
+    filterBlock.className = "filter-block";
     for (let i = 0; i < this.data.length; i++) {
       const checkBoxContent = document.createElement("p");
       checkBoxContent.className = "filter-block__label";
@@ -50,6 +51,7 @@ class CreateFilters {
 
   renderFilterRange(value: string) {
     const filterBlock = this.renderContainer();
+    filterBlock.className = "filter-block-range";
 
     const dualSliderBlock = document.createElement("div");
     dualSliderBlock.className = "filter-block__block";
@@ -65,13 +67,15 @@ class CreateFilters {
 
     fromSlider.min = String(dataSort[0]);
     fromSlider.max = String(dataSort[dataSort.length - 1]);
-    fromSlider.value = fromSlider.min;
+    fromSlider.value = String(dataSort[0]);
+    //fromSlider.min;
     const toSlider = document.createElement("input");
     toSlider.setAttribute("id", "toslider");
     toSlider.type = "range";
     toSlider.min = String(dataSort[0]);
     toSlider.max = String(dataSort[dataSort.length - 1]);
-    toSlider.value = toSlider.max;
+    toSlider.value = String(dataSort[dataSort.length - 1]);
+    //toSlider.max;
     blockSliders.append(fromSlider, toSlider);
 
     const blockSliderValue = document.createElement("div");
@@ -83,10 +87,10 @@ class CreateFilters {
     const maxValue = document.createElement("p");
     maxValue.textContent = `${value} ${dataSort[dataSort.length - 1]}`;
     blockSliderValue.append(minValue, maxValue);
-    fromSlider.addEventListener("input", () => {
-      //let currentValue =
-      minValue.textContent = toSlider.value;
-    });
+    // fromSlider.addEventListener("input", () => {
+    //   //let currentValue =
+    //   minValue.textContent = toSlider.value;
+    // });
   }
 }
 
