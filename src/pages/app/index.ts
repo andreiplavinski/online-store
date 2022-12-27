@@ -9,10 +9,10 @@ import Footer from "../../scripts/components/footer";
 
 class App {
   private header: Header;
-  private footer: Footer;
   private static container: HTMLElement = document.body;
   private static defauldPageClass = "current-page";
   private initPage: ProductsPage;
+  private footer: Footer;
 
   constructor() {
     this.header = new Header("header", "header", "header");
@@ -51,6 +51,7 @@ class App {
   private enableRoundChange() {
     window.addEventListener("hashchange", () => {
       const hash = window.location.hash.slice(1);
+      console.log(window.location.hash);
       console.log(hash);
       App.RenderPage(hash);
     });

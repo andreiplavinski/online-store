@@ -7,11 +7,12 @@ class CreateCards {
     this.container = container;
   }
 
-  renderCards() {
+  renderCards(): HTMLElement {
     for (let i = 0; i < this.data.length; i++) {
       const catalogCard = document.createElement("div");
       catalogCard.className = "card";
       catalogCard.style.backgroundImage = `url(${this.data[i].images[0]})`;
+      catalogCard.setAttribute("data-id", String(i));
       this.container.append(catalogCard);
       const cardTitle = document.createElement("div");
       cardTitle.textContent = this.data[i].title;
@@ -22,6 +23,7 @@ class CreateCards {
       catalogCard.append(cardDescription);
 
       const cardCategory = document.createElement("p");
+      cardCategory.className = "card__category";
       const cardBrand = document.createElement("p");
       const cardPrice = document.createElement("p");
       const cardDiscount = document.createElement("p");

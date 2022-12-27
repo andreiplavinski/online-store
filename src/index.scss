@@ -3,6 +3,13 @@
 *::after {
   box-sizing: border-box;
 }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+}
 .header {
   display: flex;
   justify-content: flex-start;
@@ -12,7 +19,8 @@
 }
 
 .footer {
-  position: absolute;
-  top: 100vh;
-  bottom: 0;
+  // position: absolute;
+  // top: 100vh;
+  // bottom: 0;
+  order: 3;
 }

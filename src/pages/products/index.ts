@@ -3,6 +3,8 @@ import data from "../../data/data.json";
 //import CardProd from "../../scripts/templates/interfaceData";
 import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
+import { resFound, writeRes } from "./function";
+import CreateFilters from "./createFilters";
 
 const buttonsFilterName = ["Reset Filters", "Copy Link"];
 
@@ -39,11 +41,27 @@ class ProductsPage extends Page {
 
     const newdata = data.products;
     const arrCategory: Array<string> = [];
+    const arrBrand: Array<string> = [];
+    const arrPrice: Array<number> = [];
+    const arrStock: Array<number> = [];
     for (let i = 0; i < newdata.length; i++) {
       arrCategory.push(newdata[i].category);
+      arrBrand.push(newdata[i].brand);
+      arrPrice.push(newdata[i].price);
+      arrStock.push(newdata[i].stock);
       //arrPhoto.push(newdata[i].images[0]);
     }
     console.log(newdata);
+    const arrCategoryUnic = arrCategory.filter(
+      (el, i) => arrCategory.indexOf(el) === i
+    );
+    const arrBrandUnic = arrBrand.filter((el, i) => arrBrand.indexOf(el) === i);
+    console.log(arrBrand.filter((el, i) => arrBrand.indexOf(el) === i));
+    console.log(arrCategory.filter((el, i) => arrCategory.indexOf(el) === i));
+    console.log(arrCategory);
+    console.log(arrBrand);
+    console.log(arrPrice);
+    console.log(arrStock);
 
     const catalog = document.createElement("div");
     catalog.className = "catalog";
@@ -64,8 +82,8 @@ class ProductsPage extends Page {
       "Sort by Price descending",
       "Sort by Rating ascending",
       "Sort by Rating descending",
-      "Sort by Rating descending",
-      "Sort by Rating descending",
+      "Sort by Stock ascending",
+      "Sort by Stock descending",
     ];
 
     for (let i = 0; i < sortName.length; i++) {
@@ -86,11 +104,38 @@ class ProductsPage extends Page {
     const productCard = new CreateCards(newdata, catalogCards);
     productCard.renderCards();
 
-    const cardFound = document.createElement("p");
+    const filterCategory: CreateFilters = new CreateFilters(
+      arrCategoryUnic,
+      filters,
+      "Category"
+    );
+    filterCategory.renderFilterCheckbox();
+
+    const filterBrand: CreateFilters = new CreateFilters(
+      arrBrandUnic,
+      filters,
+      "Brand"
+    );
+    filterBrand.renderFilterCheckbox();
+
+    const filterPrice: CreateFilters = new CreateFilters(
+      arrPrice,
+      filters,
+      "Price"
+    );
+    filterPrice.renderFilterRange("€");
+
+    const filterStock: CreateFilters = new CreateFilters(
+      arrStock,
+      filters,
+      "Stock"
+    );
+    filterStock.renderFilterRange("");
+
+    const cardFound: HTMLElement = document.createElement("p");
     cardFound.className = "catalog__found";
-    cardFound.textContent = `Found: ${
-      catalog.querySelectorAll(".card").length
-    }`;
+    resFound(cardFound, catalog);
+
     catalogHeader.append(cardFound);
 
     const searchCard = document.createElement("input");
@@ -111,7 +156,7 @@ class ProductsPage extends Page {
       sizeVar.className = "catalog__var-view";
       cardChooseView.append(sizeVar);
     }
-
+    console.log(writeRes("card__category"));
     this.container.append(filters, catalog);
     return this.container;
   }
@@ -120,5 +165,8 @@ class ProductsPage extends Page {
     return this.createContent();
   }
 }
+
+const catProd: HTMLElement | null = document.querySelector(".catalog");
+export { catProd };
 
 export default ProductsPage;
