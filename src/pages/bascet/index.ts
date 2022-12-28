@@ -21,7 +21,11 @@ class BascetPage extends Page {
     const cartWraper = document.createElement("div");
     cartWraper.className = "cart__wraper";
     let counter = 1;
+    let sumPrice = 0;
+    let sumProd = 0;
     for (const [id, quantity] of Object.entries(products)) {
+      let localQuantity = quantity;
+      sumProd += localQuantity;
       if (id in this.dataIdBase) {
         const selectItem = this.dataBase[Number(id) - 1];
         const card = document.createElement("div");
@@ -60,7 +64,9 @@ class BascetPage extends Page {
         stock.innerText = `Stock: ${String(selectItem.stock)}`;
         stock.className = "amount__stock";
         const price = document.createElement("p");
-        price.innerText = `€${String(selectItem.price)}`;
+        price.innerText = `€${String(selectItem.price * localQuantity)}`;
+        sumPrice += selectItem.price * localQuantity;
+
         price.className = "amount__price";
         const wraper = document.createElement("div");
         wraper.className = "amount__wraper";
@@ -71,12 +77,34 @@ class BascetPage extends Page {
         removeButton.innerText = "-";
         removeButton.className = "amount__button";
         const amountCounter = document.createElement("p");
-        amountCounter.innerText = String(quantity);
+        amountCounter.innerText = String(localQuantity);
         amountCounter.className = "amount__counter";
         wraper.append(addButton, amountCounter, removeButton);
         amount.append(stock, wraper, price);
         card.append(cartCounter, photo, descriptions, amount);
         cartWraper.append(card);
+        addButton.addEventListener("click", () => {
+          if (localQuantity + 1 <= selectItem.stock) {
+            localQuantity += 1;
+            amountCounter.innerText = String(localQuantity);
+            price.innerText = `€${String(selectItem.price * localQuantity)}`;
+            sumPrice += selectItem.price;
+            totalPrice.innerText = `Total: €${sumPrice}`;
+            sumProd += 1;
+            sumCounter.innerText = `Products: ${sumProd}`;
+          }
+        });
+        removeButton.addEventListener("click", () => {
+          if (localQuantity - 1 > 0) {
+            localQuantity -= 1;
+            amountCounter.innerText = String(localQuantity);
+            price.innerText = `€${String(selectItem.price * localQuantity)}`;
+            sumPrice -= selectItem.price;
+            totalPrice.innerText = `Total: €${sumPrice}`;
+            sumProd -= 1;
+            sumCounter.innerText = `Products: ${sumProd}`;
+          }
+        });
       }
     }
     const summary = document.createElement("div");
@@ -87,10 +115,10 @@ class BascetPage extends Page {
     const sumWraper = document.createElement("div");
     sumWraper.className = "summary__wraper";
     const sumCounter = document.createElement("p");
-    sumCounter.innerText = "Products:";
+    sumCounter.innerText = `Products: ${sumProd}`;
     sumCounter.className = "summary__counter";
     const totalPrice = document.createElement("p");
-    totalPrice.innerText = "Total:";
+    totalPrice.innerText = `Total: €${sumPrice}`;
     totalPrice.className = "summary__price";
     const promoInner = document.createElement("input");
     promoInner.type = "text";
@@ -107,7 +135,7 @@ class BascetPage extends Page {
   }
 
   render() {
-    const page = this.createContent({ 42: 3, 54: 1, 91: 4 }); // object with id and quantity product put here - { id: q, 55: 1, 46: 4 }
+    const page = this.createContent({ 42: 3, 54: 1, 91: 4 }); // object with id and quantity product put here - { id: quantity, 55: 1, 46: 4 }
     if (page instanceof HTMLDivElement) {
       this.container.append(page);
       return this.container;
