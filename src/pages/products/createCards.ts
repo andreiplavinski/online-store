@@ -1,4 +1,10 @@
 import { Card } from "../../scripts/templates/interfaceData";
+import { pageIds } from "../../scripts/templates/enumPage";
+
+// type HTMLElementEvent<T extends HTMLElement> = Event & {
+//   target: T;
+// };
+
 class CreateCards {
   data: Card[];
   container: HTMLElement;
@@ -7,11 +13,12 @@ class CreateCards {
     this.container = container;
   }
 
-  renderCards() {
+  renderCards(): HTMLElement {
     for (let i = 0; i < this.data.length; i++) {
       const catalogCard = document.createElement("div");
       catalogCard.className = "card";
       catalogCard.style.backgroundImage = `url(${this.data[i].images[0]})`;
+      catalogCard.setAttribute("data-id", String(i));
       this.container.append(catalogCard);
       const cardTitle = document.createElement("div");
       cardTitle.textContent = this.data[i].title;
@@ -22,6 +29,7 @@ class CreateCards {
       catalogCard.append(cardDescription);
 
       const cardCategory = document.createElement("p");
+      cardCategory.className = "card__category";
       const cardBrand = document.createElement("p");
       const cardPrice = document.createElement("p");
       const cardDiscount = document.createElement("p");
@@ -52,6 +60,17 @@ class CreateCards {
       cardButtonAdd.textContent = "Add To Cart";
       cardButtonDetails.textContent = "Details";
       catalogCard.append(cardButtonAdd, cardButtonDetails);
+
+      catalogCard.addEventListener("click", (event: Event) => {
+        if (
+          event.target instanceof HTMLElement &&
+          !event.target.closest("#add-product")
+        ) {
+          const idCardCurrent = this.data[i].id;
+          window.location.hash = `${pageIds.cards}/${idCardCurrent}`;
+          localStorage.setItem("idCard", `${idCardCurrent}`);
+        }
+      });
     }
 
     return this.container;
