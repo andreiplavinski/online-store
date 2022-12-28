@@ -6,6 +6,10 @@ import { pageIds } from "../../scripts/templates/enumPage";
 import Header from "../../scripts/components/header";
 import ErrorPage from "../error/error";
 import Footer from "../../scripts/components/footer";
+//import data from "../../data/data.json";
+
+// const pageCard = document.querySelectorAll(".description-page");
+//const card = document.querySelectorAll(".card");
 
 class App {
   private header: Header;
@@ -33,10 +37,20 @@ class App {
       page = new ProductsPage("main", pageIds.product, "main");
     } else if (idPage === pageIds.basket) {
       page = new BascetPage("main", idPage, "main");
-    } else if (idPage === pageIds.cards) {
-      page = new CardsPage("main", idPage, "main");
+    } else if (
+      //card instanceof HTMLElement &&
+      //pageCard instanceof HTMLElement &&
+      `${idPage}` === `${pageIds.cards}/${localStorage.getItem("idCard")}`
+      //${card.getAttribute("data-id")}`
+    ) {
+      page = new CardsPage(
+        "main",
+        idPage,
+        "main",
+        Number(localStorage.getItem("idCard"))
+      );
     } else {
-      page = new ErrorPage("main", idPage, "main", "404");
+      page = new ErrorPage("main", "error", "main", "404");
     }
 
     if (page) {

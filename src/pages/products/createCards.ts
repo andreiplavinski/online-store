@@ -1,4 +1,10 @@
 import { Card } from "../../scripts/templates/interfaceData";
+import { pageIds } from "../../scripts/templates/enumPage";
+
+// type HTMLElementEvent<T extends HTMLElement> = Event & {
+//   target: T;
+// };
+
 class CreateCards {
   data: Card[];
   container: HTMLElement;
@@ -54,6 +60,17 @@ class CreateCards {
       cardButtonAdd.textContent = "Add To Cart";
       cardButtonDetails.textContent = "Details";
       catalogCard.append(cardButtonAdd, cardButtonDetails);
+
+      catalogCard.addEventListener("click", (event: Event) => {
+        if (
+          event.target instanceof HTMLElement &&
+          !event.target.closest("#add-product")
+        ) {
+          const idCardCurrent = this.data[i].id;
+          window.location.hash = `${pageIds.cards}/${idCardCurrent}`;
+          localStorage.setItem("idCard", `${idCardCurrent}`);
+        }
+      });
     }
 
     return this.container;

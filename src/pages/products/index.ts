@@ -3,7 +3,7 @@ import data from "../../data/data.json";
 //import CardProd from "../../scripts/templates/interfaceData";
 import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
-import { resFound, writeRes } from "./function";
+import { resFound } from "./function";
 import CreateFilters from "./createFilters";
 
 const buttonsFilterName = ["Reset Filters", "Copy Link"];
@@ -156,8 +156,9 @@ class ProductsPage extends Page {
       sizeVar.className = "catalog__var-view";
       cardChooseView.append(sizeVar);
     }
-    console.log(writeRes("card__category"));
+
     this.container.append(filters, catalog);
+
     return this.container;
   }
 
