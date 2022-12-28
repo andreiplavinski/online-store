@@ -77,6 +77,50 @@
     margin: 0px;
     color: orange;
   }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  &__limit {
+    height: 20px;
+    display: flex;
+    gap: 5px;
+  }
+
+  &__span-limit{
+    color: white;
+    font-size: 25px;
+  }
+
+  &__input-limit{
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.page-counter {
+  display: flex;
+  gap: 5px;
+
+  &__span {
+    color: white;
+    font-size: 25px;
+  }
+
+  &__value{
+    color: white;
+    font-size: 25px;
+    margin: 0px;
+  }
+
+  &__button {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .amount {
@@ -118,6 +162,10 @@
 }
 
 .summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 20%;
   padding: 5px;
   border: 2px solid white;
@@ -130,6 +178,7 @@
   }
 
   &__wraper {
+    width: 80%;
     display: flex;
     flex-direction: column;
     border: 2px solid white;
@@ -151,4 +200,12 @@
     font-size: 18px;
     margin: 0px;
   }
+}
+
+.hide {
+  display: none;
+}
+
+.view {
+  display: flex;
 }

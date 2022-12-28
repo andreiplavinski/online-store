@@ -8,6 +8,9 @@ class BascetPage extends Page {
 
   totalPrice = 0;
   totalProduct = 0;
+  cardsLimit = 3;
+  pageCounter = 1;
+  saveProducts = {};
 
   constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
@@ -30,7 +33,15 @@ class BascetPage extends Page {
 
         const cartCounter = document.createElement("p");
         cartCounter.innerText = String(cardCounter);
+        card.classList.add("hide");
+
         cardCounter += 1;
+        if (
+          cardCounter <= this.cardsLimit * this.pageCounter + 1 &&
+          cardCounter > this.cardsLimit * this.pageCounter - this.cardsLimit + 1
+        ) {
+          card.classList.add("view");
+        }
         cartCounter.className = "cart__counter";
 
         const photo = document.createElement("div");
@@ -164,29 +175,114 @@ class BascetPage extends Page {
     return summary;
   }
 
+  protected createCartHeader(products: object) {
+    const cartHeader = document.createElement("div");
+    cartHeader.className = "cart__header";
+
+    const cartTitle = document.createElement("p");
+    cartTitle.innerText = "Products In Cart:";
+    cartTitle.className = "cart__title";
+
+    const cartLimit = document.createElement("div");
+    cartLimit.className = "cart__limit";
+
+    const cartLimitText = document.createElement("span");
+    cartLimitText.innerText = "Limit:";
+    cartLimitText.className = "cart__span-limit";
+
+    const cartLimitInput = document.createElement("input");
+    cartLimitInput.type = "number";
+    cartLimitInput.value = String(3);
+    cartLimitInput.min = String(0);
+    cartLimitInput.className = "cart__input-limit";
+
+    cartLimitInput?.addEventListener("change", (event) => {
+      const value = (event.target as HTMLInputElement).value;
+      this.cardsLimit = Number(value);
+      const cartWraper = document.querySelector(".cart__wraper");
+      if (cartWraper instanceof HTMLElement) {
+        cartWraper.innerHTML = "";
+        cartWraper.append(this.createCards(this.saveProducts));
+      }
+    });
+
+    const cartPageWraper = document.createElement("div");
+    cartPageWraper.className = "cart__page page-counter";
+
+    const cartPageSpan = document.createElement("span");
+    cartPageSpan.innerText = "Page:";
+    cartPageSpan.className = "page-counter__span";
+
+    const cartLeftButton = document.createElement("button");
+    cartLeftButton.innerText = "<";
+    cartLeftButton.className = "page-counter__button";
+
+    const cartRightButton = document.createElement("button");
+    cartRightButton.innerText = ">";
+    cartRightButton.className = "page-counter__button";
+
+    const cartPageCounter = document.createElement("p");
+    cartPageCounter.innerText = String(this.pageCounter);
+    cartPageCounter.className = "page-counter__value";
+
+    cartRightButton?.addEventListener("click", () => {
+      if (
+        this.pageCounter + 1 <
+        Object.keys(products).length / this.cardsLimit + 1
+      ) {
+        this.pageCounter += 1;
+        cartPageCounter.innerText = String(this.pageCounter);
+        const cartWraper = document.querySelector(".cart__wraper");
+        if (cartWraper instanceof HTMLElement) {
+          cartWraper.innerHTML = "";
+          cartWraper.append(this.createCards(this.saveProducts));
+        }
+      }
+    });
+
+    cartLeftButton?.addEventListener("click", () => {
+      if (this.pageCounter - 1 > 0) {
+        this.pageCounter -= 1;
+        cartPageCounter.innerText = String(this.pageCounter);
+        const cartWraper = document.querySelector(".cart__wraper");
+        if (cartWraper instanceof HTMLElement) {
+          cartWraper.innerHTML = "";
+          cartWraper.append(this.createCards(this.saveProducts));
+        }
+      }
+    });
+
+    cartLimit.append(cartLimitText, cartLimitInput);
+
+    cartPageWraper.append(
+      cartPageSpan,
+      cartLeftButton,
+      cartPageCounter,
+      cartRightButton
+    );
+
+    cartHeader.append(cartTitle, cartLimit, cartPageWraper);
+    return cartHeader;
+  }
   protected createPage(products: object) {
+    this.saveProducts = products;
     const page = document.createElement("div");
     page.className = "basket-page";
 
     const cart = document.createElement("div");
     cart.className = "basket-page__cart cart";
 
-    const cartTitle = document.createElement("div");
-    cartTitle.innerText = "Products In Cart:";
-    cartTitle.className = "cart__title";
-
+    const cartHeader = this.createCartHeader(products);
     const cards = this.createCards(products);
-    cart.append(cartTitle, cards);
-
     const summary = this.createSummary();
+    cart.append(cartHeader, cards);
     page.append(cart, summary);
 
     return page;
   }
 
   render() {
-    const page = this.createPage({ 42: 3, 54: 1, 91: 4 }); // object with id and quantity product put here - { id: quantity, 55: 1, 46: 4 }
-
+    const page = this.createPage({ 42: 3, 54: 1, 91: 4, 5: 5, 67: 8, 10: 4 }); // object with id and quantity product put here - { id: quantity, 55: 1, 46: 4 }
     if (page instanceof HTMLDivElement) {
       this.container.append(page);
       return this.container;
