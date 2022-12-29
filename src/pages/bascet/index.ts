@@ -176,18 +176,31 @@ class BascetPage extends Page {
         });
       }
     }
+
     if (viewFlag === false && this.pageCounter > 1) {
       this.pageCounter -= 1;
+
       const cartPageCounter = document.querySelector(".page-counter__value");
       if (cartPageCounter instanceof HTMLElement) {
         cartPageCounter.innerText = String(this.pageCounter);
       }
+
       const cartWraper = document.querySelector(".cart__wraper");
       if (cartWraper instanceof HTMLElement) {
         cartWraper.innerHTML = "";
         cartWraper.append(this.createCards(this.products));
       }
+    } else if (viewFlag === false && this.pageCounter === 1) {
+      const page = document.querySelector(".basket-page");
+      if (page instanceof HTMLElement) {
+        page.innerHTML = "";
+        const emptyMessage = document.createElement("p");
+        emptyMessage.innerText = "Cart is Empty";
+        emptyMessage.className = "cart__empty-message";
+        page.append(emptyMessage);
+      }
     }
+
     return cartWraper;
   }
 
@@ -322,8 +335,11 @@ class BascetPage extends Page {
     cart.className = "basket-page__cart cart";
 
     const cartHeader = this.createCartHeader();
+
     const cards = this.createCards(products);
+
     const summary = this.createSummary();
+
     cart.append(cartHeader, cards);
     page.append(cart, summary);
 

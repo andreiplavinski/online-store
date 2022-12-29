@@ -1,5 +1,7 @@
 .basket-page {
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100vw;
   background-color: orange;
   border-radius: 20px;
@@ -99,6 +101,14 @@
   &__input-limit{
     width: 30px;
     height: 30px;
+  }
+
+  &__empty-message {
+    color: white;
+    font-size: 25px;
+    border-radius: 20px;
+    border: 2px solid white;
+    padding: 10px;
   }
 }
 
