@@ -2,29 +2,63 @@ import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
 import "./bascet.scss";
 
+interface IProducts {
+  [key: number]: number;
+}
+
 class BascetPage extends Page {
   dataBase = data.products;
   dataIdBase = this.dataBase.map((x) => x.id);
 
+  products: IProducts;
   totalPrice = 0;
   totalProduct = 0;
   cardsLimit = 3;
   pageCounter = 1;
-  saveProducts = {};
 
-  constructor(tagName: string, id: string, className: string) {
+  constructor(
+    tagName: string,
+    id: string,
+    className: string,
+    products: IProducts
+  ) {
     super(tagName, id, className);
+    this.products = products;
   }
 
-  protected createCards(products: object) {
+  protected changeProducts(id: number, operation: string) {
+    if (id in this.products) {
+      if (operation === "+") {
+        this.products[id] = this.products[id] + 1;
+      }
+      if (operation === "-") {
+        if (this.products[id] === 1) {
+          delete this.products[id];
+          const cartWraper = document.querySelector(".cart__wraper");
+          if (cartWraper instanceof HTMLElement) {
+            cartWraper.innerHTML = "";
+            cartWraper.append(this.createCards(this.products));
+          }
+        } else {
+          this.products[id] = this.products[id] - 1;
+        }
+      }
+    }
+  }
+
+  protected createCards(products: IProducts) {
+    this.totalPrice = 0;
+    this.totalProduct = 0;
+
     const cartWraper = document.createElement("div");
     cartWraper.className = "cart__wraper";
+
     let cardCounter = 1;
+    let viewFlag = false;
 
     for (const [id, quantity] of Object.entries(products)) {
-      let quantityProduct = quantity;
+      let quantityProduct: number = quantity;
       this.totalProduct += quantityProduct;
-
       if (id in this.dataIdBase) {
         const selectItem = this.dataBase[Number(id) - 1];
 
@@ -41,6 +75,7 @@ class BascetPage extends Page {
           cardCounter > this.cardsLimit * this.pageCounter - this.cardsLimit + 1
         ) {
           card.classList.add("view");
+          viewFlag = true;
         }
         cartCounter.className = "cart__counter";
 
@@ -109,6 +144,7 @@ class BascetPage extends Page {
             price.innerText = `€${String(selectItem.price * quantityProduct)}`;
             this.totalPrice += selectItem.price;
             this.totalProduct += 1;
+            this.changeProducts(Number(id), "+");
             const sumCounter = document.querySelector(".summary__counter");
             if (sumCounter instanceof HTMLElement) {
               sumCounter.innerText = `Products: ${this.totalProduct}`;
@@ -121,12 +157,13 @@ class BascetPage extends Page {
         });
 
         removeButton.addEventListener("click", () => {
-          if (quantityProduct - 1 > 0) {
+          if (quantityProduct - 1 >= 0) {
             quantityProduct -= 1;
             amountCounter.innerText = String(quantityProduct);
             price.innerText = `€${String(selectItem.price * quantityProduct)}`;
             this.totalPrice -= selectItem.price;
             this.totalProduct -= 1;
+            this.changeProducts(Number(id), "-");
             const sumCounter = document.querySelector(".summary__counter");
             if (sumCounter instanceof HTMLElement) {
               sumCounter.innerText = `Products: ${this.totalProduct}`;
@@ -137,6 +174,18 @@ class BascetPage extends Page {
             }
           }
         });
+      }
+    }
+    if (viewFlag === false && this.pageCounter > 1) {
+      this.pageCounter -= 1;
+      const cartPageCounter = document.querySelector(".page-counter__value");
+      if (cartPageCounter instanceof HTMLElement) {
+        cartPageCounter.innerText = String(this.pageCounter);
+      }
+      const cartWraper = document.querySelector(".cart__wraper");
+      if (cartWraper instanceof HTMLElement) {
+        cartWraper.innerHTML = "";
+        cartWraper.append(this.createCards(this.products));
       }
     }
     return cartWraper;
@@ -175,7 +224,7 @@ class BascetPage extends Page {
     return summary;
   }
 
-  protected createCartHeader(products: object) {
+  protected createCartHeader() {
     const cartHeader = document.createElement("div");
     cartHeader.className = "cart__header";
 
@@ -193,7 +242,7 @@ class BascetPage extends Page {
     const cartLimitInput = document.createElement("input");
     cartLimitInput.type = "number";
     cartLimitInput.value = String(3);
-    cartLimitInput.min = String(0);
+    cartLimitInput.min = String(1);
     cartLimitInput.className = "cart__input-limit";
 
     cartLimitInput?.addEventListener("change", (event) => {
@@ -202,7 +251,7 @@ class BascetPage extends Page {
       const cartWraper = document.querySelector(".cart__wraper");
       if (cartWraper instanceof HTMLElement) {
         cartWraper.innerHTML = "";
-        cartWraper.append(this.createCards(this.saveProducts));
+        cartWraper.append(this.createCards(this.products));
       }
     });
 
@@ -228,14 +277,14 @@ class BascetPage extends Page {
     cartRightButton?.addEventListener("click", () => {
       if (
         this.pageCounter + 1 <
-        Object.keys(products).length / this.cardsLimit + 1
+        Object.keys(this.products).length / this.cardsLimit + 1
       ) {
         this.pageCounter += 1;
         cartPageCounter.innerText = String(this.pageCounter);
         const cartWraper = document.querySelector(".cart__wraper");
         if (cartWraper instanceof HTMLElement) {
           cartWraper.innerHTML = "";
-          cartWraper.append(this.createCards(this.saveProducts));
+          cartWraper.append(this.createCards(this.products));
         }
       }
     });
@@ -247,7 +296,7 @@ class BascetPage extends Page {
         const cartWraper = document.querySelector(".cart__wraper");
         if (cartWraper instanceof HTMLElement) {
           cartWraper.innerHTML = "";
-          cartWraper.append(this.createCards(this.saveProducts));
+          cartWraper.append(this.createCards(this.products));
         }
       }
     });
@@ -264,15 +313,15 @@ class BascetPage extends Page {
     cartHeader.append(cartTitle, cartLimit, cartPageWraper);
     return cartHeader;
   }
-  protected createPage(products: object) {
-    this.saveProducts = products;
+
+  protected createPage(products: IProducts) {
     const page = document.createElement("div");
     page.className = "basket-page";
 
     const cart = document.createElement("div");
     cart.className = "basket-page__cart cart";
 
-    const cartHeader = this.createCartHeader(products);
+    const cartHeader = this.createCartHeader();
     const cards = this.createCards(products);
     const summary = this.createSummary();
     cart.append(cartHeader, cards);
@@ -282,7 +331,7 @@ class BascetPage extends Page {
   }
 
   render() {
-    const page = this.createPage({ 42: 3, 54: 1, 91: 4, 5: 5, 67: 8, 10: 4 }); // object with id and quantity product put here - { id: quantity, 55: 1, 46: 4 }
+    const page = this.createPage(this.products);
     if (page instanceof HTMLDivElement) {
       this.container.append(page);
       return this.container;
