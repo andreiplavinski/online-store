@@ -93,12 +93,12 @@
     gap: 5px;
   }
 
-  &__span-limit{
+  &__span-limit {
     color: white;
     font-size: 25px;
   }
 
-  &__input-limit{
+  &__input-limit {
     width: 30px;
     height: 30px;
   }
@@ -121,7 +121,7 @@
     font-size: 25px;
   }
 
-  &__value{
+  &__value {
     color: white;
     font-size: 25px;
     margin: 0px;
@@ -210,6 +210,78 @@
     font-size: 18px;
     margin: 0px;
   }
+
+  &__old-price {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 0px;
+    text-decoration: line-through;
+  }
+}
+
+.promo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__inner::placeholder {
+    color: rgb(0, 0, 0, 0.2);
+  }
+
+  &__title {
+    font-size: 18px;
+    color: white;
+    padding: 0px;
+    margin: 0px 0px 5px;
+    text-align: center;
+  }
+
+  &__add-wraper,
+  &__applied-wraper {
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid white;
+    border-radius: 20px;
+  }
+  &__applied-wraper{
+    flex-direction: column;
+  }
+
+  &__applied-title {
+    font-size: 18px;
+    color: white;
+    padding: 0px;
+  }
+
+  &__applied-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid white;
+    border-radius: 20px;
+  }
+
+  &__drop-button,
+  &__add-button {
+    padding: 0px;
+    margin: 5px;
+    height: 20px;
+  }
+
+  &__applied-text,
+  &__add-text {
+    color: white;
+    padding: 0px;
+    margin: 5px;
+    text-align: center;
+  }
+
 }
 
 .hide {

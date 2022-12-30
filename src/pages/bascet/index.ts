@@ -6,6 +6,10 @@ interface IProducts {
   [key: number]: number;
 }
 
+interface IDiscounts {
+  [key: string]: number;
+}
+
 class BascetPage extends Page {
   dataBase = data.products;
   dataIdBase = this.dataBase.map((x) => x.id);
@@ -15,6 +19,7 @@ class BascetPage extends Page {
   totalProduct = 0;
   cardsLimit = 3;
   pageCounter = 1;
+  discounts: IDiscounts = {};
 
   constructor(
     tagName: string,
@@ -24,6 +29,47 @@ class BascetPage extends Page {
   ) {
     super(tagName, id, className);
     this.products = products;
+  }
+
+  protected changeTotalPrice() {
+    const oldPrice = document.querySelector(".summary__old-price");
+    if (Object.keys(this.discounts).length === 0) {
+      const promoAppliedWraper = document.querySelector(
+        ".promo__applied-wraper"
+      );
+      promoAppliedWraper?.classList.remove("view");
+      if (oldPrice instanceof HTMLElement) {
+        oldPrice.classList.remove("view");
+      }
+      this.createCards(this.products);
+    } else {
+      this.createCards(this.products);
+      if (oldPrice instanceof HTMLElement) {
+        oldPrice.innerText = String(
+          `Old price: €${this.totalPrice.toFixed(2)}`
+        );
+        oldPrice.classList.add("view");
+      }
+      let sum = 0;
+      for (const value of Object.values(this.discounts)) {
+        sum += value;
+      }
+      const promoAppliedTitle = document.querySelector(".promo__applied-title");
+      if (promoAppliedTitle instanceof HTMLElement) {
+        promoAppliedTitle.innerText = `Your discount is: ${sum}%`;
+      }
+      this.totalPrice = this.totalPrice - (this.totalPrice * sum) / 100;
+    }
+
+    const totalPrice = document.querySelector(".summary__price");
+    if (totalPrice instanceof HTMLElement) {
+      totalPrice.innerText = `Total: €${this.totalPrice.toFixed(2)}`;
+    }
+
+    const sumCounter = document.querySelector(".summary__counter");
+    if (sumCounter instanceof HTMLElement) {
+      sumCounter.innerText = `Products: ${this.totalProduct}`;
+    }
   }
 
   protected changeProducts(id: number, operation: string) {
@@ -145,14 +191,7 @@ class BascetPage extends Page {
             this.totalPrice += selectItem.price;
             this.totalProduct += 1;
             this.changeProducts(Number(id), "+");
-            const sumCounter = document.querySelector(".summary__counter");
-            if (sumCounter instanceof HTMLElement) {
-              sumCounter.innerText = `Products: ${this.totalProduct}`;
-            }
-            const totalPrice = document.querySelector(".summary__price");
-            if (totalPrice instanceof HTMLElement) {
-              totalPrice.innerText = `Total: €${this.totalPrice}`;
-            }
+            this.changeTotalPrice();
           }
         });
 
@@ -164,14 +203,7 @@ class BascetPage extends Page {
             this.totalPrice -= selectItem.price;
             this.totalProduct -= 1;
             this.changeProducts(Number(id), "-");
-            const sumCounter = document.querySelector(".summary__counter");
-            if (sumCounter instanceof HTMLElement) {
-              sumCounter.innerText = `Products: ${this.totalProduct}`;
-            }
-            const totalPrice = document.querySelector(".summary__price");
-            if (totalPrice instanceof HTMLElement) {
-              totalPrice.innerText = `Total: €${this.totalPrice}`;
-            }
+            this.changeTotalPrice();
           }
         });
       }
@@ -223,15 +255,115 @@ class BascetPage extends Page {
     totalPrice.innerText = `Total: €${this.totalPrice}`;
     totalPrice.className = "summary__price";
 
+    const oldPrice = document.createElement("p");
+    oldPrice.className = "summary__old-price";
+    oldPrice.classList.add("hide");
+
+    const promo = document.createElement("div");
+    promo.className = "summary__promo promo";
+
+    const promoTitle = document.createElement("p");
+    promoTitle.innerText = "Use promo code:";
+    promoTitle.className = "promo__title";
+
     const promoInner = document.createElement("input");
+    promoInner.title = "hello";
     promoInner.type = "text";
-    promoInner.className = "summary__promo";
+    promoInner.placeholder = "input 'RS', '2023', 'Student 1'";
+    promoInner.className = "promo__inner";
+
+    const promoAddWraper = document.createElement("div");
+    promoAddWraper.className = "promo__add-wraper";
+    promoAddWraper.classList.add("hide");
+
+    const promoAddText = document.createElement("p");
+    promoAddText.className = "promo__add-text";
+
+    const promoAddButton = document.createElement("button");
+    promoAddButton.innerText = "ADD";
+    promoAddButton.className = "promo__add-button";
+
+    const promoAppliedWraper = document.createElement("div");
+    promoAppliedWraper.className = "promo__applied-wraper";
+    promoAppliedWraper.classList.add("hide");
+
+    const promoAppliedTitle = document.createElement("p");
+    promoAppliedTitle.className = "promo__applied-title";
 
     const buyButton = document.createElement("button");
     buyButton.innerText = "BUY NOW";
     buyButton.className = "summary__button";
 
-    sumWraper.append(sumCounter, totalPrice, promoInner, buyButton);
+    promoInner.addEventListener("input", (e) => {
+      if (e.target instanceof HTMLInputElement) {
+        const value = e.target.value;
+        if (value === "RS" && !this.discounts["RS"]) {
+          promoAddButton.setAttribute("data-discount", "RS:10");
+          promoAddText.innerText = "Rolling Scopes School - 10%";
+          promoAddWraper.classList.add("view");
+        } else if (value === "2023" && !this.discounts["2023"]) {
+          promoAddButton.setAttribute("data-discount", "2023:23");
+          promoAddText.innerText = "Happy new year! - 23%";
+          promoAddWraper.classList.add("view");
+        } else if (value === "Student 1" && !this.discounts["Student 1"]) {
+          promoAddButton.setAttribute("data-discount", "Student:1");
+          promoAddText.innerText = "Nobody loves you - 1%";
+          promoAddWraper.classList.add("view");
+        } else {
+          promoAddWraper.classList.remove("view");
+        }
+      }
+    });
+
+    promoAddButton.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLElement) {
+        const discount = e.target.getAttribute("data-discount");
+        if (typeof discount === "string") {
+          this.discounts[discount?.split(":")[0]] = Number(
+            discount?.split(":")[1]
+          );
+        }
+      }
+
+      const promoAppliedItem = document.createElement("div");
+      promoAppliedItem.className = "promo__applied-item";
+      const promoAppliedText = document.createElement("p");
+      promoAppliedText.className = "promo__applied-text";
+      promoAppliedText.innerText = promoAddText.innerText;
+      promoAddWraper.classList.remove("view");
+
+      const promoDropButton = document.createElement("button");
+      promoDropButton.setAttribute(
+        "data-discount",
+        promoAddButton.getAttribute("data-discount") as string
+      );
+      promoDropButton.innerText = "DROP";
+      promoDropButton.className = "promo__drop-button";
+
+      promoAppliedItem.append(promoAppliedText, promoDropButton);
+
+      promoAppliedWraper.append(promoAppliedItem);
+
+      promoAppliedWraper.classList.add("view");
+
+      this.changeTotalPrice();
+
+      promoDropButton.addEventListener("click", (e) => {
+        if (e.target instanceof HTMLElement) {
+          const discount = e.target.getAttribute("data-discount");
+          if (typeof discount === "string") {
+            delete this.discounts[discount?.split(":")[0]];
+          }
+          promoDropButton.parentElement?.remove();
+        }
+        this.changeTotalPrice();
+      });
+    });
+
+    promoAddWraper.append(promoAddText, promoAddButton);
+    promoAppliedWraper.append(promoAppliedTitle);
+    promo.append(promoAppliedWraper, promoTitle, promoInner, promoAddWraper);
+    sumWraper.append(sumCounter, oldPrice, totalPrice, promo, buyButton);
     summary.append(summaryTitle, sumWraper);
 
     return summary;
