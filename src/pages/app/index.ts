@@ -40,7 +40,7 @@ class App {
     } else if (
       //card instanceof HTMLElement &&
       //pageCard instanceof HTMLElement &&
-      `${idPage}` === `${pageIds.cards}/${localStorage.getItem("idCard")}`
+      idPage === `${pageIds.cards}/${localStorage.getItem("idCard")}`
       //${card.getAttribute("data-id")}`
     ) {
       page = new CardsPage(
@@ -49,6 +49,8 @@ class App {
         "main",
         Number(localStorage.getItem("idCard"))
       );
+    } else if (idPage === `${pageIds.cards}/${100 || 99}`) {
+      page = new CardsPage("main", idPage, "main", 100 || 99);
     } else {
       page = new ErrorPage("main", "error", "main", "404");
     }

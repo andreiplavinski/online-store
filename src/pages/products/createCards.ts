@@ -1,9 +1,6 @@
 import { Card } from "../../scripts/templates/interfaceData";
 import { pageIds } from "../../scripts/templates/enumPage";
-
-// type HTMLElementEvent<T extends HTMLElement> = Event & {
-//   target: T;
-// };
+import { AddToCart } from "./function";
 
 class CreateCards {
   data: Card[];
@@ -15,10 +12,11 @@ class CreateCards {
 
   renderCards(): HTMLElement {
     for (let i = 0; i < this.data.length; i++) {
+      const idCardCurrent = this.data[i].id;
       const catalogCard = document.createElement("div");
       catalogCard.className = "card";
       catalogCard.style.backgroundImage = `url(${this.data[i].images[0]})`;
-      catalogCard.setAttribute("data-id", String(i));
+      catalogCard.setAttribute("data-id", String(idCardCurrent));
       this.container.append(catalogCard);
       const cardTitle = document.createElement("div");
       cardTitle.textContent = this.data[i].title;
@@ -54,10 +52,22 @@ class CreateCards {
       const cardButtonAdd = document.createElement("button");
       cardButtonAdd.classList.add("card__button");
       cardButtonAdd.setAttribute("id", "add-product");
+      cardButtonAdd.setAttribute("data-id", String(idCardCurrent));
       const cardButtonDetails = document.createElement("button");
       cardButtonDetails.classList.add("card__button");
       cardButtonDetails.setAttribute("id", "view-product");
-      cardButtonAdd.textContent = "Add To Cart";
+
+      if (!localStorage.getItem("product")) {
+        cardButtonAdd.textContent = "Add To Cart";
+      } else if (
+        Object.keys(
+          JSON.parse(localStorage.getItem("product") || "{}")
+        ).includes(`${idCardCurrent}`)
+      ) {
+        cardButtonAdd.textContent = "Drop From Cart";
+      } else {
+        cardButtonAdd.textContent = "Add To Cart";
+      }
       cardButtonDetails.textContent = "Details";
       catalogCard.append(cardButtonAdd, cardButtonDetails);
 
@@ -66,11 +76,12 @@ class CreateCards {
           event.target instanceof HTMLElement &&
           !event.target.closest("#add-product")
         ) {
-          const idCardCurrent = this.data[i].id;
           window.location.hash = `${pageIds.cards}/${idCardCurrent}`;
           localStorage.setItem("idCard", `${idCardCurrent}`);
         }
       });
+
+      AddToCart(cardButtonAdd);
     }
 
     return this.container;
