@@ -1,0 +1,293 @@
+.basket-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  background-color: orange;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 10px;
+  gap: 10px;
+}
+
+.cart {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 20px;
+  border: 2px solid white;
+
+  &__title {
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    padding: 5px;
+  }
+
+  &__wraper {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__card {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    border-radius: 20px;
+    border: 2px solid white;
+  }
+
+  &__counter {
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 10px 20px;
+  }
+
+  &__photo {
+    width: 150px;
+    height: 100px;
+    border: 2px solid white;
+    border-radius: 20px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  &__descriptions {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    border-radius: 20px;
+    border: 2px solid white;
+    padding: 10px;
+    background-color: black;
+  }
+
+  &__description {
+    padding: 0px;
+    margin: 0px;
+    color: orange;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  &__limit {
+    height: 20px;
+    display: flex;
+    gap: 5px;
+  }
+
+  &__span-limit {
+    color: white;
+    font-size: 25px;
+  }
+
+  &__input-limit {
+    width: 50px;
+    height: 30px;
+  }
+
+  &__empty-message {
+    color: white;
+    font-size: 25px;
+    border-radius: 20px;
+    border: 2px solid white;
+    padding: 10px;
+  }
+}
+
+.page-counter {
+  display: flex;
+  gap: 5px;
+
+  &__span {
+    color: white;
+    font-size: 25px;
+  }
+
+  &__value {
+    color: white;
+    font-size: 25px;
+    margin: 0px;
+  }
+
+  &__button {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.amount {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 5px;
+
+  &__stock {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 0px;
+  }
+
+  &__price {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 0px;
+  }
+
+  &__wraper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__button {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__counter {
+    color: white;
+    font-size: 18px;
+  }
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  padding: 5px;
+  border: 2px solid white;
+  border-radius: 20px;
+
+  &__title {
+    text-align: center;
+    color: white;
+    font-size: 25px;
+  }
+
+  &__wraper {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  &__counter {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 0px;
+  }
+
+  &__price {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 0px;
+  }
+
+  &__old-price {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin: 0px;
+    text-decoration: line-through;
+  }
+}
+
+.promo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__inner::placeholder {
+    color: rgb(0, 0, 0, 0.2);
+  }
+
+  &__title {
+    font-size: 18px;
+    color: white;
+    padding: 0px;
+    margin: 0px 0px 5px;
+    text-align: center;
+  }
+
+  &__add-wraper,
+  &__applied-wraper {
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid white;
+    border-radius: 20px;
+  }
+  &__applied-wraper{
+    flex-direction: column;
+  }
+
+  &__applied-title {
+    font-size: 18px;
+    color: white;
+    padding: 0px;
+  }
+
+  &__applied-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid white;
+    border-radius: 20px;
+  }
+
+  &__drop-button,
+  &__add-button {
+    padding: 0px;
+    margin: 5px;
+    height: 20px;
+  }
+
+  &__applied-text,
+  &__add-text {
+    color: white;
+    padding: 0px;
+    margin: 5px;
+    text-align: center;
+  }
+
+}
+
+.hide {
+  display: none;
+}
+
+.view {
+  display: flex;
+}
