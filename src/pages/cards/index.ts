@@ -1,20 +1,32 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
 import "./cards.scss";
+
+interface IProducts {
+  [key: number]: number;
+}
+
 class CardsPage extends Page {
   dataBase = data.products;
   dataIdBase = this.dataBase.map((x) => x.id);
   idN: number;
+  products: IProducts = {};
+
   constructor(tagName: string, id: string, className: string, idN: number) {
     super(tagName, id, className);
     this.idN = idN;
   }
 
   protected createContent() {
+    if (!localStorage.getItem("product")) {
+      this.products = {};
+    } else {
+      this.products = JSON.parse(localStorage.getItem("product") || "{}");
+    }
+
     const selectItem = this.dataBase[this.idN - 1];
     const page = document.createElement("div");
     page.className = "description-page";
-
     const routes = document.createElement("div");
     routes.className = "description-page__routes";
     const areaStore = document.createElement("p");
@@ -110,9 +122,27 @@ class CardsPage extends Page {
     const price = document.createElement("p");
     price.innerText = String(`€${selectItem.price}`);
     price.className = "description-card__price";
+
     const cartButton = document.createElement("button");
-    cartButton.innerText = "ADD TO CART";
+    if (Object.keys(this.products).includes(String(this.idN))) {
+      cartButton.innerText = "DROP FROM CART";
+    } else {
+      cartButton.innerText = "ADD TO CART";
+    }
     cartButton.className = "description-card__cart-button";
+
+    cartButton.addEventListener("click", () => {
+      if (Object.keys(this.products).includes(String(this.idN))) {
+        cartButton.innerText = "ADD TO CART";
+        delete this.products[this.idN];
+        localStorage.setItem("product", JSON.stringify(this.products));
+      } else {
+        cartButton.innerText = "DROP FROM CART";
+        this.products[this.idN] = 1;
+        localStorage.setItem("product", JSON.stringify(this.products));
+      }
+    });
+
     const buyButton = document.createElement("button");
     buyButton.innerText = "BUY NOW";
     buyButton.className = "description-card__buy-button";
