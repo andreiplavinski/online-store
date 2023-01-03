@@ -36,18 +36,7 @@ class App {
     } else if (idPage === "") {
       page = new ProductsPage("main", pageIds.product, "main");
     } else if (idPage === pageIds.basket) {
-      page = new BascetPage("main", idPage, "main", {
-        42: 1,
-        54: 1,
-        91: 1,
-        5: 1,
-        67: 1,
-        10: 1,
-        23: 1,
-        45: 1,
-        48: 1,
-        92: 1,
-      });
+      page = new BascetPage("main", idPage, "main");
     } else if (
       //card instanceof HTMLElement &&
       //pageCard instanceof HTMLElement &&
