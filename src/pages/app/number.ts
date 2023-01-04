@@ -9,6 +9,8 @@ for (let i = 0; i < data.products.length; i++) {
 
   // arrId[i] ? arrId.includes(num)
 }
+
+//const a = arrId;
 //num = arrId[i: number];
 // arrId.forEach((el) => {
 //   el = num;

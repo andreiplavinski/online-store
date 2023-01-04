@@ -5,26 +5,30 @@ import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
 import { resFound } from "./function";
 import CreateFilters from "./createFilters";
+import SortProducts from "./sortProducts";
+//import SortProducts from "./sortProducts";
 
 const buttonsFilterName = ["Reset Filters", "Copy Link"];
 
 class ProductsPage extends Page {
-  // static textObject = {
-  //   pageTitle: "",
-  // };
   static data: Card[];
+  static CreateCards: CreateCards;
+  static CreateFilters: CreateFilters;
+  static SortProducts: SortProducts;
 
-  constructor(
-    tagName: string,
-    id: string,
-    className: string
-    //data: Array<CardProd>
-  ) {
+  constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
+    //this.sort = new SortProducts(newData)
+    //this.hello;
     // this.data = data;
+    // this.sortCard();
   }
 
-  protected createContent() {
+  // hello() {
+  //   alert("hello");
+  // }
+
+  protected createContent(): HTMLElement {
     const filters = document.createElement("div");
     filters.className = "filter";
     const filterHeader = document.createElement("div");
@@ -56,52 +60,25 @@ class ProductsPage extends Page {
       (el, i) => arrCategory.indexOf(el) === i
     );
     const arrBrandUnic = arrBrand.filter((el, i) => arrBrand.indexOf(el) === i);
-    console.log(arrBrand.filter((el, i) => arrBrand.indexOf(el) === i));
-    console.log(arrCategory.filter((el, i) => arrCategory.indexOf(el) === i));
-    console.log(arrCategory);
-    console.log(arrBrand);
-    console.log(arrPrice);
-    console.log(arrStock);
+    // console.log(arrBrand.filter((el, i) => arrBrand.indexOf(el) === i));
+    // console.log(arrCategory.filter((el, i) => arrCategory.indexOf(el) === i));
+    // console.log(arrCategory);
+    // console.log(arrBrand);
+    // console.log(arrPrice);
+    // console.log(arrStock);
 
     const catalog = document.createElement("div");
     catalog.className = "catalog";
 
     const catalogHeader = document.createElement("div");
-    //catalogHeader.textContent = "Здесь будет Хеадер";
     catalogHeader.className = "catalog__header";
     catalog.append(catalogHeader);
-
-    const sortCards = document.createElement("select");
-    sortCards.name = "sortCard";
-    sortCards.className = "catalog__sort";
-    //sortCards.ariaPlaceholder = "Sort Options";
-    catalogHeader.append(sortCards);
-    const sortName: Array<string> = [
-      "Sort Options:",
-      "Sort by Price ascending",
-      "Sort by Price descending",
-      "Sort by Rating ascending",
-      "Sort by Rating descending",
-      "Sort by Stock ascending",
-      "Sort by Stock descending",
-    ];
-
-    for (let i = 0; i < sortName.length; i++) {
-      const sortChoose = document.createElement("option");
-      sortChoose.textContent = sortName[i];
-      sortChoose.value = sortName[i];
-      if (i === 0) {
-        sortChoose.setAttribute("disabled", "");
-        sortChoose.setAttribute("selected", "");
-      }
-      sortCards.append(sortChoose);
-    }
 
     const catalogCards = document.createElement("div");
     catalogCards.className = "catalog__block";
     catalog.append(catalogCards);
 
-    const productCard = new CreateCards(newdata, catalogCards);
+    const productCard: CreateCards = new CreateCards(newdata, catalogCards);
     productCard.renderCards();
 
     const filterCategory: CreateFilters = new CreateFilters(
@@ -136,6 +113,32 @@ class ProductsPage extends Page {
     cardFound.className = "catalog__found";
     resFound(cardFound, catalog);
 
+    const sortCards = document.createElement("select");
+    sortCards.name = "sortCard";
+    sortCards.className = "catalog__sort";
+    sortCards.setAttribute("id", "catalog__sort");
+    catalogHeader.append(sortCards);
+    const sortName: Array<string> = [
+      "Sort Options:",
+      "Sort by Price ascending",
+      "Sort by Price descending",
+      "Sort by Rating ascending",
+      "Sort by Rating descending",
+      "Sort by Stock ascending",
+      "Sort by Stock descending",
+    ];
+    let sortChoose: HTMLOptionElement;
+    for (let i = 0; i < sortName.length; i++) {
+      sortChoose = document.createElement("option");
+      sortChoose.textContent = sortName[i];
+      sortChoose.value = `${i}`;
+      if (i === 0) {
+        sortChoose.setAttribute("disabled", "");
+        sortChoose.setAttribute("selected", "");
+      }
+      sortCards.append(sortChoose);
+    }
+
     catalogHeader.append(cardFound);
 
     const searchCard = document.createElement("input");
@@ -158,13 +161,108 @@ class ProductsPage extends Page {
     }
 
     this.container.append(filters, catalog);
+    //this.sortCard();
+
+    const sort = new SortProducts(data.products, catalog);
+    console.log(data);
+    sort.sort();
+
+    //new SortProducts(newdata, sortCards);
+    // sort.sort();
+    //sort();
+
+    // sortCards.addEventListener("change", f);
+
+    // function f(e: Event) {
+    //   console.log(123);
+    //   if (e.target instanceof HTMLSelectElement) {
+    //     console.log(e.target.value);
+    //     if (e.target.value === "1" && data.products) {
+    //       const arrPrice = data.products.sort((a, b) => {
+    //         return a.price - b.price;
+    //       });
+
+    //       const productCard: CreateCards = new CreateCards(
+    //         arrPrice,
+    //         catalogCards
+    //       );
+    //       productCard.renderCards();
+    //       //const url = new URL();
+    //       //window.location.searchParams.set("price", "ASD");
+
+    //       //("price", "ASD");
+    //     }
+    //     if (e.target.value === "2" && data.products) {
+    //       const arrPrice = data.products.sort((a, b) => {
+    //         return b.price - a.price;
+    //       });
+    //       const productCard: CreateCards = new CreateCards(
+    //         arrPrice,
+    //         catalogCards
+    //       );
+    //       productCard.renderCards();
+    //     }
+
+    //     if (e.target.value === "3" && data.products) {
+    //       const arrPrice = data.products.sort((a, b) => {
+    //         return a.rating - b.rating;
+    //       });
+
+    //       const productCard: CreateCards = new CreateCards(
+    //         arrPrice,
+    //         catalogCards
+    //       );
+    //       productCard.renderCards();
+    //     }
+
+    //     if (e.target.value === "4" && data.products) {
+    //       const arrPrice = data.products.sort((a, b) => {
+    //         return b.rating - a.rating;
+    //       });
+
+    //       const productCard: CreateCards = new CreateCards(
+    //         arrPrice,
+    //         catalogCards
+    //       );
+    //       productCard.renderCards();
+    //     }
+
+    //     if (e.target.value === "5" && data.products) {
+    //       const arrPrice = data.products.sort((a, b) => {
+    //         return a.stock - b.stock;
+    //       });
+
+    //       const productCard: CreateCards = new CreateCards(
+    //         arrPrice,
+    //         catalogCards
+    //       );
+    //       productCard.renderCards();
+    //     }
+
+    //     if (e.target.value === "6" && data.products) {
+    //       const arrPrice = data.products.sort((a, b) => {
+    //         return b.stock - a.stock;
+    //       });
+
+    //       const productCard: CreateCards = new CreateCards(
+    //         arrPrice,
+    //         catalogCards
+    //       );
+    //       productCard.renderCards();
+    //     }
+    //   }
+    // }
 
     return this.container;
   }
 
-  render() {
+  render(): HTMLElement {
     return this.createContent();
   }
+
+  // sortCard() {
+  //   new SortProducts(data.products);
+  // }
 }
 
 const catProd: HTMLElement | null = document.querySelector(".catalog");

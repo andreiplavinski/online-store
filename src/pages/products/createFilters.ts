@@ -49,7 +49,7 @@ class CreateFilters {
 
       const prodAll = document.createElement("span");
       prodAll.textContent = "0)";
-      console.log(writeRes(".card__category"));
+      //console.log(writeRes(".card__category"));
       checkBoxContent.append(checkBox, nameChoose, viewProdField, prodAll);
     }
     return this.container;

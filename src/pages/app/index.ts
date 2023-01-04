@@ -6,6 +6,7 @@ import { pageIds } from "../../scripts/templates/enumPage";
 import Header from "../../scripts/components/header";
 import ErrorPage from "../error/error";
 import Footer from "../../scripts/components/footer";
+//import SortProducts from "../products/sortProducts";
 //import data from "../../data/data.json";
 
 // const pageCard = document.querySelectorAll(".description-page");
@@ -15,12 +16,12 @@ class App {
   private header: Header;
   private static container: HTMLElement = document.body;
   private static defauldPageClass = "current-page";
-  private initPage: ProductsPage;
+  //private initPage: ProductsPage;
   private footer: Footer;
 
   constructor() {
     this.header = new Header("header", "header", "header");
-    this.initPage = new ProductsPage("main", pageIds.product, "main");
+    //this.initPage = new ProductsPage("main", pageIds.product, "main");
     this.footer = new Footer("footer", "footer", "footer");
   }
 
@@ -84,6 +85,7 @@ class App {
     this.enableRoundChange();
     this.windowLoad();
     App.container.append(this.footer.render());
+    //new SortProducts(data.products).sort();
   }
 }
 
