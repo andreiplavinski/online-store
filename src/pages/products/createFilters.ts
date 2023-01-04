@@ -36,14 +36,20 @@ class CreateFilters {
       const checkBox = document.createElement("input");
       checkBox.type = "checkbox";
       checkBox.name = this.headerName;
-      checkBox.value = `${String(i)}`;
+      checkBox.value = `${this.data[i]}`;
       const nameChoose = document.createElement("span");
       nameChoose.textContent = `${this.data[i]}`;
       const viewProdField = document.createElement("span");
       //const catalog: HTMLElement | null = document.querySelector(".catalog");
       //if (catalog) {
-      const qualitiProd = writeRes(".card__category");
+      // const qualitiProd = document.addEventListener("DOMContentLoaded", () => {
+      //   writeRes(`card__category`);
+      // });
       //console.log(qualitiProd);
+      const qualitiProd = writeRes(
+        "card__category"
+        //document.querySelector(".catalog")
+      );
       viewProdField.textContent = ` (${qualitiProd}/`;
       //}
 

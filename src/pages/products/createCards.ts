@@ -21,6 +21,16 @@ class CreateCards {
       catalogCard.className = "card";
       catalogCard.style.backgroundImage = `url(${this.data[i].images[0]})`;
       catalogCard.setAttribute("data-id", String(idCardCurrent));
+      catalogCard.setAttribute("data-category", String(this.data[i].category));
+      catalogCard.setAttribute("data-brand", String(this.data[i].brand));
+      catalogCard.setAttribute("data-price", String(this.data[i].price));
+      catalogCard.setAttribute("data-stock", String(this.data[i].stock));
+      catalogCard.setAttribute(
+        "data-all",
+        `${this.data[i].title}${this.data[i].description}${this.data[i].price}
+        ${this.data[i].discountPercentage}${this.data[i].rating}${this.data[i].stock}
+        ${this.data[i].brand}${this.data[i].category}`
+      );
       this.container.append(catalogCard);
       const cardTitle = document.createElement("div");
       cardTitle.textContent = this.data[i].title;

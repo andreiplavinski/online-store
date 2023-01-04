@@ -24,10 +24,6 @@ class ProductsPage extends Page {
     // this.sortCard();
   }
 
-  // hello() {
-  //   alert("hello");
-  // }
-
   protected createContent(): HTMLElement {
     const filters = document.createElement("div");
     filters.className = "filter";
@@ -141,7 +137,7 @@ class ProductsPage extends Page {
 
     catalogHeader.append(cardFound);
 
-    const searchCard = document.createElement("input");
+    const searchCard: HTMLInputElement = document.createElement("input");
     searchCard.type = "search";
     searchCard.placeholder = "Search";
     searchCard.className = "catalog__search";
@@ -163,95 +159,8 @@ class ProductsPage extends Page {
     this.container.append(filters, catalog);
     //this.sortCard();
 
-    const sort = new SortProducts(data.products, catalog);
-    console.log(data);
-    sort.sort();
-
-    //new SortProducts(newdata, sortCards);
-    // sort.sort();
-    //sort();
-
-    // sortCards.addEventListener("change", f);
-
-    // function f(e: Event) {
-    //   console.log(123);
-    //   if (e.target instanceof HTMLSelectElement) {
-    //     console.log(e.target.value);
-    //     if (e.target.value === "1" && data.products) {
-    //       const arrPrice = data.products.sort((a, b) => {
-    //         return a.price - b.price;
-    //       });
-
-    //       const productCard: CreateCards = new CreateCards(
-    //         arrPrice,
-    //         catalogCards
-    //       );
-    //       productCard.renderCards();
-    //       //const url = new URL();
-    //       //window.location.searchParams.set("price", "ASD");
-
-    //       //("price", "ASD");
-    //     }
-    //     if (e.target.value === "2" && data.products) {
-    //       const arrPrice = data.products.sort((a, b) => {
-    //         return b.price - a.price;
-    //       });
-    //       const productCard: CreateCards = new CreateCards(
-    //         arrPrice,
-    //         catalogCards
-    //       );
-    //       productCard.renderCards();
-    //     }
-
-    //     if (e.target.value === "3" && data.products) {
-    //       const arrPrice = data.products.sort((a, b) => {
-    //         return a.rating - b.rating;
-    //       });
-
-    //       const productCard: CreateCards = new CreateCards(
-    //         arrPrice,
-    //         catalogCards
-    //       );
-    //       productCard.renderCards();
-    //     }
-
-    //     if (e.target.value === "4" && data.products) {
-    //       const arrPrice = data.products.sort((a, b) => {
-    //         return b.rating - a.rating;
-    //       });
-
-    //       const productCard: CreateCards = new CreateCards(
-    //         arrPrice,
-    //         catalogCards
-    //       );
-    //       productCard.renderCards();
-    //     }
-
-    //     if (e.target.value === "5" && data.products) {
-    //       const arrPrice = data.products.sort((a, b) => {
-    //         return a.stock - b.stock;
-    //       });
-
-    //       const productCard: CreateCards = new CreateCards(
-    //         arrPrice,
-    //         catalogCards
-    //       );
-    //       productCard.renderCards();
-    //     }
-
-    //     if (e.target.value === "6" && data.products) {
-    //       const arrPrice = data.products.sort((a, b) => {
-    //         return b.stock - a.stock;
-    //       });
-
-    //       const productCard: CreateCards = new CreateCards(
-    //         arrPrice,
-    //         catalogCards
-    //       );
-    //       productCard.renderCards();
-    //     }
-    //   }
-    // }
+    //const sort =
+    new SortProducts(data.products, catalog, filters);
 
     return this.container;
   }
@@ -259,10 +168,6 @@ class ProductsPage extends Page {
   render(): HTMLElement {
     return this.createContent();
   }
-
-  // sortCard() {
-  //   new SortProducts(data.products);
-  // }
 }
 
 const catProd: HTMLElement | null = document.querySelector(".catalog");

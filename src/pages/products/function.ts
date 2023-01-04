@@ -4,8 +4,12 @@ export function resFound(cardFound: HTMLElement, catalog: HTMLElement): void {
   cardFound.textContent = `Found: ${catalog.querySelectorAll(".card").length}`;
 }
 
-export function writeRes(selectorName: string): number {
+export function writeRes(selectorName: string) {
+  //return document.addEventListener("DOMContentLoaded", () => {
   return document.getElementsByClassName(selectorName).length;
+  //console.log(document.querySelectorAll(selectorName));
+  //});
+  //console.log(document.querySelectorAll(selectorName));
 }
 
 interface IProducts {
