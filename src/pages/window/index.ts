@@ -73,6 +73,18 @@ class window {
 
     cardNumber.addEventListener("input", (event: Event) => {
       if (event.target instanceof HTMLInputElement) {
+        const image = document.querySelector(".card-wraper__image");
+        if (image instanceof HTMLDivElement) {
+          if (Number(event.target.value[0]) === 3) {
+            image.style.backgroundImage = "url(./assets/images/amexcard.png)";
+          } else if (Number(event.target.value[0]) === 4) {
+            image.style.backgroundImage = "url(./assets/images/visacard.png)";
+          } else if (Number(event.target.value[0]) === 5) {
+            image.style.backgroundImage = "url(./assets/images/mastercard.png)";
+          } else {
+            image.style.backgroundImage = "url(./assets/images/card.png)";
+          }
+        }
         event.target.value = event.target.value.replace(/[^0-9 ]+/g, "");
         event.target.value = event.target.value.replace(
           /(\d{4})(\d+)/g,
@@ -150,6 +162,16 @@ class window {
       const cardSpan = document.createElement("span");
       cardSpan.className = "hint";
       cardItem.append(item, cardSpan);
+      if (item === cardNumber) {
+        const cardImage = document.createElement("div");
+        cardImage.className = "card-wraper__image";
+        if (cardImage instanceof HTMLDivElement) {
+          cardImage.style.background = "url(./assets/images/card.png)";
+          cardImage.style.backgroundSize = "cover";
+          cardImage.style.backgroundPosition = "center";
+        }
+        cardItem.prepend(cardImage);
+      }
       cardWraper.append(cardItem);
     }
 
