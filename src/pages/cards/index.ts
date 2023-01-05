@@ -146,6 +146,15 @@ class CardsPage extends Page {
     const buyButton = document.createElement("button");
     buyButton.innerText = "BUY NOW";
     buyButton.className = "description-card__buy-button";
+
+    buyButton.addEventListener("click", () => {
+      if (!Object.keys(this.products).includes(String(this.idN))) {
+        this.products[this.idN] = 1;
+        localStorage.setItem("product", JSON.stringify(this.products));
+      }
+      localStorage.setItem("windowFlag", JSON.stringify(true));
+      location.href = "#basket";
+    });
     routes.append(areaStore, areaCategory, areaBrand, areaTitle);
     priceWraper.append(price, buyButton, cartButton);
     descriptionCard.append(photoWraper, descriptionTable, priceWraper);

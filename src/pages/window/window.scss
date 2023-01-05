@@ -28,6 +28,14 @@
 	&__button {
 		width: 50%;
 	}
+  
+  &__success-message{
+    color: white;
+    font-size: 25px;
+    border-radius: 20px;
+    border: 2px solid white;
+    padding: 10px;
+  }
 }
 
 .personal-wraper,
@@ -49,6 +57,7 @@
     align-items: center;
     gap: 10px;
   }
+
 
   &__image {
     position: absolute;

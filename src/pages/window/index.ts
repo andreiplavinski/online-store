@@ -2,6 +2,7 @@ import "./window.scss";
 
 class window {
   createContent() {
+    localStorage.removeItem("windowFlag");
     const window = document.createElement("div");
     window.className = "window";
     window.addEventListener("click", (event) => {
@@ -131,7 +132,26 @@ class window {
     submitButton.innerText = "CONFIRM";
 
     submitButton.addEventListener("click", () => {
-      this.checkValidation();
+      if (this.checkValidation() === 7) {
+        const parent = submitButton.parentNode;
+        parent?.removeChild(personalWraper);
+        parent?.removeChild(cardWraper);
+        parent?.removeChild(submitButton);
+        const message = document.createElement("p");
+        message.className = "window-content__success-message";
+        message.innerText = "Order completed successfully, thank you!";
+        parent?.append(message);
+        setTimeout(() => {
+          location.href = "#product";
+          const page = document.querySelector("html");
+          if (page !== null) {
+            page.removeChild(window);
+          }
+          if (localStorage.getItem("product")) {
+            localStorage.setItem("product", JSON.stringify({}));
+          }
+        }, 4000);
+      }
     });
 
     const personalItems = [
@@ -204,6 +224,7 @@ class window {
 
   checkValidation() {
     const hints = document.querySelectorAll(".hint");
+    let counter = 0;
     for (const hint of hints) {
       if (hint instanceof HTMLSpanElement) {
         const sibling = hint.previousSibling;
@@ -216,10 +237,12 @@ class window {
             hint.innerText = "✓";
             hint.classList.remove("hint-error");
             hint.classList.add("hint-ok");
+            counter += 1;
           }
         }
       }
     }
+    return counter;
   }
 }
 export default window;

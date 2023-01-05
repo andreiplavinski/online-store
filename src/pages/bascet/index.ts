@@ -52,6 +52,10 @@ class BascetPage extends Page {
     } else {
       this.cardsLimit = JSON.parse(localStorage.getItem("cardsLimit") || "");
     }
+
+    if (localStorage.getItem("windowFlag")) {
+      this.createWindow();
+    }
   }
 
   protected setData() {
@@ -342,14 +346,7 @@ class BascetPage extends Page {
     buyButton.innerText = "BUY NOW";
     buyButton.className = "summary__button";
 
-    buyButton.addEventListener("click", () => {
-      const newWindow = new window();
-      const modalWindow = newWindow.createContent();
-      const page = document.querySelector("html");
-      if (page !== null) {
-        page.append(modalWindow);
-      }
-    });
+    buyButton.addEventListener("click", this.createWindow);
 
     promoInner.addEventListener("input", (e) => {
       if (e.target instanceof HTMLInputElement) {
@@ -518,6 +515,15 @@ class BascetPage extends Page {
     page.append(cart, summary);
 
     return page;
+  }
+
+  createWindow() {
+    const newWindow = new window();
+    const modalWindow = newWindow.createContent();
+    const page = document.querySelector("html");
+    if (page !== null) {
+      page.append(modalWindow);
+    }
   }
 
   render() {
