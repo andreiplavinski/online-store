@@ -65,9 +65,21 @@ class window {
 
     const cardNumber = document.createElement("input");
     cardNumber.className = "card-wraper__number";
-    cardNumber.pattern = "^([0-9]{16})$";
+    cardNumber.pattern = "([0-9]{4}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4})$";
+    cardNumber.type = "text";
+    cardNumber.maxLength = 19;
     cardNumber.placeholder = "Card number";
     cardNumber.required = true;
+
+    cardNumber.addEventListener("input", (event: Event) => {
+      if (event.target instanceof HTMLInputElement) {
+        event.target.value = event.target.value.replace(/[^0-9 ]+/g, "");
+        event.target.value = event.target.value.replace(
+          /(\d{4})(\d+)/g,
+          "$1 $2"
+        );
+      }
+    });
 
     const cardNumberLabel = document.createElement("label");
     cardNumberLabel.className = "card-wraper__number-label";
@@ -76,9 +88,21 @@ class window {
 
     const cardValid = document.createElement("input");
     cardValid.className = "card-wraper__valid";
-    cardValid.pattern = "^(0[1-9]2[3-9]|1[0-2]2[3-9])$";
+    cardValid.type = "text";
+    cardValid.maxLength = 5;
+    cardValid.pattern = "^(0[1-9]/[2-9][3-9]|1[0-2]/[2-9][3-9])$";
     cardValid.placeholder = "Valid Thru";
     cardValid.required = true;
+
+    cardValid.addEventListener("input", (event: Event) => {
+      if (event.target instanceof HTMLInputElement) {
+        event.target.value = event.target.value.replace(/[^0-9/]+/g, "");
+        event.target.value = event.target.value.replace(
+          /(\d{2})(\d+)/g,
+          "$1/$2"
+        );
+      }
+    });
 
     const cardValidLabel = document.createElement("label");
     cardValidLabel.className = "card-wraper__valid-label";
@@ -90,6 +114,14 @@ class window {
     cardCvv.placeholder = "Code";
     cardCvv.required = true;
     cardCvv.pattern = "^([0-9]{3})$";
+    cardCvv.type = "text";
+    cardCvv.maxLength = 3;
+
+    cardCvv.addEventListener("input", (event: Event) => {
+      if (event.target instanceof HTMLInputElement) {
+        event.target.value = event.target.value.replace(/[^0-9/]+/g, "");
+      }
+    });
 
     const cardCvvLabel = document.createElement("label");
     cardCvvLabel.className = "card-wraper__cvv-label";
