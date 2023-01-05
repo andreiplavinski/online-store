@@ -1,5 +1,6 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
+import window from "../window";
 import "./bascet.scss";
 
 interface IProducts {
@@ -340,6 +341,15 @@ class BascetPage extends Page {
     const buyButton = document.createElement("button");
     buyButton.innerText = "BUY NOW";
     buyButton.className = "summary__button";
+
+    buyButton.addEventListener("click", () => {
+      const newWindow = new window();
+      const modalWindow = newWindow.createContent();
+      const page = document.querySelector("html");
+      if (page !== null) {
+        page.append(modalWindow);
+      }
+    });
 
     promoInner.addEventListener("input", (e) => {
       if (e.target instanceof HTMLInputElement) {

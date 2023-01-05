@@ -1,0 +1,102 @@
+.window {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.window-content {
+  width: 500px;
+	padding: 20px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: orange;
+  border-radius: 20px;
+  border: 2px solid white;
+  display: flex;
+  flex-direction: column;
+	gap: 20px;
+}
+
+.personal-wraper,
+.card-wraper {
+  display: flex;
+  flex-direction: column;
+	align-items: center;
+  gap: 10px;
+  border-radius: 20px;
+  border: 2px solid white;
+
+  &__name,
+  &__phone,
+  &__address,
+  &__email,
+	&__number,
+	&__valid,
+	&__cvv {
+		width: 80%;
+    border: 2px solid black;
+  }
+
+  &__name:valid,
+  &__phone:valid,
+  &__address:valid,
+  &__email:valid,
+	&__number:valid,
+	&__valid:valid,
+	&__cvv:valid {
+    border: 2px solid green;
+  }
+
+  &__name:invalid,
+  &__phone:invalid,
+  &__address:invalid,
+  &__email:invalid,
+	&__number:invalid,
+	&__valid:invalid,
+	&__cvv:invalid {
+    border: 2px solid red;
+  }
+
+  &__name:focus:valid,
+  &__phone:focus:valid,
+  &__address:focus:valid,
+  &__email:focus:valid,
+	&__numver:focus:valid,
+	&__valid:focus:valid,
+	&__cvv:focus:valid {
+    border: 2px dashed green;
+  }
+
+  &__name:focus:invalid,
+  &__phone:focus:invalid,
+  &__address:focus:invalid,
+  &__email:focus:invalid,
+	&__number:focus:invalid,
+	&__valid:focus:invalid,
+	&__cvv:focus:invalid {
+    border: 2px dashed red;
+  }
+	&__number-label,
+	&__valid-label,
+	&__cvv-label {
+		display: flex;
+		gap: 20px;
+	}
+
+}
+
+
+:active,
+:hover,
+:focus {
+  outline: 0;
+  outline-offset: 0;
+}
