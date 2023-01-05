@@ -81,17 +81,12 @@ class window {
       }
     });
 
-    const cardNumberLabel = document.createElement("label");
-    cardNumberLabel.className = "card-wraper__number-label";
-    cardNumberLabel.innerText = "CARD:";
-    cardNumberLabel.append(cardNumber);
-
     const cardValid = document.createElement("input");
     cardValid.className = "card-wraper__valid";
     cardValid.type = "text";
     cardValid.maxLength = 5;
     cardValid.pattern = "^(0[1-9]/[2-9][3-9]|1[0-2]/[2-9][3-9])$";
-    cardValid.placeholder = "Valid Thru";
+    cardValid.placeholder = "Valid";
     cardValid.required = true;
 
     cardValid.addEventListener("input", (event: Event) => {
@@ -104,14 +99,9 @@ class window {
       }
     });
 
-    const cardValidLabel = document.createElement("label");
-    cardValidLabel.className = "card-wraper__valid-label";
-    cardValidLabel.innerText = "Valid:";
-    cardValidLabel.append(cardValid);
-
     const cardCvv = document.createElement("input");
     cardCvv.className = "card-wraper__cvv";
-    cardCvv.placeholder = "Code";
+    cardCvv.placeholder = "CVV";
     cardCvv.required = true;
     cardCvv.pattern = "^([0-9]{3})$";
     cardCvv.type = "text";
@@ -123,37 +113,91 @@ class window {
       }
     });
 
-    const cardCvvLabel = document.createElement("label");
-    cardCvvLabel.className = "card-wraper__cvv-label";
-    cardCvvLabel.innerText = "CVV:";
-    cardCvvLabel.append(cardCvv);
-
     const submitButton = document.createElement("button");
     submitButton.className = "window-content__button";
     submitButton.type = "button";
     submitButton.innerText = "CONFIRM";
 
-    cardWraper.append(
-      cardlTitle,
-      cardNumberLabel,
-      cardValidLabel,
-      cardCvvLabel
-    ),
-      cardCvvLabel;
+    submitButton.addEventListener("click", () => {
+      this.checkValidation();
+    });
 
-    personalWraper.append(
-      personalTitle,
+    const personalItems = [
       personalName,
       personaPhone,
       personalAddress,
-      personalEmail
-    );
+      personalEmail,
+    ];
+
+    personalWraper.append(personalTitle);
+
+    for (const item of personalItems) {
+      const personalItem = document.createElement("div");
+      personalItem.className = "personal-wraper__item";
+      const personalSpan = document.createElement("span");
+      personalSpan.className = "hint";
+      personalItem.append(item, personalSpan);
+      personalWraper.append(personalItem);
+    }
+
+    cardWraper.append(cardlTitle);
+
+    const cardItems = [cardNumber, cardValid, cardCvv];
+
+    for (const item of cardItems) {
+      const cardItem = document.createElement("div");
+      cardItem.className = "card-wraper__item";
+      const cardSpan = document.createElement("span");
+      cardSpan.className = "hint";
+      cardItem.append(item, cardSpan);
+      cardWraper.append(cardItem);
+    }
 
     windowContent.append(personalWraper, cardWraper, submitButton);
 
     window.append(windowContent);
 
+    const inputs = window.querySelectorAll("input");
+    for (const input of inputs) {
+      if (input instanceof HTMLInputElement) {
+        input.addEventListener("input", () => {
+          const sibling = input.nextSibling;
+          if (sibling instanceof HTMLSpanElement) {
+            if (!input.checkValidity()) {
+              sibling.innerText = "error!";
+              sibling.classList.add("hint-error");
+              sibling.classList.remove("hint-ok");
+            } else {
+              sibling.innerText = "✓";
+              sibling.classList.remove("hint-error");
+              sibling.classList.add("hint-ok");
+            }
+          }
+        });
+      }
+    }
+
     return window;
+  }
+
+  checkValidation() {
+    const hints = document.querySelectorAll(".hint");
+    for (const hint of hints) {
+      if (hint instanceof HTMLSpanElement) {
+        const sibling = hint.previousSibling;
+        if (sibling instanceof HTMLInputElement) {
+          if (!sibling.checkValidity()) {
+            hint.innerText = "error!";
+            hint.classList.add("hint-error");
+            hint.classList.remove("hint-ok");
+          } else {
+            hint.innerText = "✓";
+            hint.classList.remove("hint-error");
+            hint.classList.add("hint-ok");
+          }
+        }
+      }
+    }
   }
 }
 export default window;

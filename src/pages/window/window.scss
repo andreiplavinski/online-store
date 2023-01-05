@@ -41,6 +41,18 @@
   border-radius: 20px;
   border: 2px solid white;
 
+  &__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__span {
+    font-size: 12px;
+  }
+
   &__name,
   &__phone,
   &__address,
@@ -48,38 +60,18 @@
 	&__number,
 	&__valid,
 	&__cvv {
-		width: 50%;
-    border: 2px solid black;
-  }
-
-  &__name:valid,
-  &__phone:valid,
-  &__address:valid,
-  &__email:valid,
-	&__number:valid,
-	&__valid:valid,
-	&__cvv:valid {
-    border: 2px solid green;
-  }
-
-  &__name:invalid,
-  &__phone:invalid,
-  &__address:invalid,
-  &__email:invalid,
-	&__number:invalid,
-	&__valid:invalid,
-	&__cvv:invalid {
-    border: 2px solid red;
+		width: 80%;
+    border: 1px solid black;
   }
 
   &__name:focus:valid,
   &__phone:focus:valid,
   &__address:focus:valid,
   &__email:focus:valid,
-	&__numver:focus:valid,
+	&__number:focus:valid,
 	&__valid:focus:valid,
 	&__cvv:focus:valid {
-    border: 2px dashed green;
+    border: 1px solid green;
   }
 
   &__name:focus:invalid,
@@ -89,32 +81,17 @@
 	&__number:focus:invalid,
 	&__valid:focus:invalid,
 	&__cvv:focus:invalid {
-    border: 2px dashed red;
+    border: 1px solid red;
   }
-	&__number-label,
-	&__valid-label,
-	&__cvv-label {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 20px;
-	}
-
 }
 
-
-.card-wraper {
-	flex-direction: row;
-	flex-wrap: wrap;
-	&__number-label{
-		width: 100%;
-	}
-	&__number {
-		width: 80%;
-	}
+.hint-ok {
+  color: green;
 }
 
-
+.hint-error {
+  color: red;
+}
 
 
 :active,
