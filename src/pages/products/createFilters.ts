@@ -29,10 +29,13 @@ class CreateFilters {
   renderFilterCheckbox(): HTMLElement {
     const filterBlock = this.renderContainer();
     filterBlock.className = "filter-block";
+    const filterBlockContent = document.createElement("div");
+    filterBlockContent.className = "filter-block__content";
+    filterBlock.append(filterBlockContent);
     for (let i = 0; i < this.data.length; i++) {
-      const checkBoxContent = document.createElement("p");
+      const checkBoxContent = document.createElement("label");
       checkBoxContent.className = "filter-block__label";
-      filterBlock.append(checkBoxContent);
+      filterBlockContent.append(checkBoxContent);
       const checkBox = document.createElement("input");
       checkBox.type = "checkbox";
       checkBox.name = this.headerName;
@@ -40,22 +43,13 @@ class CreateFilters {
       const nameChoose = document.createElement("span");
       nameChoose.textContent = `${this.data[i]}`;
       const viewProdField = document.createElement("span");
-      //const catalog: HTMLElement | null = document.querySelector(".catalog");
-      //if (catalog) {
-      // const qualitiProd = document.addEventListener("DOMContentLoaded", () => {
-      //   writeRes(`card__category`);
-      // });
-      //console.log(qualitiProd);
-      const qualitiProd = writeRes(
-        "card__category"
-        //document.querySelector(".catalog")
-      );
+
+      const qualitiProd = writeRes("card__category");
       viewProdField.textContent = ` (${qualitiProd}/`;
       //}
 
       const prodAll = document.createElement("span");
       prodAll.textContent = "0)";
-      //console.log(writeRes(".card__category"));
       checkBoxContent.append(checkBox, nameChoose, viewProdField, prodAll);
     }
     return this.container;

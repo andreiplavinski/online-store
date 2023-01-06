@@ -1,50 +1,56 @@
-import { Card } from "../../scripts/templates/interfaceData";
-import CreateCards from "./createCards";
-import { resFound } from "./function";
+//import { Card } from "../../scripts/templates/interfaceData";
+//import CreateCards from "./createCards";
+//import { resFound } from "./function";
 
 //const url = window.location;
 
+enum CheckSort {
+  A,
+  B,
+}
+enum DataAttribut {
+  Price = "data-price",
+  Rating = "data-rating",
+  Stock = "data-stock",
+  Category = "data-category",
+  Brand = "data-brand",
+  All = "data-all",
+}
+
 class SortProducts {
-  data: Card[];
   select: HTMLSelectElement | null;
   container: HTMLElement | null;
   filter: HTMLElement;
   catalog: HTMLElement;
   cardGoods: NodeListOf<Element>;
+  searchEl: HTMLElement | null;
   //CardProduct: NodeListOf<Element>;
 
-  constructor(data: Card[], catalog: HTMLElement, filter: HTMLElement) {
+  constructor(catalog: HTMLElement, filter: HTMLElement) {
     this.select = catalog.querySelector(".catalog__sort");
     this.container = catalog.querySelector(".catalog__block");
-    this.data = data;
     this.catalog = catalog;
     this.filter = filter;
     this.sort();
-    this.filterByCategory();
+    this.filterByCategory(
+      DataAttribut.Category,
+      "Category",
+      "card-none-filter"
+    );
+    this.filterByCategory(DataAttribut.Brand, "Brand", "card-none-filter1");
     this.search();
     this.cardGoods = this.catalog.querySelectorAll(".card");
+    this.searchEl = this.catalog.querySelector(".catalog__found");
     //this.CardProduct = catalog.querySelectorAll(".card");
   }
 
   sort() {
     this.select?.addEventListener("change", (e: Event) => {
-      //console.log(123);
       if (e.target instanceof HTMLSelectElement && this.container) {
-        //console.log(e.target.value);
-        if (e.target.value === "1" && this.data) {
-          //console.log(e.target.value);
-          const arrPrice = this.data.sort((a, b) => {
-            return a.price - b.price;
-          });
-
-          const productCard: CreateCards = new CreateCards(
-            arrPrice,
-            this.container
-          );
-          productCard.renderCards();
+        if (e.target.value === "1") {
+          this.sortArray(DataAttribut.Price, CheckSort.A);
           //const url = new URL();
           //window.location.searchParams.set("price", "ASD");
-
           //("price", "ASD");
           // url.search = "?price = ASD";
           // console.log(url.search);
@@ -54,73 +60,50 @@ class SortProducts {
           //   });
           // }
         }
-        if (e.target.value === "2" && this.data) {
-          const arrPrice = this.data.sort((a, b) => {
-            return b.price - a.price;
-          });
-
-          const productCard: CreateCards = new CreateCards(
-            arrPrice,
-            this.container
-          );
-          productCard.renderCards();
+        if (e.target.value === "2") {
+          this.sortArray(DataAttribut.Price, CheckSort.B);
         }
 
-        if (e.target.value === "3" && this.data) {
-          const arrPrice = this.data.sort((a, b) => {
-            return a.rating - b.rating;
-          });
-
-          const productCard: CreateCards = new CreateCards(
-            arrPrice,
-            this.container
-          );
-          productCard.renderCards();
+        if (e.target.value === "3") {
+          this.sortArray(DataAttribut.Rating, CheckSort.A);
         }
 
-        if (e.target.value === "4" && this.data) {
-          const arrPrice = this.data.sort((a, b) => {
-            return b.rating - a.rating;
-          });
-
-          const productCard: CreateCards = new CreateCards(
-            arrPrice,
-            this.container
-          );
-          productCard.renderCards();
+        if (e.target.value === "4") {
+          this.sortArray(DataAttribut.Rating, CheckSort.B);
         }
 
-        if (e.target.value === "5" && this.data) {
-          const arrPrice = this.data.sort((a, b) => {
-            return a.stock - b.stock;
-          });
-
-          const productCard: CreateCards = new CreateCards(
-            arrPrice,
-            this.container
-          );
-          productCard.renderCards();
+        if (e.target.value === "5") {
+          this.sortArray(DataAttribut.Stock, CheckSort.A);
         }
 
-        if (e.target.value === "6" && this.data) {
-          const arrPrice = this.data.sort((a, b) => {
-            return b.stock - a.stock;
-          });
-
-          const productCard: CreateCards = new CreateCards(
-            arrPrice,
-            this.container
-          );
-          productCard.renderCards();
+        if (e.target.value === "6") {
+          this.sortArray(DataAttribut.Stock, CheckSort.B);
         }
       }
     });
   }
 
-  search() {
-    const searchEl: HTMLElement | null =
-      this.catalog.querySelector(".catalog__found");
+  sortArray(dataAttribut: DataAttribut, checkSort: CheckSort) {
+    const arrPrice: Array<number> = [];
+    for (let i = 0; i < this.cardGoods.length; i++) {
+      arrPrice.push(Number(this.cardGoods[i].getAttribute(dataAttribut)));
+    }
+    if (checkSort === CheckSort.A) {
+      arrPrice.sort((a, b) => a - b);
+    } else if (checkSort === CheckSort.B) {
+      arrPrice.sort((a, b) => b - a);
+    }
 
+    this.cardGoods.forEach((el) => {
+      if (el instanceof HTMLElement) {
+        el.style.order = `${arrPrice.indexOf(
+          Number(el.getAttribute(dataAttribut))
+        )}`;
+      }
+    });
+  }
+
+  search() {
     const searchField: HTMLInputElement | null =
       this.catalog.querySelector(".catalog__search");
 
@@ -132,44 +115,84 @@ class SortProducts {
           this.cardGoods.forEach((elem) => {
             elem.getAttribute(text);
             if (
-              elem.getAttribute("data-all")?.toLowerCase().search(text) == -1
+              elem.getAttribute(DataAttribut.All)?.toLowerCase().search(text) ==
+              -1
             ) {
               elem.classList.add("card-none");
 
-              if (searchEl) {
-                setInterval(() => {
-                  resFound(searchEl, this.catalog);
-                }, 0);
-              }
-
-              // if (searchEl) {
-              //   setTimeout(() => resFound(searchEl, this.catalog));
-              //   console.log(resFound(searchEl, this.catalog));
-              // }
+              this.writeResSerch();
             } else {
               elem.classList.remove("card-none");
-              // if (searchEl) {
-              //   resFound(searchEl, this.catalog);
-              // }
+              this.writeResSerch();
             }
           });
         } else {
           this.cardGoods.forEach((elem) => {
             elem.classList.remove("card-none");
-            // if (searchEl) {
-            //   resFound(searchEl, this.catalog);
-            // }
+            this.writeResSerch();
           });
         }
       });
     }
   }
 
-  filterByCategory() {
-    //const filtcat = this.filter.querySelectorAll("input[name=Category]");
-    //console.log(filtcat);
-    //const cardGoods = this.catalog.querySelectorAll(".card");
-    //console.log(cardGoods);
+  writeResSerch() {
+    if (this.searchEl) {
+      //let count = 0;
+      // for (let i = 0; i < this.cardGoods.length; i++) {
+      //   if (
+      //     this.cardGoods instanceof HTMLElement &&
+      //     this.cardGoods.style.display === "none"
+      //   ) {
+      //     count++;
+      //   }
+      // }
+      // this.cardGoods.forEach((el) => {
+      //   if (el instanceof HTMLElement && el.style.display == "none") {
+      //     console.log(el.style.display == "none");
+      //     count++;
+      //     console.log(count);
+      //   }
+      // });
+      // console.log(count);
+      this.searchEl.textContent = `Found: ${
+        this.cardGoods.length -
+        this.catalog.querySelectorAll(".card-none").length -
+        this.catalog.querySelectorAll(".card-none-filter").length -
+        this.catalog.querySelectorAll(".card-none-filter1").length
+        //this.cardGoods.length - count
+      }`;
+    }
+  }
+
+  filterByCategory(selector: DataAttribut, value: string, nameClass: string) {
+    const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
+    const ArrClick: Array<string | null> = [];
+    filtcat.forEach((el) => {
+      if (el instanceof HTMLInputElement) {
+        el.addEventListener("click", () => {
+          if (el.checked) {
+            ArrClick.push(el.value);
+          } else {
+            ArrClick.splice(ArrClick.indexOf(el.value), 1);
+          }
+          console.log(ArrClick);
+
+          this.cardGoods.forEach((item) => {
+            if (ArrClick.includes(item.getAttribute(selector))) {
+              item.classList.remove(nameClass);
+              this.writeResSerch();
+            } else if (ArrClick.length === 0) {
+              item.classList.remove(nameClass);
+              this.writeResSerch();
+            } else {
+              item.classList.add(nameClass);
+              this.writeResSerch();
+            }
+          });
+        });
+      }
+    });
   }
 }
 

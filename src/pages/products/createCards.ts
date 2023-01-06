@@ -25,6 +25,7 @@ class CreateCards {
       catalogCard.setAttribute("data-brand", String(this.data[i].brand));
       catalogCard.setAttribute("data-price", String(this.data[i].price));
       catalogCard.setAttribute("data-stock", String(this.data[i].stock));
+      catalogCard.setAttribute("data-rating", String(this.data[i].rating));
       catalogCard.setAttribute(
         "data-all",
         `${this.data[i].title}${this.data[i].description}${this.data[i].price}

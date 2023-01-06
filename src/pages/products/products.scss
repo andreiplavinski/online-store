@@ -46,6 +46,11 @@
     left: 0;
     
   }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
   &__label {
    //display: flex;
     color: beige;
@@ -232,6 +237,14 @@ cursor: pointer;
 }
 
 .card-none {
+  display: none;
+}
+
+.card-none-filter {
+  display: none;
+}
+
+.card-none-filter1 {
   display: none;
 }
 

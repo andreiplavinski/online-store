@@ -160,7 +160,7 @@ class ProductsPage extends Page {
     //this.sortCard();
 
     //const sort =
-    new SortProducts(data.products, catalog, filters);
+    new SortProducts(catalog, filters);
 
     return this.container;
   }
