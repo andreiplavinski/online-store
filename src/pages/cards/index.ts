@@ -48,27 +48,44 @@ class CardsPage extends Page {
     photoWraper.className = "description-card__photo-wraper";
     const photoMiniWraper = document.createElement("div");
     photoMiniWraper.className = "description-card__photo-miniwraper";
+
     const photoLinks = selectItem.images;
+    const photoWeight: number[] = [];
+    let mainPhotoFlag = false;
 
     for (let i = 0; i < photoLinks.length; i++) {
-      if (i === 0) {
-        const mainPhoto = document.createElement("div");
-        mainPhoto.className = "description-card__main-photo";
-        mainPhoto.style.backgroundImage = `url(${photoLinks[0]})`;
-        photoWraper.append(mainPhoto);
-      }
-      const miniPhoto = document.createElement("div");
+      const miniPhoto = document.createElement("img");
       miniPhoto.className = "description-card__mini-photo";
-      miniPhoto.style.backgroundImage = `url(${photoLinks[i]})`;
-      photoMiniWraper.append(miniPhoto);
+
+      if (miniPhoto instanceof HTMLImageElement) {
+        miniPhoto.src = `${photoLinks[i]}`;
+        miniPhoto.onload = () => {
+          fetch(miniPhoto.src)
+            .then((resp) => resp.blob())
+            .then((blob) => {
+              if (!photoWeight.includes(blob.size)) {
+                if (!mainPhotoFlag) {
+                  const mainPhoto = document.createElement("img");
+                  mainPhoto.className = "description-card__main-photo";
+                  mainPhoto.src = miniPhoto.src;
+                  photoWraper.append(mainPhoto);
+                  mainPhotoFlag = true;
+                }
+                photoWeight.push(blob.size);
+                photoMiniWraper.append(miniPhoto);
+              }
+            });
+        };
+      }
+
       miniPhoto.addEventListener("click", (event) => {
-        if (event.target instanceof HTMLElement) {
-          const selectPhotoBackground = event.target.style.backgroundImage;
+        if (event.target instanceof HTMLImageElement) {
+          const selectPhotoSrc = event.target.src;
           const mainPhoto = document.querySelector(
             ".description-card__main-photo"
           );
-          if (mainPhoto instanceof HTMLElement) {
-            mainPhoto.style.backgroundImage = selectPhotoBackground;
+          if (mainPhoto instanceof HTMLImageElement) {
+            mainPhoto.src = selectPhotoSrc;
           }
         }
       });

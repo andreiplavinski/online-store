@@ -119,8 +119,16 @@ class BascetPage extends Page {
         cartCounter.className = "cart__counter";
 
         const photo = document.createElement("div");
-        photo.style.backgroundImage = `url(${selectItem.images[1]})`;
         photo.className = "cart__photo";
+
+        const photoImage = document.createElement("img");
+        photoImage.className = "cart__photo-image";
+        if (photoImage instanceof HTMLImageElement) {
+          photoImage.src = `${selectItem.images[0]}`;
+          photoImage.onload = () => {
+            photo.append(photoImage);
+          };
+        }
 
         const descriptions = document.createElement("div");
         descriptions.className = "cart__descriptions";

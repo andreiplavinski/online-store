@@ -54,12 +54,21 @@
 
   &__photo {
     width: 150px;
-    height: 100px;
+    max-height: 150px;
     border: 2px solid white;
     border-radius: 20px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    overflow: hidden;
+  }
+
+  &__photo-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
   }
 
   &__descriptions {

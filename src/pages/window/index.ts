@@ -98,7 +98,7 @@ class window {
     cardValid.className = "card-wraper__valid";
     cardValid.type = "text";
     cardValid.maxLength = 5;
-    cardValid.pattern = "^(0[1-9]/[2-9][3-9]|1[0-2]/[2-9][3-9])$";
+    cardValid.pattern = "^(0[1-9]/[0-9][0-9]|1[0-2]/[0-9][0-9])$";
     cardValid.placeholder = "Valid";
     cardValid.required = true;
 
