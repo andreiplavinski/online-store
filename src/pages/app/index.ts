@@ -26,6 +26,7 @@ class App {
   }
 
   static RenderPage(idPage: string) {
+    const hash = window.location.hash.slice(1);
     const currenPageHtml = document.querySelector(`.${this.defauldPageClass}`);
     if (currenPageHtml) {
       currenPageHtml.remove();
@@ -41,15 +42,10 @@ class App {
     } else if (
       //card instanceof HTMLElement &&
       //pageCard instanceof HTMLElement &&
-      idPage === `${pageIds.cards}/${localStorage.getItem("idCard")}`
+      idPage === `${pageIds.cards}/${hash.split("/")[1]}`
       //${card.getAttribute("data-id")}`
     ) {
-      page = new CardsPage(
-        "main",
-        idPage,
-        "main",
-        Number(localStorage.getItem("idCard"))
-      );
+      page = new CardsPage("main", idPage, "main", Number(hash.split("/")[1]));
     } else if (idPage === `${pageIds.cards}/${100 || 99}`) {
       page = new CardsPage("main", idPage, "main", 100 || 99);
     } else {
