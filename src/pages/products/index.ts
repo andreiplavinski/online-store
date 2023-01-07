@@ -5,26 +5,26 @@ import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
 import { resFound } from "./function";
 import CreateFilters from "./createFilters";
+import SortProducts from "./sortProducts";
+//import SortProducts from "./sortProducts";
 
 const buttonsFilterName = ["Reset Filters", "Copy Link"];
 
 class ProductsPage extends Page {
-  // static textObject = {
-  //   pageTitle: "",
-  // };
   static data: Card[];
+  static CreateCards: CreateCards;
+  static CreateFilters: CreateFilters;
+  static SortProducts: SortProducts;
 
-  constructor(
-    tagName: string,
-    id: string,
-    className: string
-    //data: Array<CardProd>
-  ) {
+  constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
+    //this.sort = new SortProducts(newData)
+    //this.hello;
     // this.data = data;
+    // this.sortCard();
   }
 
-  protected createContent() {
+  protected createContent(): HTMLElement {
     const filters = document.createElement("div");
     filters.className = "filter";
     const filterHeader = document.createElement("div");
@@ -56,52 +56,25 @@ class ProductsPage extends Page {
       (el, i) => arrCategory.indexOf(el) === i
     );
     const arrBrandUnic = arrBrand.filter((el, i) => arrBrand.indexOf(el) === i);
-    console.log(arrBrand.filter((el, i) => arrBrand.indexOf(el) === i));
-    console.log(arrCategory.filter((el, i) => arrCategory.indexOf(el) === i));
-    console.log(arrCategory);
-    console.log(arrBrand);
-    console.log(arrPrice);
-    console.log(arrStock);
+    // console.log(arrBrand.filter((el, i) => arrBrand.indexOf(el) === i));
+    // console.log(arrCategory.filter((el, i) => arrCategory.indexOf(el) === i));
+    // console.log(arrCategory);
+    // console.log(arrBrand);
+    // console.log(arrPrice);
+    // console.log(arrStock);
 
     const catalog = document.createElement("div");
     catalog.className = "catalog";
 
     const catalogHeader = document.createElement("div");
-    //catalogHeader.textContent = "Здесь будет Хеадер";
     catalogHeader.className = "catalog__header";
     catalog.append(catalogHeader);
-
-    const sortCards = document.createElement("select");
-    sortCards.name = "sortCard";
-    sortCards.className = "catalog__sort";
-    //sortCards.ariaPlaceholder = "Sort Options";
-    catalogHeader.append(sortCards);
-    const sortName: Array<string> = [
-      "Sort Options:",
-      "Sort by Price ascending",
-      "Sort by Price descending",
-      "Sort by Rating ascending",
-      "Sort by Rating descending",
-      "Sort by Stock ascending",
-      "Sort by Stock descending",
-    ];
-
-    for (let i = 0; i < sortName.length; i++) {
-      const sortChoose = document.createElement("option");
-      sortChoose.textContent = sortName[i];
-      sortChoose.value = sortName[i];
-      if (i === 0) {
-        sortChoose.setAttribute("disabled", "");
-        sortChoose.setAttribute("selected", "");
-      }
-      sortCards.append(sortChoose);
-    }
 
     const catalogCards = document.createElement("div");
     catalogCards.className = "catalog__block";
     catalog.append(catalogCards);
 
-    const productCard = new CreateCards(newdata, catalogCards);
+    const productCard: CreateCards = new CreateCards(newdata, catalogCards);
     productCard.renderCards();
 
     const filterCategory: CreateFilters = new CreateFilters(
@@ -136,9 +109,35 @@ class ProductsPage extends Page {
     cardFound.className = "catalog__found";
     resFound(cardFound, catalog);
 
+    const sortCards = document.createElement("select");
+    sortCards.name = "sortCard";
+    sortCards.className = "catalog__sort";
+    sortCards.setAttribute("id", "catalog__sort");
+    catalogHeader.append(sortCards);
+    const sortName: Array<string> = [
+      "Sort Options:",
+      "Sort by Price ascending",
+      "Sort by Price descending",
+      "Sort by Rating ascending",
+      "Sort by Rating descending",
+      "Sort by Stock ascending",
+      "Sort by Stock descending",
+    ];
+    let sortChoose: HTMLOptionElement;
+    for (let i = 0; i < sortName.length; i++) {
+      sortChoose = document.createElement("option");
+      sortChoose.textContent = sortName[i];
+      sortChoose.value = `${i}`;
+      if (i === 0) {
+        sortChoose.setAttribute("disabled", "");
+        sortChoose.setAttribute("selected", "");
+      }
+      sortCards.append(sortChoose);
+    }
+
     catalogHeader.append(cardFound);
 
-    const searchCard = document.createElement("input");
+    const searchCard: HTMLInputElement = document.createElement("input");
     searchCard.type = "search";
     searchCard.placeholder = "Search";
     searchCard.className = "catalog__search";
@@ -158,11 +157,15 @@ class ProductsPage extends Page {
     }
 
     this.container.append(filters, catalog);
+    //this.sortCard();
+
+    //const sort =
+    new SortProducts(catalog, filters);
 
     return this.container;
   }
 
-  render() {
+  render(): HTMLElement {
     return this.createContent();
   }
 }

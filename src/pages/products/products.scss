@@ -46,6 +46,11 @@
     left: 0;
     
   }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
   &__label {
    //display: flex;
     color: beige;
@@ -230,4 +235,11 @@ border-radius: 5px;
 cursor: pointer;
   }
 }
+
+.card-none, .card-none-filter, .card-none-filter1, .card_none-price,
+.card_none-price1,
+.card-none-stock, .card-none-stock1 {
+  display: none;
+}
+
 

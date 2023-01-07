@@ -29,27 +29,27 @@ class CreateFilters {
   renderFilterCheckbox(): HTMLElement {
     const filterBlock = this.renderContainer();
     filterBlock.className = "filter-block";
+    const filterBlockContent = document.createElement("div");
+    filterBlockContent.className = "filter-block__content";
+    filterBlock.append(filterBlockContent);
     for (let i = 0; i < this.data.length; i++) {
-      const checkBoxContent = document.createElement("p");
+      const checkBoxContent = document.createElement("label");
       checkBoxContent.className = "filter-block__label";
-      filterBlock.append(checkBoxContent);
+      filterBlockContent.append(checkBoxContent);
       const checkBox = document.createElement("input");
       checkBox.type = "checkbox";
       checkBox.name = this.headerName;
-      checkBox.value = `${String(i)}`;
+      checkBox.value = `${this.data[i]}`;
       const nameChoose = document.createElement("span");
       nameChoose.textContent = `${this.data[i]}`;
       const viewProdField = document.createElement("span");
-      //const catalog: HTMLElement | null = document.querySelector(".catalog");
-      //if (catalog) {
-      const qualitiProd = writeRes(".card__category");
-      //console.log(qualitiProd);
+
+      const qualitiProd = writeRes("card__category");
       viewProdField.textContent = ` (${qualitiProd}/`;
       //}
 
       const prodAll = document.createElement("span");
       prodAll.textContent = "0)";
-      console.log(writeRes(".card__category"));
       checkBoxContent.append(checkBox, nameChoose, viewProdField, prodAll);
     }
     return this.container;
@@ -68,7 +68,8 @@ class CreateFilters {
     blockSliders.className = "filter-block__slider";
     dualSliderBlock.append(blockSliders);
     const fromSlider = document.createElement("input");
-    fromSlider.setAttribute("id", "fromSlider");
+    //fromSlider.setAttribute("id", "fromSlider");
+    fromSlider.className = "fromSlider";
     fromSlider.type = "range";
 
     fromSlider.min = String(dataSort[0]);
@@ -76,7 +77,8 @@ class CreateFilters {
     fromSlider.value = String(dataSort[0]);
     //fromSlider.min;
     const toSlider = document.createElement("input");
-    toSlider.setAttribute("id", "toslider");
+    //toSlider.setAttribute("id", "toslider");
+    toSlider.className = "toSlider";
     toSlider.type = "range";
     toSlider.min = String(dataSort[0]);
     toSlider.max = String(dataSort[dataSort.length - 1]);
@@ -89,8 +91,10 @@ class CreateFilters {
     dualSliderBlock.append(blockSliderValue);
 
     const minValue = document.createElement("p");
+    minValue.className = "filter-block__min-value";
     minValue.textContent = `${value} ${dataSort[0]}`;
     const maxValue = document.createElement("p");
+    maxValue.className = "filter-block__max-value";
     maxValue.textContent = `${value} ${dataSort[dataSort.length - 1]}`;
     blockSliderValue.append(minValue, maxValue);
     // fromSlider.addEventListener("input", () => {
