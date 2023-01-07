@@ -4,12 +4,67 @@ export function resFound(cardFound: HTMLElement, catalog: HTMLElement): void {
   cardFound.textContent = `Found: ${catalog.querySelectorAll(".card").length}`;
 }
 
-export function writeRes(selectorName: string) {
-  //return document.addEventListener("DOMContentLoaded", () => {
-  return document.getElementsByClassName(selectorName).length;
-  //console.log(document.querySelectorAll(selectorName));
-  //});
-  //console.log(document.querySelectorAll(selectorName));
+export function countProductView(
+  filter: HTMLElement,
+  category: string,
+  array: string[]
+): void {
+  const filtcat: NodeListOf<Element> = filter.querySelectorAll(
+    `input[name="${category}"]`
+  );
+
+  const writeCategCount: NodeListOf<Element> = filter.querySelectorAll(
+    `input[name="${category}"] ~ .filter-block__count`
+  );
+
+  filtcat.forEach((el, i) => {
+    const arr1: string[] = array.reduce((acc: string[], curr) => {
+      if (el instanceof HTMLInputElement && curr === el.value) acc.push(curr);
+      return acc;
+    }, []);
+    writeCategCount[i].textContent = ` ( ${arr1.length}/`;
+
+    if (arr1.length === 0) {
+      el.parentElement?.classList.add("filter-block__label_disabled");
+    } else {
+      el.parentElement?.classList.remove("filter-block__label_disabled");
+    }
+  });
+}
+
+export function controlSliders(
+  filter: HTMLElement,
+  array: number[],
+  arrayEl: Array<HTMLElement>,
+  num: number,
+  value?: string
+) {
+  const writerResFromSlider: NodeListOf<HTMLInputElement> =
+    filter.querySelectorAll(".fromSlider");
+  const writerResToSlider: NodeListOf<HTMLInputElement> =
+    filter.querySelectorAll(".toSlider");
+  const textFrom: NodeListOf<HTMLElement> = filter.querySelectorAll(
+    ".filter-block__min-value"
+  );
+  const textTo: NodeListOf<HTMLElement> = filter.querySelectorAll(
+    ".filter-block__max-value"
+  );
+  const nonValue: NodeListOf<HTMLElement> = filter.querySelectorAll(
+    ".filter-block__non-value"
+  );
+
+  array.sort((a, b) => a - b);
+  if (arrayEl.length !== 0) {
+    writerResFromSlider[num].value = String(array[0]);
+    writerResToSlider[num].value = String(array[array.length - 1]);
+    nonValue[num].textContent = " <-> ";
+    textFrom[num].textContent = `${value} ${array[0]}`;
+    textTo[num].textContent = `${value} ${array[array.length - 1]}`;
+  } else {
+    nonValue[num].textContent = "Нічога ня знойдзена";
+    textFrom[num].textContent = "";
+    textTo[num].textContent = "";
+  }
 }
 
 interface IProducts {

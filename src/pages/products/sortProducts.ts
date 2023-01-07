@@ -2,6 +2,7 @@
 //import CreateCards from "./createCards";
 //import { resFound } from "./function";
 import DualSlider from "./dual-slider";
+import { countProductView, controlSliders } from "./function";
 
 //const url = window.location;
 
@@ -23,7 +24,7 @@ class SortProducts {
   container: HTMLElement | null;
   filter: HTMLElement;
   catalog: HTMLElement;
-  cardGoods: NodeListOf<Element>;
+  cardGoods: NodeListOf<HTMLElement>;
   searchEl: HTMLElement | null;
   //CardProduct: NodeListOf<Element>;
 
@@ -135,53 +136,55 @@ class SortProducts {
             ) {
               elem.classList.add("card-none");
 
-              this.writeResSerch();
+              this.writeResSearch();
             } else {
               elem.classList.remove("card-none");
-              this.writeResSerch();
+              this.writeResSearch();
             }
           });
         } else {
           this.cardGoods.forEach((elem) => {
             elem.classList.remove("card-none");
-            this.writeResSerch();
+            this.writeResSearch();
           });
         }
       });
     }
   }
 
-  writeResSerch() {
+  writeResSearch() {
     if (this.searchEl) {
-      let count = 0;
+      const ArrContentView: Array<HTMLElement> = [];
+      const arrPriceView: Array<number> = [];
+      const arrStockView: Array<number> = [];
+      const arrCategView: Array<string> = [];
+      const arrBrandView: Array<string> = [];
+
       for (let i = 0; i < this.cardGoods.length; i++) {
-        if (
-          //this.cardGoods[i] instanceof HTMLElement &&
-          //(this.cardGoods[i] as HTMLElement).style.display !== "none"
-          !this.cardGoods[i].matches(
-            ".card card-none .card-none-filter .card-none-filter1"
-          )
-        ) {
-          count++;
-          //console.log(this.cardGoods[i] as HTMLElement).style.display ==="none");
+        if (!(getComputedStyle(this.cardGoods[i]).display == "none")) {
+          ArrContentView.push(this.cardGoods[i]);
+          arrPriceView.push(
+            Number(this.cardGoods[i].getAttribute(DataAttribut.Price))
+          );
+          arrStockView.push(
+            Number(this.cardGoods[i].getAttribute(DataAttribut.Stock))
+          );
+          arrCategView.push(
+            String(this.cardGoods[i].getAttribute(DataAttribut.Category))
+          );
+          arrBrandView.push(
+            String(this.cardGoods[i].getAttribute(DataAttribut.Brand))
+          );
         }
-        //console.log(count);
       }
-      // this.cardGoods.forEach((el) => {
-      //   if (el instanceof HTMLElement && el.style.display == "none") {
-      //     console.log(el.style.display == "none");
-      //     count++;
-      //     console.log(count);
-      //   }
-      // });
-      console.log(count);
-      this.searchEl.textContent = `Found: ${
-        this.cardGoods.length -
-        this.catalog.querySelectorAll(".card-none").length -
-        this.catalog.querySelectorAll(".card-none-filter").length -
-        this.catalog.querySelectorAll(".card-none-filter1").length
-        //this.cardGoods.length - count
-      }`;
+
+      countProductView(this.filter, "Category", arrCategView);
+      countProductView(this.filter, "Brand", arrBrandView);
+
+      controlSliders(this.filter, arrPriceView, ArrContentView, 0, "€");
+      controlSliders(this.filter, arrStockView, ArrContentView, 1, "");
+
+      this.searchEl.textContent = `Found: ${ArrContentView.length}`;
     }
   }
 
@@ -196,18 +199,17 @@ class SortProducts {
           } else {
             ArrClick.splice(ArrClick.indexOf(el.value), 1);
           }
-          console.log(ArrClick);
 
           this.cardGoods.forEach((item) => {
             if (ArrClick.includes(item.getAttribute(selector))) {
               item.classList.remove(nameClass);
-              this.writeResSerch();
+              this.writeResSearch();
             } else if (ArrClick.length === 0) {
               item.classList.remove(nameClass);
-              this.writeResSerch();
+              this.writeResSearch();
             } else {
               item.classList.add(nameClass);
-              this.writeResSerch();
+              this.writeResSearch();
             }
           });
         });
@@ -259,6 +261,7 @@ class SortProducts {
             el.classList.remove(class1);
           }
         });
+        this.writeResSearch();
         //}
       });
       inputFilterTo.addEventListener("input", () => {
@@ -273,19 +276,10 @@ class SortProducts {
             el.classList.remove(class2);
           }
         });
+        this.writeResSearch();
       });
     }
   }
-
-  //   returnArrayPrice(atribute: DataAttribut): Array<number> {
-  //     const arrPrice: Array<number> = [];
-  //     for (let i = 0; i < this.cardGoods.length; i++) {
-  //       arrPrice.push(Number(this.cardGoods[i].getAttribute(atribute)));
-  //     }
-  //     arrPrice.sort((a, b) => a - b);
-
-  //     return arrPrice.filter((el, i) => arrPrice.indexOf(el) === i);
-  //   }
 }
 
 export default SortProducts;

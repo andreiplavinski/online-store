@@ -18,7 +18,7 @@ class DualSlider {
 
   controlFromSlider(value?: string) {
     const [from, to] = this.getParsed();
-    this.fillSlider("#C6C6C6", "#0bd63a");
+    // this.fillSlider("#C6C6C6", "#0bd63a");
     if (from > to) {
       this.fromSlider.value = String(to);
       this.fromParagraph.textContent = `${value} ${to}`;
@@ -29,7 +29,7 @@ class DualSlider {
 
   controlToSlider(value?: string) {
     const [from, to] = this.getParsed();
-    this.fillSlider("#C6C6C6", "#0bd63a");
+    //this.fillSlider("#C6C6C6", "#0bd63a");
     this.setToggleAccessible();
     if (from <= to) {
       this.toSlider.value = String(to);
@@ -46,19 +46,19 @@ class DualSlider {
     return [from, to];
   }
 
-  fillSlider(sliderColor: string, rangeColor: string) {
-    const rangeDistance: number = +this.toSlider.max - +this.toSlider.min;
-    const fromPosition: number = +this.fromSlider.value - +this.toSlider.min;
-    const toPosition: number = +this.toSlider.value - +this.toSlider.min;
-    this.toSlider.style.background = `linear-gradient(
-      to right,
-      ${sliderColor} 0%,
-      ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
-      ${rangeColor} ${(fromPosition / rangeDistance) * 100}%,
-      ${rangeColor} ${(toPosition / rangeDistance) * 100}%, 
-      ${sliderColor} ${(toPosition / rangeDistance) * 100}%, 
-      ${sliderColor} 100%)`;
-  }
+  // fillSlider(sliderColor: string, rangeColor: string) {
+  //   const rangeDistance: number = +this.toSlider.max - +this.toSlider.min;
+  //   const fromPosition: number = +this.fromSlider.value - +this.toSlider.min;
+  //   const toPosition: number = +this.toSlider.value - +this.toSlider.min;
+  //   this.toSlider.style.background = `linear-gradient(
+  //     to right,
+  //     ${sliderColor} 0%,
+  //     ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
+  //     ${rangeColor} ${(fromPosition / rangeDistance) * 100}%,
+  //     ${rangeColor} ${(toPosition / rangeDistance) * 100}%,
+  //     ${sliderColor} ${(toPosition / rangeDistance) * 100}%,
+  //     ${sliderColor} 100%)`;
+  // }
 
   setToggleAccessible() {
     // const toSlider = document.querySelector("#toSlider");

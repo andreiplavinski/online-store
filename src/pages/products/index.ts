@@ -51,7 +51,7 @@ class ProductsPage extends Page {
       arrStock.push(newdata[i].stock);
       //arrPhoto.push(newdata[i].images[0]);
     }
-    console.log(newdata);
+    //console.log(newdata);
     const arrCategoryUnic = arrCategory.filter(
       (el, i) => arrCategory.indexOf(el) === i
     );
@@ -82,14 +82,15 @@ class ProductsPage extends Page {
       filters,
       "Category"
     );
-    filterCategory.renderFilterCheckbox();
+    filterCategory.renderFilterCheckbox(arrCategory);
 
     const filterBrand: CreateFilters = new CreateFilters(
       arrBrandUnic,
       filters,
       "Brand"
     );
-    filterBrand.renderFilterCheckbox();
+    console.log(arrBrand);
+    filterBrand.renderFilterCheckbox(arrBrand);
 
     const filterPrice: CreateFilters = new CreateFilters(
       arrPrice,
