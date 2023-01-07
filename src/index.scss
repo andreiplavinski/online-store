@@ -13,13 +13,13 @@ body {
 .header {
   display: flex;
   justify-content: flex-start;
-  min-height: 10vh;
+  min-height: 5vh;
   a {
     padding-right: 3%;
   }
 }
 main {
-  min-height: 80vh;
+  min-height: 90vh;
 }
 
 .footer {
@@ -27,5 +27,5 @@ main {
   // top: 100vh;
   // bottom: 0;
   order: 3;
-  min-height: 10vh;
+  min-height: 5vh;
 }

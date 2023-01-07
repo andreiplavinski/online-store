@@ -11,9 +11,9 @@ class CreateCards {
   }
 
   renderCards(): HTMLElement {
-    if (this.container.children) {
-      this.container.replaceChildren();
-    }
+    // if (this.container.children) {
+    //   this.container.replaceChildren();
+    // }
 
     for (let i = 0; i < this.data.length; i++) {
       const idCardCurrent = this.data[i].id;

@@ -184,6 +184,13 @@ class SortProducts {
       controlSliders(this.filter, arrPriceView, ArrContentView, 0, "€");
       controlSliders(this.filter, arrStockView, ArrContentView, 1, "");
 
+      const emptyContainer = this.container?.querySelector(".catalog__empty");
+      if (ArrContentView.length === 0) {
+        emptyContainer?.classList.add("catalog__empty_view");
+      } else {
+        emptyContainer?.classList.remove("catalog__empty_view");
+      }
+
       this.searchEl.textContent = `Found: ${ArrContentView.length}`;
     }
   }

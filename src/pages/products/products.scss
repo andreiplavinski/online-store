@@ -147,11 +147,27 @@
     justify-content: space-between;
   }
   &__block {
-    background-color: yellow;
+    background-color: rgb(78, 78, 3);
+    min-height: 90%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
     
+  }
+
+  &__empty {
+    display: none;
+  }
+
+  &__empty_view {
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 46px;
+    padding-top: 6%;
+    color: rgb(206, 129, 27);
   }
   &__sort {
     height: 100%;
@@ -203,13 +219,15 @@
 
 .card {
   width: 24%;
+  //height: 250px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   border: 2px solid rgb(0, 255, 234);
   border-radius: 10px;
-  margin-bottom: 1%;
+  margin: 0 0.5% 1%;
+  //margin-bottom: 1%;
   cursor: pointer;
-  //margin: 1%;
+  //margin-bottom: 1%;
   //padding: 1%;
   //height: 150px;
   &__title{
