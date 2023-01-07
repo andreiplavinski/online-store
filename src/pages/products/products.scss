@@ -236,15 +236,10 @@ cursor: pointer;
   }
 }
 
-.card-none {
+.card-none, .card-none-filter, .card-none-filter1, .card_none-price,
+.card_none-price1,
+.card-none-stock, .card-none-stock1 {
   display: none;
 }
 
-.card-none-filter {
-  display: none;
-}
-
-.card-none-filter1 {
-  display: none;
-}
 

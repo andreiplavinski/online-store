@@ -68,7 +68,8 @@ class CreateFilters {
     blockSliders.className = "filter-block__slider";
     dualSliderBlock.append(blockSliders);
     const fromSlider = document.createElement("input");
-    fromSlider.setAttribute("id", "fromSlider");
+    //fromSlider.setAttribute("id", "fromSlider");
+    fromSlider.className = "fromSlider";
     fromSlider.type = "range";
 
     fromSlider.min = String(dataSort[0]);
@@ -76,7 +77,8 @@ class CreateFilters {
     fromSlider.value = String(dataSort[0]);
     //fromSlider.min;
     const toSlider = document.createElement("input");
-    toSlider.setAttribute("id", "toslider");
+    //toSlider.setAttribute("id", "toslider");
+    toSlider.className = "toSlider";
     toSlider.type = "range";
     toSlider.min = String(dataSort[0]);
     toSlider.max = String(dataSort[dataSort.length - 1]);
@@ -89,8 +91,10 @@ class CreateFilters {
     dualSliderBlock.append(blockSliderValue);
 
     const minValue = document.createElement("p");
+    minValue.className = "filter-block__min-value";
     minValue.textContent = `${value} ${dataSort[0]}`;
     const maxValue = document.createElement("p");
+    maxValue.className = "filter-block__max-value";
     maxValue.textContent = `${value} ${dataSort[dataSort.length - 1]}`;
     blockSliderValue.append(minValue, maxValue);
     // fromSlider.addEventListener("input", () => {
