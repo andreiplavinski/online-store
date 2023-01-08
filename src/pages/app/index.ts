@@ -27,6 +27,7 @@ class App {
 
   static RenderPage(idPage: string) {
     const hash = window.location.hash.slice(1);
+    const cardTest = new RegExp("^[1-9][0-9]?$|^100$");
     const currenPageHtml = document.querySelector(`.${this.defauldPageClass}`);
     if (currenPageHtml) {
       currenPageHtml.remove();
@@ -42,6 +43,7 @@ class App {
     } else if (
       //card instanceof HTMLElement &&
       //pageCard instanceof HTMLElement &&
+      cardTest.test(`${hash.split("/")[1]}`) &&
       idPage === `${pageIds.cards}/${hash.split("/")[1]}`
       //${card.getAttribute("data-id")}`
     ) {
