@@ -33,6 +33,19 @@ class ProductsPage extends Page {
       headerButton.textContent = buttonsFilterName[i];
 
       filterHeader.append(headerButton);
+
+      headerButton.addEventListener("click", () => {
+        if (headerButton.textContent === buttonsFilterName[1]) {
+          window.navigator.clipboard.writeText(window.location.href);
+          headerButton.textContent = "  Copied!  ";
+          headerButton.style.background = "green";
+
+          setTimeout(() => {
+            headerButton.textContent = buttonsFilterName[1];
+            headerButton.style.background = "rgb(110, 38, 38)";
+          }, 2000);
+        }
+      });
     }
 
     const newdata = data.products;
