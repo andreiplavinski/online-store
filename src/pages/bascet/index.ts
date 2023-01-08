@@ -1,6 +1,6 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
-import window from "../window";
+import buyWindow from "../window";
 import "./bascet.scss";
 
 interface IProducts {
@@ -29,6 +29,8 @@ class BascetPage extends Page {
   }
 
   protected getData() {
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
     if (!localStorage.getItem("product")) {
       this.products = {};
     } else {
@@ -41,16 +43,20 @@ class BascetPage extends Page {
       this.discounts = JSON.parse(localStorage.getItem("discount") || "{}");
     }
 
-    if (!localStorage.getItem("pageCounter")) {
-      this.pageCounter = 1;
+    if (
+      new RegExp("^[1-9][0-9]?$").test(url.searchParams.get("page") as string)
+    ) {
+      this.pageCounter = Number(url.searchParams.get("page"));
     } else {
-      this.pageCounter = JSON.parse(localStorage.getItem("pageCounter") || "");
+      this.pageCounter = 1;
     }
 
-    if (!localStorage.getItem("cardsLimit")) {
-      this.cardsLimit = 3;
+    if (
+      new RegExp("^[1-9][0-9]?$").test(url.searchParams.get("limit") as string)
+    ) {
+      this.cardsLimit = Number(url.searchParams.get("limit"));
     } else {
-      this.cardsLimit = JSON.parse(localStorage.getItem("cardsLimit") || "");
+      this.cardsLimit = 3;
     }
 
     if (localStorage.getItem("windowFlag")) {
@@ -58,11 +64,23 @@ class BascetPage extends Page {
     }
   }
 
-  protected setData() {
-    localStorage.setItem("product", JSON.stringify(this.products));
-    localStorage.setItem("discount", JSON.stringify(this.discounts));
-    localStorage.setItem("pageCounter", JSON.stringify(this.pageCounter));
-    localStorage.setItem("cardsLimit", JSON.stringify(this.cardsLimit));
+  protected setData(data: string) {
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    if (data === "page") {
+      url.searchParams.set("page", `${this.pageCounter}`);
+      window.history.replaceState({}, "", url);
+    }
+    if (data === "limit") {
+      url.searchParams.set("limit", `${this.cardsLimit}`);
+      window.history.replaceState({}, "", url);
+    }
+    if (data === "product") {
+      localStorage.setItem("product", JSON.stringify(this.products));
+    }
+    if (data === "discount") {
+      localStorage.setItem("discount", JSON.stringify(this.discounts));
+    }
   }
 
   protected changeProducts(id: number, operation: string) {
@@ -73,14 +91,15 @@ class BascetPage extends Page {
         delete this.products[id];
         const cartWraper = document.querySelector(".cart__wraper");
         if (cartWraper instanceof HTMLElement) {
-          cartWraper.innerHTML = "";
-          cartWraper.append(this.createCards(this.products));
+          const parent = cartWraper.parentNode;
+          parent?.removeChild(cartWraper);
+          parent?.append(this.createCards(this.products));
         }
       } else {
         this.products[id] = this.products[id] - 1;
       }
     }
-    this.setData();
+    this.setData("product");
   }
 
   protected createCards(products: IProducts) {
@@ -125,9 +144,7 @@ class BascetPage extends Page {
         photoImage.className = "cart__photo-image";
         if (photoImage instanceof HTMLImageElement) {
           photoImage.src = `${selectItem.images[0]}`;
-          photoImage.onload = () => {
-            photo.append(photoImage);
-          };
+          photo.append(photoImage);
         }
 
         const descriptions = document.createElement("div");
@@ -224,15 +241,14 @@ class BascetPage extends Page {
 
     if (viewFlag === false && this.pageCounter > 1) {
       this.pageCounter -= 1;
-      this.setData();
+      this.setData("page");
 
       const cartPageCounter = document.querySelector(".page-counter__value");
       if (cartPageCounter instanceof HTMLElement) {
         cartPageCounter.innerText = String(this.pageCounter);
       }
 
-      cartWraper.innerHTML = "";
-      cartWraper.append(this.createCards(this.products));
+      cartWraper.innerHTML = this.createCards(this.products).innerHTML;
     } else if (viewFlag === false && this.pageCounter === 1) {
       const page = document.querySelector(".basket-page");
       if (page instanceof HTMLElement) {
@@ -342,7 +358,7 @@ class BascetPage extends Page {
             }
             promoDropButton.parentElement?.remove();
           }
-          this.setData();
+          this.setData("discount");
           const parent = sumWraper.parentNode;
           parent?.removeChild(sumWraper);
           parent?.append(this.createSummary());
@@ -385,7 +401,7 @@ class BascetPage extends Page {
             discount?.split(":")[1]
           );
           promoAddWraper.classList.remove("view");
-          this.setData();
+          this.setData("discount");
 
           const parent = sumWraper.parentNode;
           parent?.removeChild(sumWraper);
@@ -427,7 +443,7 @@ class BascetPage extends Page {
     cartLimitInput?.addEventListener("change", (event) => {
       const value = (event.target as HTMLInputElement).value;
       this.cardsLimit = Number(value);
-      this.setData();
+      this.setData("limit");
       const cartWraper = document.querySelector(".cart__wraper");
       if (cartWraper instanceof HTMLElement) {
         const parent = cartWraper.parentNode;
@@ -469,7 +485,7 @@ class BascetPage extends Page {
           parent?.append(this.createCards(this.products));
         }
       }
-      this.setData();
+      this.setData("page");
     });
 
     cartLeftButton?.addEventListener("click", () => {
@@ -483,7 +499,7 @@ class BascetPage extends Page {
           parent?.append(this.createCards(this.products));
         }
       }
-      this.setData();
+      this.setData("page");
     });
 
     cartLimit.append(cartLimitText, cartLimitInput);
@@ -526,7 +542,7 @@ class BascetPage extends Page {
   }
 
   createWindow() {
-    const newWindow = new window();
+    const newWindow = new buyWindow();
     const modalWindow = newWindow.createContent();
     const page = document.querySelector("html");
     if (page !== null) {

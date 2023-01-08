@@ -42,6 +42,7 @@ class App {
     } else if (
       //card instanceof HTMLElement &&
       //pageCard instanceof HTMLElement &&
+      new RegExp("^[1-9][0-9]?$|^100$").test(`${hash.split("/")[1]}`) &&
       idPage === `${pageIds.cards}/${hash.split("/")[1]}`
       //${card.getAttribute("data-id")}`
     ) {
@@ -64,8 +65,13 @@ class App {
   private enableRoundChange() {
     window.addEventListener("hashchange", () => {
       const hash = window.location.hash.slice(1);
-      console.log(window.location.hash);
-      console.log(hash);
+
+      let url = location.href;
+
+      if (url.includes("?")) {
+        url = url.slice(0, url.indexOf("?")) + url.slice(url.indexOf("#"));
+        window.history.replaceState({}, "", url);
+      }
       App.RenderPage(hash);
     });
   }
