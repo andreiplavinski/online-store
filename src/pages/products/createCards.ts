@@ -1,6 +1,7 @@
 import { Card } from "../../scripts/templates/interfaceData";
 import { pageIds } from "../../scripts/templates/enumPage";
 import { AddToCart } from "./function";
+import { writeToTalPriceCount } from "./script";
 
 class CreateCards {
   data: Card[];
@@ -87,6 +88,7 @@ class CreateCards {
       catalogCard.append(cardButtonAdd, cardButtonDetails);
 
       catalogCard.addEventListener("click", (event: Event) => {
+        writeToTalPriceCount();
         if (
           event.target instanceof HTMLElement &&
           !event.target.closest("#add-product")

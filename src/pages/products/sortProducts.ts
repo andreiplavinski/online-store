@@ -23,7 +23,6 @@ class SortProducts {
   catalog: HTMLElement;
   cardGoods: NodeListOf<HTMLElement>;
   searchEl: HTMLElement | null;
-  //CardProduct: NodeListOf<Element>;
 
   constructor(catalog: HTMLElement, filter: HTMLElement) {
     this.select = catalog.querySelector(".catalog__sort");
@@ -31,6 +30,7 @@ class SortProducts {
     this.catalog = catalog;
     this.filter = filter;
     this.sort();
+
     this.filterByCategory(
       DataAttribut.Category,
       "Category",
@@ -40,7 +40,7 @@ class SortProducts {
     this.search();
     this.cardGoods = this.catalog.querySelectorAll(".card");
     this.searchEl = this.catalog.querySelector(".catalog__found");
-    //this.CardProduct = catalog.querySelectorAll(".card");
+
     this.filterByPriceStock(
       0,
       "card_none-price",

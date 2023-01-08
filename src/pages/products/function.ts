@@ -103,7 +103,7 @@ export function AddToCart(cardButtonAdd: HTMLElement) {
 
       prodIdCount = JSON.parse(localStorage.getItem("product") || "{}");
       prodIdCount[Number(cardButtonAdd.getAttribute("data-id"))] = 1;
-      console.log(prodIdCount);
+
       localStorage.setItem("product", JSON.stringify(prodIdCount));
     } else if (
       Object.keys(JSON.parse(localStorage.getItem("product") || "{}")).includes(
@@ -116,7 +116,6 @@ export function AddToCart(cardButtonAdd: HTMLElement) {
       delete prodIdCount[Number(cardButtonAdd.getAttribute("data-id"))];
       localStorage.setItem("product", JSON.stringify(prodIdCount));
 
-      console.log(prodIdCount);
       cardButtonAdd.textContent = "Add To Cart";
     } else if (
       Object.keys(JSON.parse(localStorage.getItem("product") || "{}")).includes(
@@ -129,8 +128,6 @@ export function AddToCart(cardButtonAdd: HTMLElement) {
       prodIdCount = JSON.parse(localStorage.getItem("product") || "{}");
       delete prodIdCount[Number(cardButtonAdd.getAttribute("data-id"))];
       localStorage.setItem("product", JSON.stringify(prodIdCount));
-
-      console.log(prodIdCount);
 
       cardButtonAdd.textContent = "Add To Cart";
     }

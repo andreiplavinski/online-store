@@ -57,7 +57,7 @@ class ProductsPage extends Page {
       });
     }
 
-    const newdata = data.products;
+    const newdata: Card[] = data.products;
     const arrCategory: Array<string> = [];
     const arrBrand: Array<string> = [];
     const arrPrice: Array<number> = [];
