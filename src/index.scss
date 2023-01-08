@@ -91,11 +91,52 @@ main {
 }
 
 .footer {
-  // position: absolute;
-  // top: 100vh;
-  // bottom: 0;
+  
   order: 3;
   min-height: 5vh;
-  font-size: 45px;
-  color: black;
+  font-size: 28px;
+  background-color: rgb(58, 3, 3);
+  color: bisque;
+  display: flex;
+  justify-content: space-between;
+
+  &__author {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 1% 2%;
+  }
+
+  &__text {
+    text-decoration: none;
+    color: bisque;
+    
+  }
+
+  &__date {
+    padding: 2% 0;
+  }
+
+  &__logo {
+    padding: 1% 2%;
+  }
+
+  &__text, &__logo svg {
+    transition: all .4s linear;
+  }
+
+  &__text:hover, &__logo svg:hover {
+    color: rgb(188, 111, 16);
+    fill: rgb(188, 111, 16);
+  }
+
+  &__logo svg{
+    height: 60px;
+    fill: bisque;
+    padding: 2% 2%;
+  }
+
+  &__logo svg .st5 {
+    fill: rgb(4, 54, 54);
+  }
 }

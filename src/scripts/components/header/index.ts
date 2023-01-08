@@ -7,7 +7,7 @@ class Header extends Page {
     super(tagName, id, className);
   }
 
-  renderClickContent() {
+  renderClickContent(): void {
     const headerLogo = document.createElement("h1");
     this.container.append(headerLogo);
     const linkLogo: HTMLAnchorElement = document.createElement("a");
