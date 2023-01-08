@@ -55,6 +55,7 @@ class SortProducts {
       DataAttribut.Stock,
       ""
     );
+    this.resetFilter();
   }
 
   sort() {
@@ -283,6 +284,38 @@ class SortProducts {
         this.writeResSearch();
       });
     }
+  }
+
+  resetFilter() {
+    const buttonReset: HTMLInputElement | null =
+      this.filter.querySelector("#filter0");
+
+    buttonReset?.addEventListener("click", () => {
+      const search: HTMLInputElement | null =
+        document.querySelector(".catalog__search");
+      if (search instanceof HTMLInputElement) {
+        search.value = "";
+      }
+
+      this.cardGoods.forEach((elem) => {
+        elem.classList.remove("card-none");
+        elem.classList.remove("card-none-filter");
+        elem.classList.remove("card-none-filter1");
+        elem.classList.remove("card_none-price");
+        elem.classList.remove("card_none-price1");
+        elem.classList.remove("card-none-stock");
+        elem.classList.remove("card-none-stock1");
+      });
+
+      const checkBox: NodeListOf<HTMLInputElement> =
+        this.filter.querySelectorAll(`input[type="checkbox"]`);
+
+      checkBox.forEach((el) => {
+        el.checked = false;
+      });
+
+      this.writeResSearch();
+    });
   }
 }
 

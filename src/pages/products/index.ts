@@ -45,6 +45,15 @@ class ProductsPage extends Page {
             headerButton.style.background = "rgb(110, 38, 38)";
           }, 2000);
         }
+        // if (headerButton.textContent === buttonsFilterName[0]) {
+        //   console.log("hello");
+        //   const search: HTMLInputElement | null =
+        //     document.querySelector(".catalog__search");
+        //   if (search instanceof HTMLInputElement) {
+        //     search.value = "";
+        //     console.log(search.value);
+        //   }
+        // }
       });
     }
 
@@ -167,13 +176,9 @@ class ProductsPage extends Page {
       sizeVar.addEventListener("click", () => {
         clickSize(sizeVar);
       });
-      //return sizeVar;
     }
 
-    //console.log(sizeVar)
-
     this.container.append(filters, catalog);
-    //this.sortCard();
 
     //const sort =
     new SortProducts(catalog, filters);
