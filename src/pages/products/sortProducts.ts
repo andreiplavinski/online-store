@@ -1,6 +1,3 @@
-//import { Card } from "../../scripts/templates/interfaceData";
-//import CreateCards from "./createCards";
-//import { resFound } from "./function";
 import DualSlider from "./dual-slider";
 import { countProductView, controlSliders } from "./function";
 

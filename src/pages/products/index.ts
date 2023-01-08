@@ -3,7 +3,7 @@ import data from "../../data/data.json";
 //import CardProd from "../../scripts/templates/interfaceData";
 import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
-import { resFound } from "./function";
+import { resFound, clickSize } from "./function";
 import CreateFilters from "./createFilters";
 import SortProducts from "./sortProducts";
 //import SortProducts from "./sortProducts";
@@ -144,14 +144,20 @@ class ProductsPage extends Page {
     cardChooseView.className = "catalog__choose-viev";
     catalogHeader.append(cardChooseView);
 
-    const chooseSize: Array<string> = ["4 elements", "6 elements", "String"];
+    const chooseSize: Array<string> = ["4 elements", "6 elements"];
 
     for (let i = 0; i < chooseSize.length; i++) {
       const sizeVar = document.createElement("div");
       sizeVar.textContent = chooseSize[i];
       sizeVar.className = "catalog__var-view";
       cardChooseView.append(sizeVar);
+      sizeVar.addEventListener("click", () => {
+        clickSize(sizeVar);
+      });
+      //return sizeVar;
     }
+
+    //console.log(sizeVar)
 
     this.container.append(filters, catalog);
     //this.sortCard();

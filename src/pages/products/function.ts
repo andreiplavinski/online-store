@@ -32,13 +32,32 @@ export function countProductView(
   });
 }
 
+export function clickSize(el: HTMLElement) {
+  const cardBlock: NodeListOf<HTMLElement> = document.querySelectorAll(".card");
+  const cardInfo: NodeListOf<HTMLElement> =
+    document.querySelectorAll(".card__description");
+  if (el.textContent === "4 elements") {
+    cardBlock.forEach((elem, i) => {
+      elem.style.width = "24%";
+      elem.style.minHeight = "225px";
+      cardInfo[i].style.display = "block";
+    });
+  } else if (el.textContent === "6 elements") {
+    cardBlock.forEach((elem, i) => {
+      elem.style.width = "15.66%";
+      elem.style.minHeight = "100px";
+      cardInfo[i].style.display = "none";
+    });
+  }
+}
+
 export function controlSliders(
   filter: HTMLElement,
   array: number[],
   arrayEl: Array<HTMLElement>,
   num: number,
   value?: string
-) {
+): void {
   const writerResFromSlider: NodeListOf<HTMLInputElement> =
     filter.querySelectorAll(".fromSlider");
   const writerResToSlider: NodeListOf<HTMLInputElement> =
@@ -61,7 +80,7 @@ export function controlSliders(
     textFrom[num].textContent = `${value} ${array[0]}`;
     textTo[num].textContent = `${value} ${array[array.length - 1]}`;
   } else {
-    nonValue[num].textContent = "Нічога ня знойдзена";
+    nonValue[num].textContent = "Нічога не знойдзена";
     textFrom[num].textContent = "";
     textTo[num].textContent = "";
   }
