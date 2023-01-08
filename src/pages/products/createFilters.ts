@@ -1,5 +1,6 @@
 //import { Card } from "../../scripts/templates/interfaceData";
-import { writeRes } from "./function";
+
+//import { writeRes } from "./function";
 
 class CreateFilters {
   data: Array<string | number>;
@@ -26,7 +27,7 @@ class CreateFilters {
     return filterProduct;
   }
 
-  renderFilterCheckbox(): HTMLElement {
+  renderFilterCheckbox(array: Array<string>): HTMLElement {
     const filterBlock = this.renderContainer();
     filterBlock.className = "filter-block";
     const filterBlockContent = document.createElement("div");
@@ -44,12 +45,19 @@ class CreateFilters {
       nameChoose.textContent = `${this.data[i]}`;
       const viewProdField = document.createElement("span");
 
-      const qualitiProd = writeRes("card__category");
-      viewProdField.textContent = ` (${qualitiProd}/`;
+      // const qualitiProd = writeRes("card__category");
+
       //}
 
       const prodAll = document.createElement("span");
-      prodAll.textContent = "0)";
+      const arr2 = array.reduce((acc: string[], el) => {
+        if (el === this.data[i]) acc.push(el);
+        return acc;
+      }, []);
+      prodAll.textContent = `${arr2.length})`;
+
+      viewProdField.textContent = ` (${arr2.length}/`;
+      viewProdField.className = "filter-block__count";
       checkBoxContent.append(checkBox, nameChoose, viewProdField, prodAll);
     }
     return this.container;
@@ -75,15 +83,13 @@ class CreateFilters {
     fromSlider.min = String(dataSort[0]);
     fromSlider.max = String(dataSort[dataSort.length - 1]);
     fromSlider.value = String(dataSort[0]);
-    //fromSlider.min;
     const toSlider = document.createElement("input");
-    //toSlider.setAttribute("id", "toslider");
     toSlider.className = "toSlider";
     toSlider.type = "range";
     toSlider.min = String(dataSort[0]);
     toSlider.max = String(dataSort[dataSort.length - 1]);
     toSlider.value = String(dataSort[dataSort.length - 1]);
-    //toSlider.max;
+
     blockSliders.append(fromSlider, toSlider);
 
     const blockSliderValue = document.createElement("div");
@@ -96,7 +102,10 @@ class CreateFilters {
     const maxValue = document.createElement("p");
     maxValue.className = "filter-block__max-value";
     maxValue.textContent = `${value} ${dataSort[dataSort.length - 1]}`;
-    blockSliderValue.append(minValue, maxValue);
+    const nonValue = document.createElement("p");
+    nonValue.className = "filter-block__non-value";
+    nonValue.textContent = " <-> ";
+    blockSliderValue.append(minValue, nonValue, maxValue);
     // fromSlider.addEventListener("input", () => {
     //   //let currentValue =
     //   minValue.textContent = toSlider.value;

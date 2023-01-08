@@ -18,10 +18,6 @@ class ProductsPage extends Page {
 
   constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
-    //this.sort = new SortProducts(newData)
-    //this.hello;
-    // this.data = data;
-    // this.sortCard();
   }
 
   protected createContent(): HTMLElement {
@@ -49,19 +45,12 @@ class ProductsPage extends Page {
       arrBrand.push(newdata[i].brand);
       arrPrice.push(newdata[i].price);
       arrStock.push(newdata[i].stock);
-      //arrPhoto.push(newdata[i].images[0]);
     }
-    console.log(newdata);
+
     const arrCategoryUnic = arrCategory.filter(
       (el, i) => arrCategory.indexOf(el) === i
     );
     const arrBrandUnic = arrBrand.filter((el, i) => arrBrand.indexOf(el) === i);
-    // console.log(arrBrand.filter((el, i) => arrBrand.indexOf(el) === i));
-    // console.log(arrCategory.filter((el, i) => arrCategory.indexOf(el) === i));
-    // console.log(arrCategory);
-    // console.log(arrBrand);
-    // console.log(arrPrice);
-    // console.log(arrStock);
 
     const catalog = document.createElement("div");
     catalog.className = "catalog";
@@ -74,22 +63,30 @@ class ProductsPage extends Page {
     catalogCards.className = "catalog__block";
     catalog.append(catalogCards);
 
+    const emptyBlock = document.createElement("div");
+    emptyBlock.className = "catalog__empty";
+    emptyBlock.textContent = "Па вашым запыце нічога не знойдзена!";
+    catalogCards.append(emptyBlock);
+
     const productCard: CreateCards = new CreateCards(newdata, catalogCards);
     productCard.renderCards();
+
+    //catalogCards.append(emptyBlock);
 
     const filterCategory: CreateFilters = new CreateFilters(
       arrCategoryUnic,
       filters,
       "Category"
     );
-    filterCategory.renderFilterCheckbox();
+    filterCategory.renderFilterCheckbox(arrCategory);
 
     const filterBrand: CreateFilters = new CreateFilters(
       arrBrandUnic,
       filters,
       "Brand"
     );
-    filterBrand.renderFilterCheckbox();
+    console.log(arrBrand);
+    filterBrand.renderFilterCheckbox(arrBrand);
 
     const filterPrice: CreateFilters = new CreateFilters(
       arrPrice,
