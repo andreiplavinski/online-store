@@ -66,8 +66,13 @@ class App {
   private enableRoundChange() {
     window.addEventListener("hashchange", () => {
       const hash = window.location.hash.slice(1);
-      console.log(window.location.hash);
-      console.log(hash);
+
+      let url = location.href;
+
+      if (url.includes("?")) {
+        url = url.slice(0, url.indexOf("?")) + url.slice(url.indexOf("#"));
+        window.history.replaceState({}, "", url);
+      }
       App.RenderPage(hash);
     });
   }
