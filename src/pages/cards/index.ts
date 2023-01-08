@@ -1,6 +1,7 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
 import "./cards.scss";
+import { writeToTalPriceCount } from "../../pages/products/script";
 
 interface IProducts {
   [key: number]: number;
@@ -159,6 +160,8 @@ class CardsPage extends Page {
         localStorage.setItem("product", JSON.stringify(this.products));
       }
     });
+
+    cartButton.addEventListener("click", writeToTalPriceCount);
 
     const buyButton = document.createElement("button");
     buyButton.innerText = "BUY NOW";

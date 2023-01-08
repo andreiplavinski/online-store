@@ -1,6 +1,6 @@
 import Page from "../../templates/page";
 import { pageIds } from "../../templates/enumPage";
-//import data from "../../../data/data.json";
+import { writeToTalPriceCount } from "../../../pages/products/script";
 
 class Header extends Page {
   constructor(tagName: string, id: string, className: string) {
@@ -23,17 +23,6 @@ class Header extends Page {
     const totalPriceResult = document.createElement("span");
     totalPriceResult.className = "header__price-result";
 
-    totalPriceResult.textContent = "0";
-    //console.log(a, b);
-    document.addEventListener("storage", (e) => {
-      let i = 0;
-      console.log(i++);
-      const storage = JSON.parse(localStorage.getItem("product") || "{}");
-      totalPriceResult.textContent = "hui tebe";
-      console.log(e);
-      console.log(storage);
-    });
-
     totalPrice.append(totalPriceResult);
 
     const basket = document.createElement("a");
@@ -42,7 +31,14 @@ class Header extends Page {
     basket.href = `#${pageIds.basket}`;
     this.container.append(basket);
     const writeCountProd = document.createElement("span");
-    writeCountProd.textContent = "999";
+
+    if (!localStorage.getItem("product")) {
+      totalPriceResult.textContent = "0";
+      writeCountProd.textContent = "0";
+    } else {
+      window.addEventListener("load", writeToTalPriceCount);
+    }
+
     writeCountProd.className = "header__basket-count";
     basket.append(writeCountProd);
   }

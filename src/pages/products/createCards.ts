@@ -88,7 +88,6 @@ class CreateCards {
       catalogCard.append(cardButtonAdd, cardButtonDetails);
 
       catalogCard.addEventListener("click", (event: Event) => {
-        writeToTalPriceCount();
         if (
           event.target instanceof HTMLElement &&
           !event.target.closest("#add-product")
@@ -99,6 +98,7 @@ class CreateCards {
       });
 
       AddToCart(cardButtonAdd);
+      cardButtonAdd.addEventListener("click", writeToTalPriceCount);
     }
 
     return this.container;

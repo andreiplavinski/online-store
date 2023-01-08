@@ -2,6 +2,7 @@ import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
 import buyWindow from "../window";
 import "./bascet.scss";
+import { writeToTalPriceCount } from "../products/script";
 
 interface IProducts {
   [key: number]: number;
@@ -219,6 +220,8 @@ class BascetPage extends Page {
           }
         });
 
+        addButton.addEventListener("click", writeToTalPriceCount);
+
         removeButton.addEventListener("click", () => {
           if (quantityProduct - 1 >= 0) {
             quantityProduct -= 1;
@@ -236,6 +239,7 @@ class BascetPage extends Page {
             }
           }
         });
+        removeButton.addEventListener("click", writeToTalPriceCount);
       }
     }
 

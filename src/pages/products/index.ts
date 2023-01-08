@@ -1,6 +1,5 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
-//import CardProd from "../../scripts/templates/interfaceData";
 import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
 import { resFound, clickSize } from "./function";
@@ -45,15 +44,6 @@ class ProductsPage extends Page {
             headerButton.style.background = "rgb(110, 38, 38)";
           }, 2000);
         }
-        // if (headerButton.textContent === buttonsFilterName[0]) {
-        //   console.log("hello");
-        //   const search: HTMLInputElement | null =
-        //     document.querySelector(".catalog__search");
-        //   if (search instanceof HTMLInputElement) {
-        //     search.value = "";
-        //     console.log(search.value);
-        //   }
-        // }
       });
     }
 

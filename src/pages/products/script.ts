@@ -1,12 +1,3 @@
-//import ProductsPage from ".";
-
-import { resFound } from "./function";
-import { catProd } from ".";
-
-const cardFound: HTMLElement | null = document.querySelector(".catalog__found");
-//const catalog: HTMLElement | null = document.querySelector(".catalog");
-if (cardFound !== null && catProd !== null) resFound(cardFound, catProd);
-
 import data from "../../data/data.json";
 import { Card } from "../../scripts/templates/interfaceData";
 
@@ -18,21 +9,34 @@ for (let i = 0; i < product.length; i++) {
 }
 
 export function writeToTalPriceCount() {
-  const writePrice = document.querySelector(".header__price-result");
-  const WriteProdCount = document.querySelector(".header__basket-count");
+  const writePrice: HTMLElement | null = document.querySelector(
+    ".header__price-result"
+  );
+  const writeProdCount: HTMLElement | null = document.querySelector(
+    ".header__basket-count"
+  );
 
-  const a: number[] = Object.values(
+  const arrValue: number[] = Object.values(
     JSON.parse(localStorage.getItem("product") || "{}")
   );
-  const b = a.reduce((sum, curr) => sum + curr);
+  const resCount: number = arrValue.reduce((sum, curr) => sum + curr, 0);
 
-  const c = Object.keys(JSON.parse(localStorage.getItem("product") || "{}"));
+  if (writeProdCount) {
+    writeProdCount.textContent = String(resCount);
+  }
 
-  // const d: number;
-  // for (let i = 0; i< c.length; i++) {
+  const totalPrice = Object.keys(
+    JSON.parse(localStorage.getItem("product") || "{}")
+  )
+    .map((el, i) => {
+      return productPrice[+el - 1] * arrValue[i];
+    })
+    .reduce((acc, cur) => acc + cur, 0);
 
-  // }
+  if (writePrice) {
+    writePrice.textContent = String(totalPrice);
+  }
 
-  console.log(a, b, c, writePrice, WriteProdCount);
+  console.log(resCount, totalPrice);
   console.log(JSON.parse(localStorage.getItem("product") || "{}"));
 }

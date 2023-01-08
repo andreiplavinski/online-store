@@ -1,7 +1,3 @@
-//import { Card } from "../../scripts/templates/interfaceData";
-
-//import { writeRes } from "./function";
-
 class CreateFilters {
   data: Array<string | number>;
   container: HTMLElement;
@@ -18,7 +14,7 @@ class CreateFilters {
 
   renderContainer() {
     const filterProduct = document.createElement("div");
-    //filterProduct.className = "filter-block";
+
     this.container.append(filterProduct);
     const filterProductHeader = document.createElement("div");
     filterProductHeader.textContent = this.headerName;
@@ -45,15 +41,12 @@ class CreateFilters {
       nameChoose.textContent = `${this.data[i]}`;
       const viewProdField = document.createElement("span");
 
-      // const qualitiProd = writeRes("card__category");
-
-      //}
-
       const prodAll = document.createElement("span");
       const arr2 = array.reduce((acc: string[], el) => {
         if (el === this.data[i]) acc.push(el);
         return acc;
       }, []);
+
       prodAll.textContent = `${arr2.length})`;
 
       viewProdField.textContent = ` (${arr2.length}/`;
@@ -106,10 +99,6 @@ class CreateFilters {
     nonValue.className = "filter-block__non-value";
     nonValue.textContent = " <-> ";
     blockSliderValue.append(minValue, nonValue, maxValue);
-    // fromSlider.addEventListener("input", () => {
-    //   //let currentValue =
-    //   minValue.textContent = toSlider.value;
-    // });
   }
 }
 

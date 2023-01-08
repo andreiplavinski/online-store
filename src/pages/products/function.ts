@@ -1,4 +1,5 @@
 //import { Card } from "../../scripts/templates/interfaceData";
+//import { writeToTalPriceCount } from "./script";
 
 export function resFound(cardFound: HTMLElement, catalog: HTMLElement): void {
   cardFound.textContent = `Found: ${catalog.querySelectorAll(".card").length}`;
@@ -93,6 +94,7 @@ let prodIdCount: IProducts = {};
 
 export function AddToCart(cardButtonAdd: HTMLElement) {
   cardButtonAdd.addEventListener("click", () => {
+    //writeToTalPriceCount();
     if (
       !localStorage.getItem("product") ||
       !Object.keys(
