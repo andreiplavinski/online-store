@@ -238,8 +238,6 @@ class SortProducts {
             }
           });
 
-          url.searchParams.delete(`${selector}`);
-          window.history.replaceState({}, "", url);
           url.searchParams.set(
             `${selector}`,
             `${ArrClick.filter((el, index) => {
@@ -509,6 +507,34 @@ class SortProducts {
         "card-none-stock1",
         DataAttribut.Stock
       );
+    }
+
+    this.writeChecbox("Category", DataAttribut.Category, "card-none-filter");
+    this.writeChecbox("Brand", DataAttribut.Brand, "card-none-filter1");
+  }
+
+  writeChecbox(value: string, attribyte: DataAttribut, nameClass: string) {
+    const filtcat: NodeListOf<HTMLInputElement> = this.filter.querySelectorAll(
+      `input[name="${value}"]`
+    );
+
+    if (url.searchParams.has(attribyte)) {
+      const arrayFromQyuery: string[] | undefined = url.searchParams
+        .get(attribyte)
+        ?.split("/");
+      console.log(arrayFromQyuery);
+
+      filtcat.forEach((el) => {
+        if (arrayFromQyuery?.includes(el.value)) {
+          el.checked = true;
+        }
+      });
+
+      this.cardGoods.forEach((item) => {
+        if (!arrayFromQyuery?.includes(String(item.getAttribute(attribyte)))) {
+          item.classList.add(nameClass);
+        }
+      });
     }
   }
 
