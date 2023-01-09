@@ -17,6 +17,8 @@ enum DataAttribut {
   Id = "data-id",
 }
 
+let ArrClick: Array<string | null> = [];
+
 class SortProducts {
   select: HTMLSelectElement | null;
   container: HTMLElement | null;
@@ -213,7 +215,7 @@ class SortProducts {
     nameClass: string
   ): void {
     const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
-    const ArrClick: Array<string | null> = [];
+    // const ArrClick: Array<string | null> = [];
     filtcat.forEach((el) => {
       if (el instanceof HTMLInputElement) {
         el.addEventListener("click", () => {
@@ -235,6 +237,20 @@ class SortProducts {
               this.writeResSearch();
             }
           });
+
+          url.searchParams.delete(`${selector}`);
+          window.history.replaceState({}, "", url);
+          url.searchParams.set(
+            `${selector}`,
+            `${ArrClick.filter((el, index) => {
+              return ArrClick.indexOf(el) === index;
+            }).join("/")}`
+          );
+          window.history.replaceState({}, "", url);
+          if (ArrClick.length === 0) {
+            url.searchParams.delete(`${selector}`);
+            window.history.replaceState({}, "", url);
+          }
         });
       }
     });
@@ -334,6 +350,7 @@ class SortProducts {
       this.filter.querySelector("#filter0");
 
     buttonReset?.addEventListener("click", () => {
+      ArrClick = [];
       const search: HTMLInputElement | null =
         document.querySelector(".catalog__search");
       if (search instanceof HTMLInputElement) {
@@ -362,11 +379,18 @@ class SortProducts {
       url.searchParams.delete("data-price");
       window.history.replaceState({}, "", url);
       url.searchParams.delete("data-stock");
+      window.history.replaceState({}, "", url);
+      url.searchParams.delete("data-category");
+      window.history.replaceState({}, "", url);
+      url.searchParams.delete("data-brand");
 
       window.history.replaceState({}, "", url);
 
       this.writeResSearch();
     });
+    // buttonReset?.addEventListener("click", () => {
+    //   location.reload();
+    // });
   }
 
   getParams() {
