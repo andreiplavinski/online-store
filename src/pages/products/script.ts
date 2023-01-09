@@ -36,7 +36,4 @@ export function writeToTalPriceCount() {
   if (writePrice) {
     writePrice.textContent = String(totalPrice);
   }
-
-  console.log(resCount, totalPrice);
-  console.log(JSON.parse(localStorage.getItem("product") || "{}"));
 }

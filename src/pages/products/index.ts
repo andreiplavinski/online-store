@@ -5,9 +5,8 @@ import CreateCards from "./createCards";
 import { resFound, clickSize } from "./function";
 import CreateFilters from "./createFilters";
 import SortProducts from "./sortProducts";
-//import SortProducts from "./sortProducts";
 
-const buttonsFilterName = ["Reset Filters", "Copy Link"];
+const buttonsFilterName: string[] = ["Reset Filters", "Copy Link"];
 
 class ProductsPage extends Page {
   static data: Card[];
@@ -83,8 +82,6 @@ class ProductsPage extends Page {
     const productCard: CreateCards = new CreateCards(newdata, catalogCards);
     productCard.renderCards();
 
-    //catalogCards.append(emptyBlock);
-
     const filterCategory: CreateFilters = new CreateFilters(
       arrCategoryUnic,
       filters,
@@ -97,7 +94,6 @@ class ProductsPage extends Page {
       filters,
       "Brand"
     );
-    console.log(arrBrand);
     filterBrand.renderFilterCheckbox(arrBrand);
 
     const filterPrice: CreateFilters = new CreateFilters(
@@ -162,6 +158,9 @@ class ProductsPage extends Page {
       const sizeVar = document.createElement("div");
       sizeVar.textContent = chooseSize[i];
       sizeVar.className = "catalog__var-view";
+      if (sizeVar.textContent === chooseSize[0]) {
+        sizeVar.classList.add("catalog__var-view-active");
+      }
       cardChooseView.append(sizeVar);
       sizeVar.addEventListener("click", () => {
         clickSize(sizeVar);
@@ -170,8 +169,11 @@ class ProductsPage extends Page {
 
     this.container.append(filters, catalog);
 
-    //const sort =
-    new SortProducts(catalog, filters);
+    const sort = new SortProducts(catalog, filters);
+
+    sort.getParams();
+
+    sort;
 
     return this.container;
   }
@@ -180,8 +182,5 @@ class ProductsPage extends Page {
     return this.createContent();
   }
 }
-
-const catProd: HTMLElement | null = document.querySelector(".catalog");
-export { catProd };
 
 export default ProductsPage;

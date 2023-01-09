@@ -40,11 +40,8 @@ class App {
     } else if (idPage === pageIds.basket) {
       page = new BascetPage("main", idPage, "main");
     } else if (
-      //card instanceof HTMLElement &&
-      //pageCard instanceof HTMLElement &&
       new RegExp("^[1-9][0-9]?$|^100$").test(`${hash.split("/")[1]}`) &&
       idPage === `${pageIds.cards}/${hash.split("/")[1]}`
-      //${card.getAttribute("data-id")}`
     ) {
       page = new CardsPage("main", idPage, "main", Number(hash.split("/")[1]));
     } else if (idPage === `${pageIds.cards}/${100 || 99}`) {
@@ -87,7 +84,6 @@ class App {
     this.enableRoundChange();
     this.windowLoad();
     App.container.append(this.footer.render());
-    //new SortProducts(data.products).sort();
   }
 }
 
