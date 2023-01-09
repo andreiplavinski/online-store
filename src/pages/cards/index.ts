@@ -125,9 +125,10 @@ class CardsPage extends Page {
       } else if (i === 3) {
         descriptionCellValue.innerText = String(selectItem.stock);
       } else if (i === 4) {
-        descriptionCellValue.innerText = selectItem.brand;
+        descriptionCellValue.innerText = selectItem.brand.toLocaleUpperCase();
       } else if (i === 5) {
-        descriptionCellValue.innerText = selectItem.category;
+        descriptionCellValue.innerText =
+          selectItem.category.toLocaleUpperCase();
       }
       descriptionCellValue.className = "description-card__cell-value";
       descriptionCell.append(descriptionCellTitle);
