@@ -1,6 +1,7 @@
 import { Card } from "../../scripts/templates/interfaceData";
 import { pageIds } from "../../scripts/templates/enumPage";
 import { AddToCart } from "./function";
+import { writeToTalPriceCount } from "./script";
 
 class CreateCards {
   data: Card[];
@@ -97,6 +98,7 @@ class CreateCards {
       });
 
       AddToCart(cardButtonAdd);
+      cardButtonAdd.addEventListener("click", writeToTalPriceCount);
     }
 
     return this.container;

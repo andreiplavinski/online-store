@@ -1,4 +1,5 @@
 //import { Card } from "../../scripts/templates/interfaceData";
+//import { writeToTalPriceCount } from "./script";
 
 export function resFound(cardFound: HTMLElement, catalog: HTMLElement): void {
   cardFound.textContent = `Found: ${catalog.querySelectorAll(".card").length}`;
@@ -32,13 +33,32 @@ export function countProductView(
   });
 }
 
+export function clickSize(el: HTMLElement) {
+  const cardBlock: NodeListOf<HTMLElement> = document.querySelectorAll(".card");
+  const cardInfo: NodeListOf<HTMLElement> =
+    document.querySelectorAll(".card__description");
+  if (el.textContent === "4 elements") {
+    cardBlock.forEach((elem, i) => {
+      elem.style.width = "24%";
+      elem.style.minHeight = "225px";
+      cardInfo[i].style.display = "block";
+    });
+  } else if (el.textContent === "6 elements") {
+    cardBlock.forEach((elem, i) => {
+      elem.style.width = "15.66%";
+      elem.style.minHeight = "100px";
+      cardInfo[i].style.display = "none";
+    });
+  }
+}
+
 export function controlSliders(
   filter: HTMLElement,
   array: number[],
   arrayEl: Array<HTMLElement>,
   num: number,
   value?: string
-) {
+): void {
   const writerResFromSlider: NodeListOf<HTMLInputElement> =
     filter.querySelectorAll(".fromSlider");
   const writerResToSlider: NodeListOf<HTMLInputElement> =
@@ -61,7 +81,7 @@ export function controlSliders(
     textFrom[num].textContent = `${value} ${array[0]}`;
     textTo[num].textContent = `${value} ${array[array.length - 1]}`;
   } else {
-    nonValue[num].textContent = "Нічога ня знойдзена";
+    nonValue[num].textContent = "Нічога не знойдзена";
     textFrom[num].textContent = "";
     textTo[num].textContent = "";
   }
@@ -74,6 +94,7 @@ let prodIdCount: IProducts = {};
 
 export function AddToCart(cardButtonAdd: HTMLElement) {
   cardButtonAdd.addEventListener("click", () => {
+    //writeToTalPriceCount();
     if (
       !localStorage.getItem("product") ||
       !Object.keys(
@@ -84,7 +105,7 @@ export function AddToCart(cardButtonAdd: HTMLElement) {
 
       prodIdCount = JSON.parse(localStorage.getItem("product") || "{}");
       prodIdCount[Number(cardButtonAdd.getAttribute("data-id"))] = 1;
-      console.log(prodIdCount);
+
       localStorage.setItem("product", JSON.stringify(prodIdCount));
     } else if (
       Object.keys(JSON.parse(localStorage.getItem("product") || "{}")).includes(
@@ -97,7 +118,6 @@ export function AddToCart(cardButtonAdd: HTMLElement) {
       delete prodIdCount[Number(cardButtonAdd.getAttribute("data-id"))];
       localStorage.setItem("product", JSON.stringify(prodIdCount));
 
-      console.log(prodIdCount);
       cardButtonAdd.textContent = "Add To Cart";
     } else if (
       Object.keys(JSON.parse(localStorage.getItem("product") || "{}")).includes(
@@ -110,8 +130,6 @@ export function AddToCart(cardButtonAdd: HTMLElement) {
       prodIdCount = JSON.parse(localStorage.getItem("product") || "{}");
       delete prodIdCount[Number(cardButtonAdd.getAttribute("data-id"))];
       localStorage.setItem("product", JSON.stringify(prodIdCount));
-
-      console.log(prodIdCount);
 
       cardButtonAdd.textContent = "Add To Cart";
     }

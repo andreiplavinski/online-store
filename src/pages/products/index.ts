@@ -1,9 +1,8 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
-//import CardProd from "../../scripts/templates/interfaceData";
 import { Card } from "../../scripts/templates/interfaceData";
 import CreateCards from "./createCards";
-import { resFound } from "./function";
+import { resFound, clickSize } from "./function";
 import CreateFilters from "./createFilters";
 import SortProducts from "./sortProducts";
 //import SortProducts from "./sortProducts";
@@ -33,9 +32,22 @@ class ProductsPage extends Page {
       headerButton.textContent = buttonsFilterName[i];
 
       filterHeader.append(headerButton);
+
+      headerButton.addEventListener("click", () => {
+        if (headerButton.textContent === buttonsFilterName[1]) {
+          window.navigator.clipboard.writeText(window.location.href);
+          headerButton.textContent = "  Copied!  ";
+          headerButton.style.background = "green";
+
+          setTimeout(() => {
+            headerButton.textContent = buttonsFilterName[1];
+            headerButton.style.background = "rgb(110, 38, 38)";
+          }, 2000);
+        }
+      });
     }
 
-    const newdata = data.products;
+    const newdata: Card[] = data.products;
     const arrCategory: Array<string> = [];
     const arrBrand: Array<string> = [];
     const arrPrice: Array<number> = [];
@@ -144,17 +156,19 @@ class ProductsPage extends Page {
     cardChooseView.className = "catalog__choose-viev";
     catalogHeader.append(cardChooseView);
 
-    const chooseSize: Array<string> = ["4 elements", "6 elements", "String"];
+    const chooseSize: Array<string> = ["4 elements", "6 elements"];
 
     for (let i = 0; i < chooseSize.length; i++) {
       const sizeVar = document.createElement("div");
       sizeVar.textContent = chooseSize[i];
       sizeVar.className = "catalog__var-view";
       cardChooseView.append(sizeVar);
+      sizeVar.addEventListener("click", () => {
+        clickSize(sizeVar);
+      });
     }
 
     this.container.append(filters, catalog);
-    //this.sortCard();
 
     //const sort =
     new SortProducts(catalog, filters);

@@ -17,6 +17,10 @@
     background-color: antiquewhite;
     padding: 1%;
     margin: 2%;
+    width: 40%;
+    color: beige;
+    font-size: 20px;
+    background: rgb(110, 38, 38);
     cursor: pointer;
   }
 }
@@ -219,7 +223,7 @@
 
 .card {
   width: 24%;
-  //height: 250px;
+  min-height: 225px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   border: 2px solid rgb(0, 255, 234);

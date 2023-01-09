@@ -1,6 +1,3 @@
-//import { Card } from "../../scripts/templates/interfaceData";
-//import CreateCards from "./createCards";
-//import { resFound } from "./function";
 import DualSlider from "./dual-slider";
 import { countProductView, controlSliders } from "./function";
 
@@ -26,7 +23,6 @@ class SortProducts {
   catalog: HTMLElement;
   cardGoods: NodeListOf<HTMLElement>;
   searchEl: HTMLElement | null;
-  //CardProduct: NodeListOf<Element>;
 
   constructor(catalog: HTMLElement, filter: HTMLElement) {
     this.select = catalog.querySelector(".catalog__sort");
@@ -34,6 +30,7 @@ class SortProducts {
     this.catalog = catalog;
     this.filter = filter;
     this.sort();
+
     this.filterByCategory(
       DataAttribut.Category,
       "Category",
@@ -43,7 +40,7 @@ class SortProducts {
     this.search();
     this.cardGoods = this.catalog.querySelectorAll(".card");
     this.searchEl = this.catalog.querySelector(".catalog__found");
-    //this.CardProduct = catalog.querySelectorAll(".card");
+
     this.filterByPriceStock(
       0,
       "card_none-price",
@@ -58,6 +55,7 @@ class SortProducts {
       DataAttribut.Stock,
       ""
     );
+    this.resetFilter();
   }
 
   sort() {
@@ -286,6 +284,38 @@ class SortProducts {
         this.writeResSearch();
       });
     }
+  }
+
+  resetFilter() {
+    const buttonReset: HTMLInputElement | null =
+      this.filter.querySelector("#filter0");
+
+    buttonReset?.addEventListener("click", () => {
+      const search: HTMLInputElement | null =
+        document.querySelector(".catalog__search");
+      if (search instanceof HTMLInputElement) {
+        search.value = "";
+      }
+
+      this.cardGoods.forEach((elem) => {
+        elem.classList.remove("card-none");
+        elem.classList.remove("card-none-filter");
+        elem.classList.remove("card-none-filter1");
+        elem.classList.remove("card_none-price");
+        elem.classList.remove("card_none-price1");
+        elem.classList.remove("card-none-stock");
+        elem.classList.remove("card-none-stock1");
+      });
+
+      const checkBox: NodeListOf<HTMLInputElement> =
+        this.filter.querySelectorAll(`input[type="checkbox"]`);
+
+      checkBox.forEach((el) => {
+        el.checked = false;
+      });
+
+      this.writeResSearch();
+    });
   }
 }
 
