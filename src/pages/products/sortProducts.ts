@@ -17,7 +17,7 @@ enum DataAttribut {
   Id = "data-id",
 }
 
-let ArrClick: Array<string | null> = [];
+// let ArrClick: Array<string | null> = [];
 
 class SortProducts {
   select: HTMLSelectElement | null;
@@ -215,7 +215,7 @@ class SortProducts {
     nameClass: string
   ): void {
     const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
-    // const ArrClick: Array<string | null> = [];
+    const ArrClick: Array<string | null> = [];
     filtcat.forEach((el) => {
       if (el instanceof HTMLInputElement) {
         el.addEventListener("click", () => {
@@ -238,8 +238,6 @@ class SortProducts {
             }
           });
 
-          url.searchParams.delete(`${selector}`);
-          window.history.replaceState({}, "", url);
           url.searchParams.set(
             `${selector}`,
             `${ArrClick.filter((el, index) => {
@@ -350,7 +348,6 @@ class SortProducts {
       this.filter.querySelector("#filter0");
 
     buttonReset?.addEventListener("click", () => {
-      ArrClick = [];
       const search: HTMLInputElement | null =
         document.querySelector(".catalog__search");
       if (search instanceof HTMLInputElement) {
@@ -388,9 +385,9 @@ class SortProducts {
 
       this.writeResSearch();
     });
-    // buttonReset?.addEventListener("click", () => {
-    //   location.reload();
-    // });
+    buttonReset?.addEventListener("click", () => {
+      location.reload();
+    });
   }
 
   getParams() {
@@ -510,6 +507,34 @@ class SortProducts {
         "card-none-stock1",
         DataAttribut.Stock
       );
+    }
+
+    this.writeChecbox("Category", DataAttribut.Category, "card-none-filter");
+    this.writeChecbox("Brand", DataAttribut.Brand, "card-none-filter1");
+  }
+
+  writeChecbox(value: string, attribyte: DataAttribut, nameClass: string) {
+    const filtcat: NodeListOf<HTMLInputElement> = this.filter.querySelectorAll(
+      `input[name="${value}"]`
+    );
+
+    if (url.searchParams.has(attribyte)) {
+      const arrayFromQyuery: string[] | undefined = url.searchParams
+        .get(attribyte)
+        ?.split("/");
+      console.log(arrayFromQyuery);
+
+      filtcat.forEach((el) => {
+        if (arrayFromQyuery?.includes(el.value)) {
+          el.checked = true;
+        }
+      });
+
+      this.cardGoods.forEach((item) => {
+        if (!arrayFromQyuery?.includes(String(item.getAttribute(attribyte)))) {
+          item.classList.add(nameClass);
+        }
+      });
     }
   }
 
