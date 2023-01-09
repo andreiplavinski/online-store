@@ -7,9 +7,23 @@ interface IProducts {
   [key: number]: number;
 }
 
+interface IDataProduct {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+}
+
 class CardsPage extends Page {
-  dataBase = data.products;
-  dataIdBase = this.dataBase.map((x) => x.id);
+  dataBase: Array<IDataProduct> = data.products;
+  dataIdBase: Array<number> = this.dataBase.map((x) => x.id);
   idN: number;
   products: IProducts = {};
 
@@ -18,33 +32,41 @@ class CardsPage extends Page {
     this.idN = idN;
   }
 
-  protected createContent() {
+  private createContent(): HTMLDivElement {
     if (!localStorage.getItem("product")) {
       this.products = {};
     } else {
       this.products = JSON.parse(localStorage.getItem("product") || "{}");
     }
 
-    const selectItem = this.dataBase[this.idN - 1];
+    const selectItem: IDataProduct = this.dataBase[this.idN - 1];
+
     const page = document.createElement("div");
     page.className = "description-page";
+
     const routes = document.createElement("div");
     routes.className = "description-page__routes";
+
     const areaStore = document.createElement("p");
     areaStore.innerText = "Store".toLocaleUpperCase();
     areaStore.className = "description-page__route";
+
     const areaCategory = document.createElement("p");
     areaCategory.innerText = selectItem.category.toLocaleUpperCase();
     areaCategory.className = "description-page__route";
+
     const areaBrand = document.createElement("p");
     areaBrand.textContent = selectItem.brand.toLocaleUpperCase();
     areaBrand.className = "description-page__route";
+
     const areaTitle = document.createElement("p");
     areaTitle.innerText = selectItem.title.toLocaleUpperCase();
     areaTitle.className = "description-page__route";
+
     const descriptionCard = document.createElement("div");
     descriptionCard.className =
       "description-page__description-card description-card";
+
     const photoWraper = document.createElement("div");
     photoWraper.className = "description-card__photo-wraper";
     const photoMiniWraper = document.createElement("div");
@@ -93,12 +115,16 @@ class CardsPage extends Page {
         }
       });
     }
+
     photoWraper.append(photoMiniWraper);
+
     const descriptionTable = document.createElement("div");
     descriptionTable.className = "description-card__table";
+
     const descriptionTableTitle = document.createElement("p");
     descriptionTableTitle.className = "description-card__table-title";
     descriptionTableTitle.innerText = selectItem.title;
+
     descriptionTable.append(descriptionTableTitle);
 
     const cellNames = [
@@ -113,9 +139,11 @@ class CardsPage extends Page {
     for (let i = 0; i < cellNames.length; i++) {
       const descriptionCell = document.createElement("div");
       descriptionCell.className = "description-card__cell";
+
       const descriptionCellTitle = document.createElement("p");
       descriptionCellTitle.innerText = cellNames[i];
       descriptionCellTitle.className = "description-card__cell-title";
+
       const descriptionCellValue = document.createElement("p");
 
       if (i === 0) {
@@ -140,6 +168,7 @@ class CardsPage extends Page {
 
     const priceWraper = document.createElement("div");
     priceWraper.className = "description-card__price-wraper";
+
     const price = document.createElement("p");
     price.innerText = String(`€${selectItem.price}`);
     price.className = "description-card__price";
