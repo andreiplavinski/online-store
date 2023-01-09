@@ -17,7 +17,7 @@ enum DataAttribut {
   Id = "data-id",
 }
 
-let ArrClick: Array<string | null> = [];
+// let ArrClick: Array<string | null> = [];
 
 class SortProducts {
   select: HTMLSelectElement | null;
@@ -215,7 +215,7 @@ class SortProducts {
     nameClass: string
   ): void {
     const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
-    // const ArrClick: Array<string | null> = [];
+    const ArrClick: Array<string | null> = [];
     filtcat.forEach((el) => {
       if (el instanceof HTMLInputElement) {
         el.addEventListener("click", () => {
@@ -350,7 +350,6 @@ class SortProducts {
       this.filter.querySelector("#filter0");
 
     buttonReset?.addEventListener("click", () => {
-      ArrClick = [];
       const search: HTMLInputElement | null =
         document.querySelector(".catalog__search");
       if (search instanceof HTMLInputElement) {
@@ -388,9 +387,9 @@ class SortProducts {
 
       this.writeResSearch();
     });
-    // buttonReset?.addEventListener("click", () => {
-    //   location.reload();
-    // });
+    buttonReset?.addEventListener("click", () => {
+      location.reload();
+    });
   }
 
   getParams() {
