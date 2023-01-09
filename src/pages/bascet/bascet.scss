@@ -162,6 +162,10 @@
   &__button:hover {
     cursor: pointer;
   }
+  &__button:active {
+    transform: scale(1.03);
+    cursor: pointer;
+  }
 }
 
 .amount {
@@ -204,6 +208,11 @@
   }
 
   &__button:hover {
+    cursor: pointer;
+  }
+
+  &__button:active {
+    transform: scale(1.03);
     cursor: pointer;
   }
 
@@ -350,6 +359,14 @@
   &__add-button:hover {
     cursor: pointer;
   }
+
+  &__drop-button:active,
+  &__add-button:active {
+    cursor: pointer;
+    transform: scale(1.03);
+  }
+
+
 
   &__applied-text,
   &__add-text {
