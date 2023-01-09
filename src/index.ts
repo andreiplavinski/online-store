@@ -18,5 +18,4 @@ window.addEventListener("load", () => {
     const write = new SortProducts(a, b);
     write.writeResSearch();
   }
-  console.log("hello");
 });
