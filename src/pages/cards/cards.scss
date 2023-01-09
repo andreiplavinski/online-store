@@ -36,6 +36,7 @@
     flex-wrap: nowrap;
     gap: 20px;
     border-radius: 20px;
+    object-fit: cover;
   }
 
   &__photo-miniwraper {
@@ -46,6 +47,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 5px;
+    object-fit: cover;
   }
 
   &__main-photo {
@@ -60,14 +62,15 @@
 
   &__mini-photo {
 		width: 100%;
-    height: 50%;
+   max-height: 120px;
     border-radius: 20px;
     border: 2px solid orange;
     border-radius: 20px;
-    background-position: center;
+    background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
     overflow: clip;
+    object-fit: cover;
   }
 
 	&__mini-photo:hover {
@@ -83,7 +86,7 @@
   }
 
   &__table-title {
-    color: orange;
+    color: beige;
     padding: 10px;
     background-color: #181a1c;
     font-size: 24px;
@@ -137,7 +140,7 @@
 
   &__price {
     font-size: 24px;
-    color: orange;
+    color: beige;
     border-radius: 200px;
     border: 2px solid orange;
     padding: 30px;
@@ -153,9 +156,10 @@
     height: 40px;
     background: orange;
     color: black;
-    border: 2px solid black;
+    border: 2px solid  #181a1c;;
     border-radius: 16px;
     margin: 0px;
+    font-weight: 700;
   }
 
 	&__cart-button:hover,
