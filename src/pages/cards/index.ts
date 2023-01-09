@@ -31,16 +31,16 @@ class CardsPage extends Page {
     const routes = document.createElement("div");
     routes.className = "description-page__routes";
     const areaStore = document.createElement("p");
-    areaStore.innerText = "Store";
+    areaStore.innerText = "Store".toLocaleUpperCase();
     areaStore.className = "description-page__route";
     const areaCategory = document.createElement("p");
-    areaCategory.innerText = selectItem.category;
+    areaCategory.innerText = selectItem.category.toLocaleUpperCase();
     areaCategory.className = "description-page__route";
     const areaBrand = document.createElement("p");
-    areaBrand.textContent = selectItem.brand;
+    areaBrand.textContent = selectItem.brand.toLocaleUpperCase();
     areaBrand.className = "description-page__route";
     const areaTitle = document.createElement("p");
-    areaTitle.innerText = selectItem.title;
+    areaTitle.innerText = selectItem.title.toLocaleUpperCase();
     areaTitle.className = "description-page__route";
     const descriptionCard = document.createElement("div");
     descriptionCard.className =
@@ -57,6 +57,7 @@ class CardsPage extends Page {
     for (let i = 0; i < photoLinks.length; i++) {
       const miniPhoto = document.createElement("img");
       miniPhoto.className = "description-card__mini-photo";
+      miniPhoto.alt = "product photo";
 
       if (miniPhoto instanceof HTMLImageElement) {
         miniPhoto.src = `${photoLinks[i]}`;
@@ -68,6 +69,7 @@ class CardsPage extends Page {
                 if (!mainPhotoFlag) {
                   const mainPhoto = document.createElement("img");
                   mainPhoto.className = "description-card__main-photo";
+                  mainPhoto.alt = "product photo";
                   mainPhoto.src = miniPhoto.src;
                   photoWraper.append(mainPhoto);
                   mainPhotoFlag = true;
@@ -125,9 +127,10 @@ class CardsPage extends Page {
       } else if (i === 3) {
         descriptionCellValue.innerText = String(selectItem.stock);
       } else if (i === 4) {
-        descriptionCellValue.innerText = selectItem.brand;
+        descriptionCellValue.innerText = selectItem.brand.toLocaleUpperCase();
       } else if (i === 5) {
-        descriptionCellValue.innerText = selectItem.category;
+        descriptionCellValue.innerText =
+          selectItem.category.toLocaleUpperCase();
       }
       descriptionCellValue.className = "description-card__cell-value";
       descriptionCell.append(descriptionCellTitle);
