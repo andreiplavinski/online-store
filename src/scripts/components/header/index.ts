@@ -20,8 +20,7 @@ class Header extends Page {
     // });
     // linkLogo.href = `#${pageIds.product}`;
 
-    linkLogo.href = "";
-    //`#${pageIds.product}`;
+    linkLogo.href = `#${pageIds.product}`;
     headerLogo.append(linkLogo);
     linkLogo.textContent = "Online Store";
 
