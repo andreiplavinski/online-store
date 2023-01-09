@@ -145,15 +145,16 @@
 
 .catalog {
   width: 80%;
-  border: 2px solid blue;
+  align-self: flex-start;
+  //border: 2px solid blue;
   &__header {
     background-color: green;
     display: flex;
     justify-content: space-between;
   }
   &__block {
-    background-color: rgb(78, 78, 3);
-    min-height: 90%;
+    //background-color: rgb(78, 78, 3);
+    //min-height: 90%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
