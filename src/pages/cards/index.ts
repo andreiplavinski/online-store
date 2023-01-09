@@ -57,6 +57,7 @@ class CardsPage extends Page {
     for (let i = 0; i < photoLinks.length; i++) {
       const miniPhoto = document.createElement("img");
       miniPhoto.className = "description-card__mini-photo";
+      miniPhoto.alt = "product photo";
 
       if (miniPhoto instanceof HTMLImageElement) {
         miniPhoto.src = `${photoLinks[i]}`;
@@ -68,6 +69,7 @@ class CardsPage extends Page {
                 if (!mainPhotoFlag) {
                   const mainPhoto = document.createElement("img");
                   mainPhoto.className = "description-card__main-photo";
+                  mainPhoto.alt = "product photo";
                   mainPhoto.src = miniPhoto.src;
                   photoWraper.append(mainPhoto);
                   mainPhotoFlag = true;
