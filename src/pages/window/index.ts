@@ -1,4 +1,5 @@
 import "./window.scss";
+import { writeToTalPriceCount } from "../products/script";
 
 class window {
   createContent() {
@@ -152,6 +153,10 @@ class window {
           }
         }, 4000);
       }
+    });
+
+    submitButton.addEventListener("click", () => {
+      setTimeout(writeToTalPriceCount, 4000);
     });
 
     const personalItems = [

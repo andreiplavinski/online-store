@@ -11,15 +11,11 @@ const authors: Author = [
 ];
 
 class Footer extends Page {
-  static textObject = {
-    pageTitle: "Здесь должен быть футер",
-  };
-
   constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
   }
 
-  protected createFooter() {
+  protected createFooter(): void {
     const footerAuthors = document.createElement("div");
     footerAuthors.className = "footer__author";
 
@@ -45,7 +41,7 @@ class Footer extends Page {
     this.container.append(footerAuthors, footerDate, footerLogoRS);
   }
 
-  render() {
+  render(): HTMLElement {
     this.createFooter();
     return this.container;
   }

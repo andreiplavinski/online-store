@@ -196,14 +196,6 @@
     display: flex;
     margin-right: 1%;
     color: bisque;
-    // div {
-    //   border: 1px solid bisque;
-    //   margin-right: 1%;
-    //   border-radius: 6px;
-    //   //padding: 2%;
-    //   //font-size: 32px;
-
-    // }
   }
 
   &__var-view {
@@ -211,6 +203,10 @@
     margin-right: 1%;
     border-radius: 6px;
     cursor: pointer;
+  }
+
+  &__var-view-active {
+    background-color: rgb(46, 75, 3);
   }
 
   &__sort,
@@ -245,7 +241,6 @@
 
   &__description {
     width: 50%;
-    //height: 60%;
     background-color: rgb(63, 59, 59, 80%);
     border-radius: 5px;
 

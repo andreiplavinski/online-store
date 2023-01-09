@@ -1,7 +1,7 @@
-import DualSlider from "./dual-slider";
 import { countProductView, controlSliders } from "./function";
 
-//const url = window.location;
+const currentUrl = window.location.href;
+const url = new URL(currentUrl);
 
 enum CheckSort {
   A,
@@ -14,6 +14,7 @@ enum DataAttribut {
   Category = "data-category",
   Brand = "data-brand",
   All = "data-all",
+  Id = "data-id",
 }
 
 class SortProducts {
@@ -25,6 +26,7 @@ class SortProducts {
   searchEl: HTMLElement | null;
 
   constructor(catalog: HTMLElement, filter: HTMLElement) {
+    //this.getParams();
     this.select = catalog.querySelector(".catalog__sort");
     this.container = catalog.querySelector(".catalog__block");
     this.catalog = catalog;
@@ -58,46 +60,50 @@ class SortProducts {
     this.resetFilter();
   }
 
-  sort() {
+  sort(): void {
     this.select?.addEventListener("change", (e: Event) => {
       if (e.target instanceof HTMLSelectElement && this.container) {
+        console.log(url.searchParams.get("sort"));
         if (e.target.value === "1") {
           this.sortArray(DataAttribut.Price, CheckSort.A);
-          //const url = new URL();
-          //window.location.searchParams.set("price", "ASD");
-          //("price", "ASD");
-          // url.search = "?price = ASD";
-          // console.log(url.search);
-          // if (url.search === "?price = ASD") {
-          //   document.addEventListener("load", () => {
-          //     this.select?.value == "1";
-          //   });
-          // }
+
+          url.searchParams.set("sort", "priceAsd");
+          window.history.replaceState({}, "", url);
         }
         if (e.target.value === "2") {
           this.sortArray(DataAttribut.Price, CheckSort.B);
+          url.searchParams.set("sort", "priceDesc");
+          window.history.replaceState({}, "", url);
         }
 
         if (e.target.value === "3") {
           this.sortArray(DataAttribut.Rating, CheckSort.A);
+          url.searchParams.set("sort", "rateAsd");
+          window.history.replaceState({}, "", url);
         }
 
         if (e.target.value === "4") {
           this.sortArray(DataAttribut.Rating, CheckSort.B);
+          url.searchParams.set("sort", "rateDesc");
+          window.history.replaceState({}, "", url);
         }
 
         if (e.target.value === "5") {
           this.sortArray(DataAttribut.Stock, CheckSort.A);
+          url.searchParams.set("sort", "stockAsd");
+          window.history.replaceState({}, "", url);
         }
 
         if (e.target.value === "6") {
           this.sortArray(DataAttribut.Stock, CheckSort.B);
+          url.searchParams.set("sort", "stockDesc");
+          window.history.replaceState({}, "", url);
         }
       }
     });
   }
 
-  sortArray(dataAttribut: DataAttribut, checkSort: CheckSort) {
+  sortArray(dataAttribut: DataAttribut, checkSort: CheckSort): void {
     const arrPrice: Array<number> = [];
     for (let i = 0; i < this.cardGoods.length; i++) {
       arrPrice.push(Number(this.cardGoods[i].getAttribute(dataAttribut)));
@@ -117,7 +123,7 @@ class SortProducts {
     });
   }
 
-  search() {
+  search(): void {
     const searchField: HTMLInputElement | null =
       this.catalog.querySelector(".catalog__search");
 
@@ -146,11 +152,19 @@ class SortProducts {
             this.writeResSearch();
           });
         }
+
+        url.searchParams.set("search", `${text}`);
+        window.history.replaceState({}, "", url);
+
+        if (url.searchParams.get("search") === "") {
+          url.searchParams.delete("search");
+          window.history.replaceState({}, "", url);
+        }
       });
     }
   }
 
-  writeResSearch() {
+  writeResSearch(): void {
     if (this.searchEl) {
       const ArrContentView: Array<HTMLElement> = [];
       const arrPriceView: Array<number> = [];
@@ -193,7 +207,11 @@ class SortProducts {
     }
   }
 
-  filterByCategory(selector: DataAttribut, value: string, nameClass: string) {
+  filterByCategory(
+    selector: DataAttribut,
+    value: string,
+    nameClass: string
+  ): void {
     const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
     const ArrClick: Array<string | null> = [];
     filtcat.forEach((el) => {
@@ -267,8 +285,20 @@ class SortProducts {
           }
         });
         this.writeResSearch();
-        //}
+        url.searchParams.set(
+          `${atribute}`,
+          `${inputFilterFrom.value}/${inputFilterTo.value}`
+        );
+        window.history.replaceState({}, "", url);
+        if (
+          url.searchParams.get(`${atribute}`) ===
+          `${inputFilterFrom.min}/${inputFilterTo.max}`
+        ) {
+          url.searchParams.delete(`${atribute}`);
+          window.history.replaceState({}, "", url);
+        }
       });
+
       inputFilterTo.addEventListener("input", () => {
         startSlider.controlToSlider(val);
         this.cardGoods.forEach((el) => {
@@ -282,6 +312,19 @@ class SortProducts {
           }
         });
         this.writeResSearch();
+        url.searchParams.set(
+          `${atribute}`,
+          `${inputFilterFrom.value}/${inputFilterTo.value}`
+        );
+        window.history.replaceState({}, "", url);
+
+        if (
+          url.searchParams.get(`${atribute}`) ===
+          `${inputFilterFrom.min}/${inputFilterTo.max}`
+        ) {
+          url.searchParams.delete(`${atribute}`);
+          window.history.replaceState({}, "", url);
+        }
       });
     }
   }
@@ -314,9 +357,247 @@ class SortProducts {
         el.checked = false;
       });
 
+      url.searchParams.delete("search");
+      window.history.replaceState({}, "", url);
+      url.searchParams.delete("data-price");
+      window.history.replaceState({}, "", url);
+      url.searchParams.delete("data-stock");
+
+      window.history.replaceState({}, "", url);
+
       this.writeResSearch();
+    });
+  }
+
+  getParams() {
+    const clickBut = this.catalog.querySelectorAll(".catalog__var-view");
+    clickBut[0].addEventListener("click", () => {
+      clickBut[0].classList.add("catalog__var-view-active");
+      clickBut[1].classList.remove("catalog__var-view-active");
+
+      url.searchParams.set("size-card", "4");
+      window.history.replaceState({}, "", url);
+    });
+    clickBut[1].addEventListener("click", () => {
+      clickBut[1].classList.add("catalog__var-view-active");
+      clickBut[0].classList.remove("catalog__var-view-active");
+
+      url.searchParams.set("size-card", "6");
+      window.history.replaceState({}, "", url);
+    });
+
+    if (url.searchParams.has("size-card")) {
+      const cardBlock: NodeListOf<HTMLElement> =
+        this.catalog.querySelectorAll(".card");
+      const cardInfo: NodeListOf<HTMLElement> =
+        this.catalog.querySelectorAll(".card__description");
+      if (url.searchParams.get("size-card") === "4") {
+        cardBlock.forEach((elem, i) => {
+          elem.style.width = "24%";
+          elem.style.minHeight = "225px";
+          cardInfo[i].style.display = "block";
+        });
+        clickBut[0].classList.add("catalog__var-view-active");
+        clickBut[1].classList.remove("catalog__var-view-active");
+      } else if (url.searchParams.get("size-card") === "6") {
+        cardBlock.forEach((elem, i) => {
+          elem.style.width = "15.66%";
+          elem.style.minHeight = "100px";
+          cardInfo[i].style.display = "none";
+        });
+        clickBut[1].classList.add("catalog__var-view-active");
+        clickBut[0].classList.remove("catalog__var-view-active");
+      }
+    }
+
+    if (url.searchParams.has("sort")) {
+      if (url.searchParams.get("sort") === "priceAsd" && this.select) {
+        this.select.value = "1";
+        this.sortArray(DataAttribut.Price, CheckSort.A);
+      }
+
+      if (url.searchParams.get("sort") === "priceDesc" && this.select) {
+        this.select.value = "2";
+        this.sortArray(DataAttribut.Price, CheckSort.B);
+      }
+
+      if (url.searchParams.get("sort") === "rateAsd" && this.select) {
+        this.select.value = "3";
+        this.sortArray(DataAttribut.Rating, CheckSort.A);
+      }
+
+      if (url.searchParams.get("sort") === "rateDesc" && this.select) {
+        this.select.value = "4";
+        this.sortArray(DataAttribut.Rating, CheckSort.B);
+      }
+
+      if (url.searchParams.get("sort") === "stockAsd" && this.select) {
+        this.select.value = "5";
+        this.sortArray(DataAttribut.Stock, CheckSort.A);
+      }
+
+      if (url.searchParams.get("sort") === "stockDesc" && this.select) {
+        this.select.value = "6";
+        this.sortArray(DataAttribut.Stock, CheckSort.B);
+      }
+    } else {
+      if (this.select) {
+        this.select.value = "0";
+        this.sortArray(DataAttribut.Id, CheckSort.A);
+      }
+    }
+
+    const searchField: HTMLInputElement | null =
+      this.catalog.querySelector(".catalog__search");
+
+    if (
+      url.searchParams.has("search") &&
+      searchField instanceof HTMLInputElement
+    ) {
+      searchField.value = url.searchParams.get("search") || "";
+
+      this.cardGoods.forEach((elem) => {
+        if (
+          elem
+            .getAttribute(DataAttribut.All)
+            ?.toLowerCase()
+            .search(url.searchParams.get("search") || "") == -1
+        ) {
+          elem.classList.add("card-none");
+        }
+      });
+    }
+
+    if (url.searchParams.has("data-price")) {
+      this.writeInput(
+        "data-price",
+        0,
+        "card_none-price",
+        "card_none-price1",
+        DataAttribut.Price
+      );
+    }
+
+    if (url.searchParams.has("data-stock")) {
+      this.writeInput(
+        "data-stock",
+        1,
+        "card-none-stock",
+        "card-none-stock1",
+        DataAttribut.Stock
+      );
+    }
+  }
+
+  writeInput(
+    query: string,
+    num: number,
+    class1: string,
+    class2: string,
+    data: string
+  ) {
+    const prisMin = url.searchParams
+      .get(query)
+      ?.substring(0, url.searchParams.get(query)?.indexOf("/"));
+
+    const prisMax = url.searchParams
+      .get(query)
+      ?.substring(Number(url.searchParams.get(query)?.indexOf("/")))
+      .replace("/", "");
+
+    const inputFilterFrom: Element =
+      this.filter.querySelectorAll(".fromSlider")[num];
+    const inputFilterTo: Element =
+      this.filter.querySelectorAll(".toSlider")[num];
+
+    const textFrom: Element = this.filter.querySelectorAll(
+      ".filter-block__min-value"
+    )[num];
+    const textTo: Element = this.filter.querySelectorAll(
+      ".filter-block__max-value"
+    )[num];
+
+    textFrom.textContent = String(prisMin);
+    textTo.textContent = String(prisMax);
+
+    if (inputFilterFrom instanceof HTMLInputElement) {
+      inputFilterFrom.value = String(prisMin);
+    }
+
+    if (inputFilterTo instanceof HTMLInputElement) {
+      inputFilterTo.value = String(prisMax);
+    }
+
+    this.cardGoods.forEach((el) => {
+      if (
+        inputFilterFrom instanceof HTMLInputElement &&
+        Number(el.getAttribute(data)) < +inputFilterFrom.value
+      ) {
+        el.classList.add(class1);
+      }
+      if (
+        inputFilterTo instanceof HTMLInputElement &&
+        Number(el.getAttribute(data)) > +inputFilterTo.value
+      ) {
+        el.classList.add(class2);
+      }
     });
   }
 }
 
 export default SortProducts;
+
+class DualSlider {
+  fromSlider: HTMLInputElement;
+  toSlider: HTMLInputElement;
+  fromParagraph: HTMLElement;
+  toParagraph: HTMLElement;
+
+  constructor(
+    fromSlider: HTMLInputElement,
+    toSlider: HTMLInputElement,
+    fromParagraph: HTMLElement,
+    toParagraph: HTMLElement
+  ) {
+    this.fromSlider = fromSlider;
+    this.toSlider = toSlider;
+    this.fromParagraph = fromParagraph;
+    this.toParagraph = toParagraph;
+  }
+
+  controlFromSlider(value?: string) {
+    const [from, to] = this.getParsed();
+    if (from > to) {
+      this.fromSlider.value = String(to);
+      this.fromParagraph.textContent = `${value} ${to}`;
+    } else {
+      this.fromParagraph.textContent = `${value} ${from}`;
+    }
+  }
+
+  controlToSlider(value?: string) {
+    const [from, to] = this.getParsed();
+    this.setToggleAccessible();
+    if (from <= to) {
+      this.toSlider.value = String(to);
+      this.toParagraph.textContent = `${value} ${to}`;
+    } else {
+      this.toParagraph.textContent = `${value} ${from}`;
+      this.toSlider.value = String(from);
+    }
+  }
+
+  getParsed() {
+    const from: number = parseInt(this.fromSlider.value, 10);
+    const to: number = parseInt(this.toSlider.value, 10);
+    return [from, to];
+  }
+
+  setToggleAccessible() {
+    if (Number(this.toSlider.value) <= 0) {
+      this.toSlider.style.zIndex = "2";
+    } else {
+      this.toSlider.style.zIndex = "0";
+    }
+  }
+}
