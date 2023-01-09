@@ -12,16 +12,7 @@ class Header extends Page {
     this.container.append(headerLogo);
     const linkLogo: HTMLAnchorElement = document.createElement("a");
     linkLogo.className = "header__logo";
-
-    // headerLogo.addEventListener("click", () => {
-    //   const url = location.href;
-    //   window.history.replaceState({}, "", `${url}#change`);
-    //   location.reload();
-    // });
-    // linkLogo.href = `#${pageIds.product}`;
-
-    linkLogo.href = "";
-    //`#${pageIds.product}`;
+    linkLogo.href = `#${pageIds.product}`;
     headerLogo.append(linkLogo);
     linkLogo.textContent = "Online Store";
 

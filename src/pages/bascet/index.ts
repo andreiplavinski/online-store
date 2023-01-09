@@ -12,24 +12,37 @@ interface IDiscounts {
   [key: string]: number;
 }
 
+interface IDataProduct {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+}
+
 class BascetPage extends Page {
-  dataBase = data.products;
-  dataIdBase = this.dataBase.map((x) => x.id);
+  dataBase: Array<IDataProduct> = data.products;
+  dataIdBase: Array<number> = this.dataBase.map((x) => x.id);
 
-  products: IProducts = {};
-  discounts: IDiscounts = {};
-
-  totalPrice = 0;
-  totalProduct = 0;
-  cardsLimit = 0;
-  pageCounter = 0;
-  cardCounter = 0;
+  private products: IProducts = {};
+  private discounts: IDiscounts = {};
+  private totalPrice = 0;
+  private totalProduct = 0;
+  private cardsLimit = 0;
+  private pageCounter = 0;
+  private cardCounter = 0;
 
   constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
   }
 
-  protected getData() {
+  private getData(): void {
     const currentUrl = window.location.href;
     const url = new URL(currentUrl);
     if (!localStorage.getItem("product")) {
@@ -65,7 +78,7 @@ class BascetPage extends Page {
     }
   }
 
-  protected setData(data: string) {
+  private setData(data: string) {
     const currentUrl = window.location.href;
     const url = new URL(currentUrl);
     if (data === "page") {
@@ -103,7 +116,7 @@ class BascetPage extends Page {
     this.setData("product");
   }
 
-  protected createCards(products: IProducts) {
+  private createCards(products: IProducts): HTMLDivElement {
     this.totalPrice = 0;
     this.totalProduct = 0;
     this.cardCounter = 1;
@@ -268,7 +281,7 @@ class BascetPage extends Page {
     return cartWraper;
   }
 
-  createSummary() {
+  private createSummary(): HTMLDivElement {
     const sumWraper = document.createElement("div");
     sumWraper.className = "summary__wraper";
 
@@ -520,7 +533,7 @@ class BascetPage extends Page {
     return cartHeader;
   }
 
-  protected createPage(products: IProducts) {
+  private createPage(products: IProducts): HTMLDivElement {
     const page = document.createElement("div");
     page.className = "basket-page";
 
@@ -546,7 +559,7 @@ class BascetPage extends Page {
     return page;
   }
 
-  createWindow() {
+  private createWindow(): void {
     const newWindow = new buyWindow();
     const modalWindow = newWindow.createContent();
     const page = document.querySelector("html");
@@ -555,7 +568,7 @@ class BascetPage extends Page {
     }
   }
 
-  render() {
+  render(): HTMLElement {
     this.getData();
     const page = this.createPage(this.products);
 

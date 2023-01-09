@@ -2,10 +2,12 @@ import "./window.scss";
 import { writeToTalPriceCount } from "../products/script";
 
 class window {
-  createContent() {
+  createContent(): HTMLDivElement {
     localStorage.removeItem("windowFlag");
+
     const window = document.createElement("div");
     window.className = "window";
+
     window.addEventListener("click", (event) => {
       if (
         event.target instanceof HTMLElement &&
@@ -227,7 +229,7 @@ class window {
     return window;
   }
 
-  checkValidation() {
+  private checkValidation(): number {
     const hints = document.querySelectorAll(".hint");
     let counter = 0;
     for (const hint of hints) {
