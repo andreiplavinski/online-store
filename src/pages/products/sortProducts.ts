@@ -131,7 +131,7 @@ class SortProducts {
 
     if (searchField instanceof HTMLInputElement) {
       searchField.addEventListener("input", () => {
-        const text = searchField.value.toLowerCase();
+        const text: string = searchField.value.toLowerCase();
 
         if (text !== "") {
           this.cardGoods.forEach((elem) => {
@@ -215,7 +215,10 @@ class SortProducts {
     nameClass: string
   ): void {
     const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
-    const ArrClick: Array<string | null> = [];
+    let ArrClick: Array<string | null> = [];
+    if (url.searchParams.has(`${selector}`)) {
+      ArrClick = String(url.searchParams.get(`${selector}`)).split("/");
+    }
     filtcat.forEach((el) => {
       if (el instanceof HTMLInputElement) {
         el.addEventListener("click", () => {
