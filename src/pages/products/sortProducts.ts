@@ -301,7 +301,7 @@ class SortProducts {
             el.classList.remove(class1);
           }
         });
-        this.writeResSearch();
+
         url.searchParams.set(
           `${atribute}`,
           `${inputFilterFrom.value}/${inputFilterTo.value}`
@@ -316,6 +316,10 @@ class SortProducts {
         }
       });
 
+      inputFilterFrom.addEventListener("change", () => {
+        this.writeResSearch();
+      });
+
       inputFilterTo.addEventListener("input", () => {
         startSlider.controlToSlider(val);
         this.cardGoods.forEach((el) => {
@@ -328,7 +332,7 @@ class SortProducts {
             el.classList.remove(class2);
           }
         });
-        this.writeResSearch();
+
         url.searchParams.set(
           `${atribute}`,
           `${inputFilterFrom.value}/${inputFilterTo.value}`
@@ -342,6 +346,9 @@ class SortProducts {
           url.searchParams.delete(`${atribute}`);
           window.history.replaceState({}, "", url);
         }
+      });
+      inputFilterTo.addEventListener("change", () => {
+        this.writeResSearch();
       });
     }
   }
