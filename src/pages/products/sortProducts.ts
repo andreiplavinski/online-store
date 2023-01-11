@@ -1,4 +1,8 @@
-import { countProductView, controlSliders } from "./function";
+import {
+  countProductView,
+  controlSliders,
+  controlSlidersNoneResult,
+} from "./function";
 
 const currentUrl = window.location.href;
 const url = new URL(currentUrl);
@@ -28,7 +32,6 @@ class SortProducts {
   searchEl: HTMLElement | null;
 
   constructor(catalog: HTMLElement, filter: HTMLElement) {
-    //this.getParams();
     this.select = catalog.querySelector(".catalog__sort");
     this.container = catalog.querySelector(".catalog__block");
     this.catalog = catalog;
@@ -142,16 +145,16 @@ class SortProducts {
             ) {
               elem.classList.add("card-none");
 
-              this.writeResSearch();
+              this.writeResSearch(3);
             } else {
               elem.classList.remove("card-none");
-              this.writeResSearch();
+              this.writeResSearch(3);
             }
           });
         } else {
           this.cardGoods.forEach((elem) => {
             elem.classList.remove("card-none");
-            this.writeResSearch();
+            this.writeResSearch(3);
           });
         }
 
@@ -166,7 +169,7 @@ class SortProducts {
     }
   }
 
-  writeResSearch(): void {
+  writeResSearch(flag: number): void {
     if (this.searchEl) {
       const ArrContentView: Array<HTMLElement> = [];
       const arrPriceView: Array<number> = [];
@@ -194,9 +197,18 @@ class SortProducts {
 
       countProductView(this.filter, "Category", arrCategView);
       countProductView(this.filter, "Brand", arrBrandView);
-
-      controlSliders(this.filter, arrPriceView, ArrContentView, 0, "€");
-      controlSliders(this.filter, arrStockView, ArrContentView, 1, "");
+      if (flag === 1) {
+        controlSliders(this.filter, arrPriceView, ArrContentView, 0, "€");
+        controlSlidersNoneResult(this.filter, ArrContentView, 1);
+      }
+      if (flag === 2) {
+        controlSliders(this.filter, arrStockView, ArrContentView, 1, "");
+        controlSlidersNoneResult(this.filter, ArrContentView, 0);
+      }
+      if (flag === 3) {
+        controlSliders(this.filter, arrPriceView, ArrContentView, 0, "€");
+        controlSliders(this.filter, arrStockView, ArrContentView, 1, "");
+      }
 
       const emptyContainer = this.container?.querySelector(".catalog__empty");
       if (ArrContentView.length === 0) {
@@ -231,13 +243,13 @@ class SortProducts {
           this.cardGoods.forEach((item) => {
             if (ArrClick.includes(item.getAttribute(selector))) {
               item.classList.remove(nameClass);
-              this.writeResSearch();
+              this.writeResSearch(3);
             } else if (ArrClick.length === 0) {
               item.classList.remove(nameClass);
-              this.writeResSearch();
+              this.writeResSearch(3);
             } else {
               item.classList.add(nameClass);
-              this.writeResSearch();
+              this.writeResSearch(3);
             }
           });
 
@@ -317,7 +329,11 @@ class SortProducts {
       });
 
       inputFilterFrom.addEventListener("change", () => {
-        this.writeResSearch();
+        if (numberFilter === 0) {
+          this.writeResSearch(2);
+        } else if (numberFilter === 1) {
+          this.writeResSearch(1);
+        }
       });
 
       inputFilterTo.addEventListener("input", () => {
@@ -348,7 +364,11 @@ class SortProducts {
         }
       });
       inputFilterTo.addEventListener("change", () => {
-        this.writeResSearch();
+        if (numberFilter === 0) {
+          this.writeResSearch(2);
+        } else if (numberFilter === 1) {
+          this.writeResSearch(1);
+        }
       });
     }
   }
@@ -393,7 +413,7 @@ class SortProducts {
 
       window.history.replaceState({}, "", url);
 
-      this.writeResSearch();
+      this.writeResSearch(3);
     });
     buttonReset?.addEventListener("click", () => {
       location.reload();

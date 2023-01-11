@@ -16,6 +16,6 @@ window.addEventListener("load", () => {
   const b = document.querySelector(".filter");
   if (a instanceof HTMLElement && b instanceof HTMLElement) {
     const write = new SortProducts(a, b);
-    write.writeResSearch();
+    write.writeResSearch(3);
   }
 });

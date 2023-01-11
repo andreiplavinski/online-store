@@ -207,6 +207,7 @@ class CardsPage extends Page {
       localStorage.setItem("windowFlag", JSON.stringify(true));
       location.href = "#basket";
     });
+    buyButton.addEventListener("click", writeToTalPriceCount);
     routes.append(areaStore, areaCategory, areaBrand, areaTitle);
     priceWraper.append(price, buyButton, cartButton);
     descriptionCard.append(photoWraper, descriptionTable, priceWraper);

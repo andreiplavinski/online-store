@@ -84,6 +84,28 @@ export function controlSliders(
   }
 }
 
+export function controlSlidersNoneResult(
+  filter: HTMLElement,
+  arrayEl: Array<HTMLElement>,
+  num: number
+): void {
+  const textFrom: NodeListOf<HTMLElement> = filter.querySelectorAll(
+    ".filter-block__min-value"
+  );
+  const textTo: NodeListOf<HTMLElement> = filter.querySelectorAll(
+    ".filter-block__max-value"
+  );
+  const nonValue: NodeListOf<HTMLElement> = filter.querySelectorAll(
+    ".filter-block__non-value"
+  );
+
+  if (arrayEl.length === 0) {
+    nonValue[num].textContent = "Нічога не знойдзена";
+    textFrom[num].textContent = "";
+    textTo[num].textContent = "";
+  }
+}
+
 interface IProducts {
   [key: number]: number;
 }
