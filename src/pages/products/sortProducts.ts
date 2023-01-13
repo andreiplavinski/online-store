@@ -373,7 +373,7 @@ class SortProducts {
     }
   }
 
-  resetFilter() {
+  resetFilter(): void {
     const buttonReset: HTMLInputElement | null =
       this.filter.querySelector("#filter0");
 
@@ -420,7 +420,7 @@ class SortProducts {
     });
   }
 
-  getParams() {
+  getParams(): void {
     const clickBut = this.catalog.querySelectorAll(".catalog__var-view");
     clickBut[0].addEventListener("click", () => {
       clickBut[0].classList.add("catalog__var-view-active");
@@ -644,24 +644,24 @@ class DualSlider {
     this.toParagraph = toParagraph;
   }
 
-  controlFromSlider(value?: string) {
+  controlFromSlider(val?: string) {
     const [from, to] = this.getParsed();
     if (from > to) {
       this.fromSlider.value = String(to);
-      this.fromParagraph.textContent = `${value} ${to}`;
+      this.fromParagraph.textContent = `${val} ${to}`;
     } else {
-      this.fromParagraph.textContent = `${value} ${from}`;
+      this.fromParagraph.textContent = `${val} ${from}`;
     }
   }
 
-  controlToSlider(value?: string) {
+  controlToSlider(val?: string) {
     const [from, to] = this.getParsed();
     this.setToggleAccessible();
     if (from <= to) {
       this.toSlider.value = String(to);
-      this.toParagraph.textContent = `${value} ${to}`;
+      this.toParagraph.textContent = `${val} ${to}`;
     } else {
-      this.toParagraph.textContent = `${value} ${from}`;
+      this.toParagraph.textContent = `${val} ${from}`;
       this.toSlider.value = String(from);
     }
   }
@@ -675,6 +675,18 @@ class DualSlider {
   setToggleAccessible() {
     if (Number(this.toSlider.value) <= 0) {
       this.toSlider.style.zIndex = "2";
+    } else {
+      this.toSlider.style.zIndex = "0";
+    }
+
+    if (this.fromSlider.value === this.fromSlider.max) {
+      this.fromSlider.style.zIndex = "3";
+    } else {
+      this.fromSlider.style.zIndex = "0";
+    }
+
+    if (this.toSlider.value === this.fromSlider.min) {
+      this.toSlider.style.zIndex = "3";
     } else {
       this.toSlider.style.zIndex = "0";
     }
