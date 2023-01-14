@@ -11,9 +11,9 @@ import SortProducts from "./pages/products/sortProducts";
 const app = new App();
 app.run();
 
-window.addEventListener("load", () => {
-  const a = document.querySelector(".catalog");
-  const b = document.querySelector(".filter");
+window.addEventListener("load", (): void => {
+  const a: HTMLElement | null = document.querySelector(".catalog");
+  const b: HTMLElement | null = document.querySelector(".filter");
   if (a instanceof HTMLElement && b instanceof HTMLElement) {
     const write = new SortProducts(a, b);
     write.writeResSearch(3);

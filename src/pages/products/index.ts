@@ -5,10 +5,11 @@ import CreateCards from "./createCards";
 import { resFound, clickSize } from "./function";
 import CreateFilters from "./createFilters";
 import SortProducts from "./sortProducts";
+import { IProductsPage } from "./types";
 
 const buttonsFilterName: string[] = ["Reset Filters", "Copy Link"];
 
-class ProductsPage extends Page {
+class ProductsPage extends Page implements IProductsPage {
   static data: Card[];
   static CreateCards: CreateCards;
   static CreateFilters: CreateFilters;
@@ -19,13 +20,13 @@ class ProductsPage extends Page {
   }
 
   protected createContent(): HTMLElement {
-    const filters = document.createElement("div");
+    const filters: HTMLElement = document.createElement("div");
     filters.className = "filter";
     const filterHeader = document.createElement("div");
     filterHeader.className = "filter__header";
     filters.append(filterHeader);
     for (let i = 0; i < 2; i++) {
-      const headerButton = document.createElement("button");
+      const headerButton: HTMLButtonElement = document.createElement("button");
       headerButton.className = "filter__button";
       headerButton.setAttribute("id", "filter" + i);
       headerButton.textContent = buttonsFilterName[i];
@@ -58,23 +59,25 @@ class ProductsPage extends Page {
       arrStock.push(newdata[i].stock);
     }
 
-    const arrCategoryUnic = arrCategory.filter(
+    const arrCategoryUnic: string[] = arrCategory.filter(
       (el, i) => arrCategory.indexOf(el) === i
     );
-    const arrBrandUnic = arrBrand.filter((el, i) => arrBrand.indexOf(el) === i);
+    const arrBrandUnic: string[] = arrBrand.filter(
+      (el, i) => arrBrand.indexOf(el) === i
+    );
 
-    const catalog = document.createElement("div");
+    const catalog: HTMLElement = document.createElement("div");
     catalog.className = "catalog";
 
-    const catalogHeader = document.createElement("div");
+    const catalogHeader: HTMLElement = document.createElement("div");
     catalogHeader.className = "catalog__header";
     catalog.append(catalogHeader);
 
-    const catalogCards = document.createElement("div");
+    const catalogCards: HTMLElement = document.createElement("div");
     catalogCards.className = "catalog__block";
     catalog.append(catalogCards);
 
-    const emptyBlock = document.createElement("div");
+    const emptyBlock: HTMLElement = document.createElement("div");
     emptyBlock.className = "catalog__empty";
     emptyBlock.textContent = "Па вашым запыце нічога не знойдзена!";
     catalogCards.append(emptyBlock);
@@ -114,7 +117,7 @@ class ProductsPage extends Page {
     cardFound.className = "catalog__found";
     resFound(cardFound, catalog);
 
-    const sortCards = document.createElement("select");
+    const sortCards: HTMLSelectElement = document.createElement("select");
     sortCards.name = "sortCard";
     sortCards.className = "catalog__sort";
     sortCards.setAttribute("id", "catalog__sort");
@@ -148,14 +151,14 @@ class ProductsPage extends Page {
     searchCard.className = "catalog__search";
     catalogHeader.append(searchCard);
 
-    const cardChooseView = document.createElement("div");
+    const cardChooseView: HTMLElement = document.createElement("div");
     cardChooseView.className = "catalog__choose-viev";
     catalogHeader.append(cardChooseView);
 
     const chooseSize: Array<string> = ["4 elements", "6 elements"];
 
     for (let i = 0; i < chooseSize.length; i++) {
-      const sizeVar = document.createElement("div");
+      const sizeVar: HTMLElement = document.createElement("div");
       sizeVar.textContent = chooseSize[i];
       sizeVar.className = "catalog__var-view";
       if (sizeVar.textContent === chooseSize[0]) {
@@ -163,7 +166,7 @@ class ProductsPage extends Page {
       }
       cardChooseView.append(sizeVar);
       sizeVar.addEventListener("click", () => {
-        clickSize(sizeVar);
+        clickSize<HTMLElement>(sizeVar);
       });
     }
 

@@ -1,6 +1,7 @@
 import Page from "../../scripts/templates/page";
+import { IErrorPage } from "./type";
 
-class ErrorPage extends Page {
+class ErrorPage extends Page implements IErrorPage {
   private errorType: string;
   static textObject: { [prop: string]: string } = {
     404: "Error 404! The page was not found",
@@ -16,13 +17,13 @@ class ErrorPage extends Page {
     this.errorType = errorType;
   }
 
-  protected createTitle(text: string) {
+  protected createTitle(text: string): HTMLHeadingElement {
     const productTitle = document.createElement("h1");
     productTitle.textContent = text;
     return productTitle;
   }
 
-  render() {
+  render(): HTMLElement {
     const title = this.createTitle(ErrorPage.textObject[this.errorType]);
     this.container.append(title);
     return this.container;

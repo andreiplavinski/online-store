@@ -7,7 +7,11 @@ import Header from "../../scripts/components/header";
 import ErrorPage from "../error/error";
 import Footer from "../../scripts/components/footer";
 
-class App {
+interface IApp {
+  run(): void;
+}
+
+class App implements IApp {
   private header: Header;
   private static container: HTMLElement = document.body;
   private static defauldPageClass = "current-page";
@@ -19,7 +23,7 @@ class App {
   }
 
   static RenderPage(idPage: string) {
-    const hash = window.location.hash.slice(1);
+    const hash: string = window.location.hash.slice(1);
     const currenPageHtml = document.querySelector(`.${this.defauldPageClass}`);
     if (currenPageHtml) {
       currenPageHtml.remove();
@@ -44,7 +48,7 @@ class App {
     }
 
     if (page) {
-      const pageHTML = page.render();
+      const pageHTML: HTMLElement = page.render();
       pageHTML.className = this.defauldPageClass;
       if (App.container) {
         App.container.append(pageHTML);
@@ -52,11 +56,11 @@ class App {
     }
   }
 
-  private enableRoundChange() {
+  private enableRoundChange(): void {
     window.addEventListener("hashchange", () => {
-      const hash = window.location.hash.slice(1);
+      const hash: string = window.location.hash.slice(1);
 
-      let url = location.href;
+      let url: string = location.href;
 
       if (url.includes("?")) {
         url = url.slice(0, url.indexOf("?")) + url.slice(url.indexOf("#"));
@@ -65,14 +69,14 @@ class App {
       App.RenderPage(hash);
     });
   }
-  private windowLoad() {
+  private windowLoad(): void {
     window.addEventListener("load", () => {
-      const hash = window.location.hash.slice(1);
+      const hash: string = window.location.hash.slice(1);
       App.RenderPage(hash);
     });
   }
 
-  run() {
+  run(): void {
     App.container.append(this.header.render());
     this.enableRoundChange();
     this.windowLoad();

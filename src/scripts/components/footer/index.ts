@@ -1,26 +1,22 @@
 import Page from "../../templates/page";
-
-type Author = {
-  author: string;
-  href: string;
-}[];
+import { Author, IFooter } from "./type";
 
 const authors: Author = [
   { author: " Andrei Plavinski", href: "https://github.com/andreiplavinski" },
   { author: "Andrei Zaretski", href: "https://github.com/AndreiZaretski" },
 ];
 
-class Footer extends Page {
+class Footer extends Page implements IFooter {
   constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
   }
 
   protected createFooter(): void {
-    const footerAuthors = document.createElement("div");
+    const footerAuthors: HTMLElement = document.createElement("div");
     footerAuthors.className = "footer__author";
 
     authors.forEach((el) => {
-      const authorsText = document.createElement("a");
+      const authorsText: HTMLAnchorElement = document.createElement("a");
       authorsText.href = el.href;
       authorsText.textContent = el.author;
       authorsText.className = "footer__text";
@@ -28,11 +24,11 @@ class Footer extends Page {
       footerAuthors.append(authorsText);
     });
 
-    const footerDate = document.createElement("p");
+    const footerDate: HTMLElement = document.createElement("p");
     footerDate.className = "footer__date";
     footerDate.textContent = "2023";
 
-    const footerLogoRS = document.createElement("a");
+    const footerLogoRS: HTMLAnchorElement = document.createElement("a");
     footerLogoRS.className = "footer__logo";
     footerLogoRS.href = "https://rs.school/js/";
     footerLogoRS.setAttribute("target", "_blank");

@@ -1,3 +1,5 @@
+import { IProducts } from "./types";
+
 export function resFound(cardFound: HTMLElement, catalog: HTMLElement): void {
   cardFound.textContent = `Found: ${catalog.querySelectorAll(".card").length}`;
 }
@@ -7,17 +9,17 @@ export function countProductView(
   category: string,
   array: string[]
 ): void {
-  const filtcat: NodeListOf<Element> = filter.querySelectorAll(
+  const filtcat: NodeListOf<HTMLInputElement> = filter.querySelectorAll(
     `input[name="${category}"]`
   );
 
-  const writeCategCount: NodeListOf<Element> = filter.querySelectorAll(
+  const writeCategCount: NodeListOf<HTMLElement> = filter.querySelectorAll(
     `input[name="${category}"] ~ .filter-block__count`
   );
 
   filtcat.forEach((el, i) => {
     const arr1: string[] = array.reduce((acc: string[], curr) => {
-      if (el instanceof HTMLInputElement && curr === el.value) acc.push(curr);
+      if (curr === el.value) acc.push(curr);
       return acc;
     }, []);
     writeCategCount[i].textContent = ` ( ${arr1.length}/`;
@@ -30,7 +32,7 @@ export function countProductView(
   });
 }
 
-export function clickSize(el: HTMLElement) {
+export function clickSize<T extends HTMLElement | HTMLDivElement>(el: T): void {
   const cardBlock: NodeListOf<HTMLElement> = document.querySelectorAll(".card");
   const cardInfo: NodeListOf<HTMLElement> =
     document.querySelectorAll(".card__description");
@@ -106,12 +108,9 @@ export function controlSlidersNoneResult(
   }
 }
 
-interface IProducts {
-  [key: number]: number;
-}
 let prodIdCount: IProducts = {};
 
-export function AddToCart(cardButtonAdd: HTMLElement) {
+export function AddToCart(cardButtonAdd: HTMLElement): void {
   cardButtonAdd.addEventListener("click", () => {
     if (
       !localStorage.getItem("product") ||

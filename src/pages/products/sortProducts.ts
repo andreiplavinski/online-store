@@ -4,26 +4,12 @@ import {
   controlSlidersNoneResult,
 } from "./function";
 
+import { CheckSort, DataAttribut, ISortProducts, IDualSlider } from "./types";
+
 const currentUrl = window.location.href;
 const url = new URL(currentUrl);
 
-enum CheckSort {
-  A,
-  B,
-}
-enum DataAttribut {
-  Price = "data-price",
-  Rating = "data-rating",
-  Stock = "data-stock",
-  Category = "data-category",
-  Brand = "data-brand",
-  All = "data-all",
-  Id = "data-id",
-}
-
-// let ArrClick: Array<string | null> = [];
-
-class SortProducts {
+class SortProducts implements ISortProducts {
   select: HTMLSelectElement | null;
   container: HTMLElement | null;
   filter: HTMLElement;
@@ -68,21 +54,29 @@ class SortProducts {
   sort(): void {
     this.select?.addEventListener("change", (e: Event) => {
       if (e.target instanceof HTMLSelectElement && this.container) {
-        console.log(url.searchParams.get("sort"));
         if (e.target.value === "1") {
-          this.sortArray(DataAttribut.Price, CheckSort.A);
+          this.sortArray<DataAttribut, CheckSort>(
+            DataAttribut.Price,
+            CheckSort.A
+          );
 
           url.searchParams.set("sort", "priceAsd");
           window.history.replaceState({}, "", url);
         }
         if (e.target.value === "2") {
-          this.sortArray(DataAttribut.Price, CheckSort.B);
+          this.sortArray<DataAttribut, CheckSort>(
+            DataAttribut.Price,
+            CheckSort.B
+          );
           url.searchParams.set("sort", "priceDesc");
           window.history.replaceState({}, "", url);
         }
 
         if (e.target.value === "3") {
-          this.sortArray(DataAttribut.Rating, CheckSort.A);
+          this.sortArray<DataAttribut, CheckSort>(
+            DataAttribut.Rating,
+            CheckSort.A
+          );
           url.searchParams.set("sort", "rateAsd");
           window.history.replaceState({}, "", url);
         }
@@ -94,13 +88,19 @@ class SortProducts {
         }
 
         if (e.target.value === "5") {
-          this.sortArray(DataAttribut.Stock, CheckSort.A);
+          this.sortArray<DataAttribut, CheckSort>(
+            DataAttribut.Stock,
+            CheckSort.A
+          );
           url.searchParams.set("sort", "stockAsd");
           window.history.replaceState({}, "", url);
         }
 
         if (e.target.value === "6") {
-          this.sortArray(DataAttribut.Stock, CheckSort.B);
+          this.sortArray<DataAttribut, CheckSort>(
+            DataAttribut.Stock,
+            CheckSort.B
+          );
           url.searchParams.set("sort", "stockDesc");
           window.history.replaceState({}, "", url);
         }
@@ -108,7 +108,7 @@ class SortProducts {
     });
   }
 
-  sortArray(dataAttribut: DataAttribut, checkSort: CheckSort): void {
+  sortArray<T extends string, U>(dataAttribut: T, checkSort: U): void {
     const arrPrice: Array<number> = [];
     for (let i = 0; i < this.cardGoods.length; i++) {
       arrPrice.push(Number(this.cardGoods[i].getAttribute(dataAttribut)));
@@ -226,46 +226,46 @@ class SortProducts {
     value: string,
     nameClass: string
   ): void {
-    const filtcat = this.filter.querySelectorAll(`input[name="${value}"]`);
+    const filtcat: NodeListOf<HTMLInputElement> = this.filter.querySelectorAll(
+      `input[name="${value}"]`
+    );
     let ArrClick: Array<string | null> = [];
     if (url.searchParams.has(`${selector}`)) {
       ArrClick = String(url.searchParams.get(`${selector}`)).split("/");
     }
     filtcat.forEach((el) => {
-      if (el instanceof HTMLInputElement) {
-        el.addEventListener("click", () => {
-          if (el.checked) {
-            ArrClick.push(el.value);
+      el.addEventListener("click", () => {
+        if (el.checked) {
+          ArrClick.push(el.value);
+        } else {
+          ArrClick.splice(ArrClick.indexOf(el.value), 1);
+        }
+
+        this.cardGoods.forEach((item) => {
+          if (ArrClick.includes(item.getAttribute(selector))) {
+            item.classList.remove(nameClass);
+            this.writeResSearch(3);
+          } else if (ArrClick.length === 0) {
+            item.classList.remove(nameClass);
+            this.writeResSearch(3);
           } else {
-            ArrClick.splice(ArrClick.indexOf(el.value), 1);
-          }
-
-          this.cardGoods.forEach((item) => {
-            if (ArrClick.includes(item.getAttribute(selector))) {
-              item.classList.remove(nameClass);
-              this.writeResSearch(3);
-            } else if (ArrClick.length === 0) {
-              item.classList.remove(nameClass);
-              this.writeResSearch(3);
-            } else {
-              item.classList.add(nameClass);
-              this.writeResSearch(3);
-            }
-          });
-
-          url.searchParams.set(
-            `${selector}`,
-            `${ArrClick.filter((el, index) => {
-              return ArrClick.indexOf(el) === index;
-            }).join("/")}`
-          );
-          window.history.replaceState({}, "", url);
-          if (ArrClick.length === 0) {
-            url.searchParams.delete(`${selector}`);
-            window.history.replaceState({}, "", url);
+            item.classList.add(nameClass);
+            this.writeResSearch(3);
           }
         });
-      }
+
+        url.searchParams.set(
+          `${selector}`,
+          `${ArrClick.filter((el, index) => {
+            return ArrClick.indexOf(el) === index;
+          }).join("/")}`
+        );
+        window.history.replaceState({}, "", url);
+        if (ArrClick.length === 0) {
+          url.searchParams.delete(`${selector}`);
+          window.history.replaceState({}, "", url);
+        }
+      });
     });
   }
 
@@ -543,7 +543,11 @@ class SortProducts {
     this.writeChecbox("Brand", DataAttribut.Brand, "card-none-filter1");
   }
 
-  writeChecbox(value: string, attribyte: DataAttribut, nameClass: string) {
+  writeChecbox(
+    value: string,
+    attribyte: DataAttribut,
+    nameClass: string
+  ): void {
     const filtcat: NodeListOf<HTMLInputElement> = this.filter.querySelectorAll(
       `input[name="${value}"]`
     );
@@ -574,7 +578,7 @@ class SortProducts {
     class1: string,
     class2: string,
     data: string
-  ) {
+  ): void {
     const prisMin = url.searchParams
       .get(query)
       ?.substring(0, url.searchParams.get(query)?.indexOf("/"));
@@ -626,7 +630,7 @@ class SortProducts {
 
 export default SortProducts;
 
-class DualSlider {
+class DualSlider implements IDualSlider {
   fromSlider: HTMLInputElement;
   toSlider: HTMLInputElement;
   fromParagraph: HTMLElement;
@@ -644,7 +648,7 @@ class DualSlider {
     this.toParagraph = toParagraph;
   }
 
-  controlFromSlider(val?: string) {
+  controlFromSlider(val?: string): void {
     const [from, to] = this.getParsed();
     if (from > to) {
       this.fromSlider.value = String(to);
@@ -654,7 +658,7 @@ class DualSlider {
     }
   }
 
-  controlToSlider(val?: string) {
+  controlToSlider(val?: string): void {
     const [from, to] = this.getParsed();
     this.setToggleAccessible();
     if (from <= to) {
@@ -666,13 +670,13 @@ class DualSlider {
     }
   }
 
-  getParsed() {
+  getParsed(): number[] {
     const from: number = parseInt(this.fromSlider.value, 10);
     const to: number = parseInt(this.toSlider.value, 10);
     return [from, to];
   }
 
-  setToggleAccessible() {
+  setToggleAccessible(): void {
     if (Number(this.toSlider.value) <= 0) {
       this.toSlider.style.zIndex = "2";
     } else {

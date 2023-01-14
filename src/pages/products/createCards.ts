@@ -2,8 +2,9 @@ import { Card } from "../../scripts/templates/interfaceData";
 import { pageIds } from "../../scripts/templates/enumPage";
 import { AddToCart } from "./function";
 import { writeToTalPriceCount } from "./script";
+import { ICreateCards } from "./types";
 
-class CreateCards {
+class CreateCards implements ICreateCards {
   data: Card[];
   container: HTMLElement;
   constructor(data: Card[], container: HTMLElement) {
@@ -18,7 +19,7 @@ class CreateCards {
 
     for (let i = 0; i < this.data.length; i++) {
       const idCardCurrent = this.data[i].id;
-      const catalogCard = document.createElement("div");
+      const catalogCard: HTMLElement = document.createElement("div");
       catalogCard.className = "card";
       catalogCard.style.backgroundImage = `url(${this.data[i].images[0]})`;
       catalogCard.setAttribute("data-id", String(idCardCurrent));
@@ -34,21 +35,21 @@ class CreateCards {
         ${this.data[i].brand}${this.data[i].category}`
       );
       this.container.append(catalogCard);
-      const cardTitle = document.createElement("div");
+      const cardTitle: HTMLElement = document.createElement("div");
       cardTitle.textContent = this.data[i].title;
       cardTitle.className = "card__title";
       catalogCard.append(cardTitle);
-      const cardDescription = document.createElement("div");
+      const cardDescription: HTMLElement = document.createElement("div");
       cardDescription.className = "card__description";
       catalogCard.append(cardDescription);
 
-      const cardCategory = document.createElement("p");
+      const cardCategory: HTMLElement = document.createElement("p");
       cardCategory.className = "card__category";
-      const cardBrand = document.createElement("p");
-      const cardPrice = document.createElement("p");
-      const cardDiscount = document.createElement("p");
-      const cardRating = document.createElement("p");
-      const cardStock = document.createElement("p");
+      const cardBrand: HTMLElement = document.createElement("p");
+      const cardPrice: HTMLElement = document.createElement("p");
+      const cardDiscount: HTMLElement = document.createElement("p");
+      const cardRating: HTMLElement = document.createElement("p");
+      const cardStock: HTMLElement = document.createElement("p");
       cardCategory.innerHTML = `Category:<span> ${this.data[i].category}</span>`;
       cardBrand.innerHTML = `Brand:<span> ${this.data[i].brand}</span`;
       cardPrice.innerHTML = `Price:<span> ${this.data[i].price}€</span`;
@@ -65,11 +66,12 @@ class CreateCards {
         cardStock
       );
 
-      const cardButtonAdd = document.createElement("button");
+      const cardButtonAdd: HTMLButtonElement = document.createElement("button");
       cardButtonAdd.classList.add("card__button");
       cardButtonAdd.setAttribute("id", "add-product");
       cardButtonAdd.setAttribute("data-id", String(idCardCurrent));
-      const cardButtonDetails = document.createElement("button");
+      const cardButtonDetails: HTMLButtonElement =
+        document.createElement("button");
       cardButtonDetails.classList.add("card__button");
       cardButtonDetails.setAttribute("id", "view-product");
 
