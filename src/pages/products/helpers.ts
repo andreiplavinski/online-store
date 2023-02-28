@@ -31,7 +31,7 @@ export function countProductView(
     }
   });
 }
-// Add Generic
+
 export function clickSize<T extends HTMLElement | HTMLDivElement>(el: T): void {
   const cardBlock: NodeListOf<HTMLElement> = document.querySelectorAll(".card");
   const cardInfo: NodeListOf<HTMLElement> =

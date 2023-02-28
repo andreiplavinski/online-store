@@ -1,20 +1,20 @@
-import { ICreateFilters } from "./types";
+import { IFilters } from "./types";
 
-class CreateFilters implements ICreateFilters {
-  data: Array<string | number>;
-  container: HTMLElement;
-  headerName: string;
+class Filters implements IFilters {
+  readonly dataProduct: Array<string | number>;
+  readonly container: HTMLElement;
+  readonly headerName: string;
   constructor(
-    data: Array<string | number>,
+    dataProduct: Array<string | number>,
     container: HTMLElement,
     headerName: string
   ) {
-    this.data = data;
+    this.dataProduct = dataProduct;
     this.container = container;
     this.headerName = headerName;
   }
 
-  renderContainer(): HTMLElement {
+  private renderContainer(): HTMLElement {
     const filterProduct = document.createElement("div");
 
     this.container.append(filterProduct);
@@ -25,40 +25,42 @@ class CreateFilters implements ICreateFilters {
     return filterProduct;
   }
 
-  renderFilterCheckbox(array: Array<string>): HTMLElement {
+  public renderFilterCheckbox(array: Array<string>): HTMLElement {
     const filterBlock = this.renderContainer();
     filterBlock.className = "filter-block";
     const filterBlockContent: HTMLElement = document.createElement("div");
     filterBlockContent.className = "filter-block__content";
     filterBlock.append(filterBlockContent);
-    for (let i = 0; i < this.data.length; i++) {
+
+    this.dataProduct.forEach((elem) => {
       const checkBoxContent: HTMLLabelElement = document.createElement("label");
       checkBoxContent.className = "filter-block__label";
       filterBlockContent.append(checkBoxContent);
       const checkBox: HTMLInputElement = document.createElement("input");
       checkBox.type = "checkbox";
       checkBox.name = this.headerName;
-      checkBox.value = `${this.data[i]}`;
+      checkBox.value = `${elem}`;
       const nameChoose: HTMLElement = document.createElement("span");
-      nameChoose.textContent = `${this.data[i]}`;
+      nameChoose.textContent = `${elem}`;
       const viewProdField = document.createElement("span");
 
       const prodAll: HTMLElement = document.createElement("span");
-      const arr2 = array.reduce((acc: string[], el) => {
-        if (el === this.data[i]) acc.push(el);
-        return acc;
-      }, []);
 
-      prodAll.textContent = `${arr2.length})`;
+      const filterProduct = array.filter((el) => {
+        return el === elem;
+      });
 
-      viewProdField.textContent = ` (${arr2.length}/`;
+      prodAll.textContent = `${filterProduct.length})`;
+
+      viewProdField.textContent = ` (${filterProduct.length}/`;
       viewProdField.className = "filter-block__count";
       checkBoxContent.append(checkBox, nameChoose, viewProdField, prodAll);
-    }
+    });
+
     return this.container;
   }
 
-  renderFilterRange(value: string): void {
+  public renderFilterRange(value: string): void {
     const filterBlock: HTMLElement = this.renderContainer();
     filterBlock.className = "filter-block-range";
 
@@ -67,7 +69,7 @@ class CreateFilters implements ICreateFilters {
     filterBlock.append(dualSliderBlock);
 
     const blockSliders: HTMLElement = document.createElement("div");
-    const dataSort: (string | number)[] = this.data.sort(
+    const dataSort: (string | number)[] = this.dataProduct.sort(
       (a, b) => Number(a) - Number(b)
     );
     blockSliders.className = "filter-block__slider";
@@ -81,6 +83,7 @@ class CreateFilters implements ICreateFilters {
     fromSlider.max = String(dataSort[dataSort.length - 1]);
     fromSlider.value = String(dataSort[0]);
     const toSlider: HTMLInputElement = document.createElement("input");
+
     toSlider.className = "toSlider";
     toSlider.type = "range";
     toSlider.min = String(dataSort[0]);
@@ -96,9 +99,11 @@ class CreateFilters implements ICreateFilters {
     const minValue: HTMLElement = document.createElement("p");
     minValue.className = "filter-block__min-value";
     minValue.textContent = `${value} ${dataSort[0]}`;
+
     const maxValue = document.createElement("p");
     maxValue.className = "filter-block__max-value";
     maxValue.textContent = `${value} ${dataSort[dataSort.length - 1]}`;
+
     const nonValue: HTMLElement = document.createElement("p");
     nonValue.className = "filter-block__non-value";
     nonValue.textContent = " <-> ";
@@ -106,4 +111,4 @@ class CreateFilters implements ICreateFilters {
   }
 }
 
-export default CreateFilters;
+export default Filters;

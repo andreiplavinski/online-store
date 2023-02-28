@@ -17,13 +17,13 @@ class ErrorPage extends Page implements IErrorPage {
     this.errorType = errorType;
   }
 
-  protected createTitle(text: string): HTMLHeadingElement {
+  private createTitle(text: string): HTMLHeadingElement {
     const productTitle = document.createElement("h1");
     productTitle.textContent = text;
     return productTitle;
   }
 
-  render(): HTMLElement {
+  public render(): HTMLElement {
     const title = this.createTitle(ErrorPage.textObject[this.errorType]);
     this.container.append(title);
     return this.container;

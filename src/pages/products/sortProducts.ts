@@ -2,14 +2,16 @@ import {
   countProductView,
   controlSliders,
   controlSlidersNoneResult,
-} from "./function";
+} from "./helpers";
 
-import { CheckSort, DataAttribut, ISortProducts, IDualSlider } from "./types";
+import { CheckSort, DataAttribut, IProductsSorting } from "./types";
+
+import DualSlider from "./dualSlider";
 
 const currentUrl = window.location.href;
 const url = new URL(currentUrl);
 
-class SortProducts implements ISortProducts {
+class ProductsSorting implements IProductsSorting {
   select: HTMLSelectElement | null;
   container: HTMLElement | null;
   filter: HTMLElement;
@@ -108,7 +110,6 @@ class SortProducts implements ISortProducts {
     });
   }
 
-  //Add Generic
   sortArray<T extends string, U>(dataAttribut: T, checkSort: U): void {
     const arrPrice: Array<number> = [];
     for (let i = 0; i < this.cardGoods.length; i++) {
@@ -629,71 +630,4 @@ class SortProducts implements ISortProducts {
   }
 }
 
-export default SortProducts;
-
-class DualSlider implements IDualSlider {
-  fromSlider: HTMLInputElement;
-  toSlider: HTMLInputElement;
-  fromParagraph: HTMLElement;
-  toParagraph: HTMLElement;
-
-  constructor(
-    fromSlider: HTMLInputElement,
-    toSlider: HTMLInputElement,
-    fromParagraph: HTMLElement,
-    toParagraph: HTMLElement
-  ) {
-    this.fromSlider = fromSlider;
-    this.toSlider = toSlider;
-    this.fromParagraph = fromParagraph;
-    this.toParagraph = toParagraph;
-  }
-
-  controlFromSlider(val?: string): void {
-    const [from, to] = this.getParsed();
-    if (from > to) {
-      this.fromSlider.value = String(to);
-      this.fromParagraph.textContent = `${val} ${to}`;
-    } else {
-      this.fromParagraph.textContent = `${val} ${from}`;
-    }
-  }
-
-  controlToSlider(val?: string): void {
-    const [from, to] = this.getParsed();
-    this.setToggleAccessible();
-    if (from <= to) {
-      this.toSlider.value = String(to);
-      this.toParagraph.textContent = `${val} ${to}`;
-    } else {
-      this.toParagraph.textContent = `${val} ${from}`;
-      this.toSlider.value = String(from);
-    }
-  }
-
-  getParsed(): number[] {
-    const from: number = parseInt(this.fromSlider.value, 10);
-    const to: number = parseInt(this.toSlider.value, 10);
-    return [from, to];
-  }
-
-  setToggleAccessible(): void {
-    if (Number(this.toSlider.value) <= 0) {
-      this.toSlider.style.zIndex = "2";
-    } else {
-      this.toSlider.style.zIndex = "0";
-    }
-
-    if (this.fromSlider.value === this.fromSlider.max) {
-      this.fromSlider.style.zIndex = "3";
-    } else {
-      this.fromSlider.style.zIndex = "0";
-    }
-
-    if (this.toSlider.value === this.fromSlider.min) {
-      this.toSlider.style.zIndex = "3";
-    } else {
-      this.toSlider.style.zIndex = "0";
-    }
-  }
-}
+export default ProductsSorting;

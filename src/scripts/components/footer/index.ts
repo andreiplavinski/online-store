@@ -11,7 +11,7 @@ class Footer extends Page implements IFooter {
     super(tagName, id, className);
   }
 
-  protected createFooter(): void {
+  private createFooter(): void {
     const footerAuthors: HTMLElement = document.createElement("div");
     footerAuthors.className = "footer__author";
 
@@ -37,7 +37,7 @@ class Footer extends Page implements IFooter {
     this.container.append(footerAuthors, footerDate, footerLogoRS);
   }
 
-  render(): HTMLElement {
+  public render(): HTMLElement {
     this.createFooter();
     return this.container;
   }

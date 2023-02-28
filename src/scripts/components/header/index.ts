@@ -1,5 +1,5 @@
 import Page from "../../templates/page";
-import { pageIds } from "../../templates/enumPage";
+import { PageIds } from "../../templates/enumPage";
 import { writeToTalPriceCount } from "../../../pages/products/script";
 import { IHeader } from "./type";
 
@@ -8,12 +8,12 @@ class Header extends Page implements IHeader {
     super(tagName, id, className);
   }
 
-  renderClickContent(): void {
+  private renderClickContent(): void {
     const headerLogo: HTMLElement = document.createElement("h1");
     this.container.append(headerLogo);
     const linkLogo: HTMLAnchorElement = document.createElement("a");
     linkLogo.className = "header__logo";
-    linkLogo.href = `#${pageIds.product}`;
+    linkLogo.href = `#${PageIds.Product}`;
     headerLogo.append(linkLogo);
     linkLogo.textContent = "Online Store";
 
@@ -29,7 +29,7 @@ class Header extends Page implements IHeader {
     const basket: HTMLAnchorElement = document.createElement("a");
     basket.textContent = "🛒";
     basket.className = "header__basket";
-    basket.href = `#${pageIds.basket}`;
+    basket.href = `#${PageIds.Basket}`;
     this.container.append(basket);
     const writeCountProd = document.createElement("span");
 
@@ -44,7 +44,7 @@ class Header extends Page implements IHeader {
     basket.append(writeCountProd);
   }
 
-  render(): HTMLElement {
+  public render(): HTMLElement {
     this.renderClickContent();
     return this.container;
   }

@@ -1,16 +1,15 @@
 import { Card } from "../../scripts/templates/interfaceData";
 
-export interface ICreateCards {
-  data: Card[];
-  container: HTMLElement;
+export interface ICardCatalog {
+  readonly data: Card[];
+  readonly container: HTMLElement;
   renderCards(): HTMLElement;
 }
 
-export interface ICreateFilters {
-  data: Array<string | number>;
+export interface IFilters {
+  dataProduct: Array<string | number>;
   container: HTMLElement;
   headerName: string;
-  renderContainer(): HTMLElement;
   renderFilterCheckbox(array: Array<string>): HTMLElement;
   renderFilterRange(value: string): void;
 }
@@ -37,7 +36,7 @@ export enum DataAttribut {
   Id = "data-id",
 }
 
-export interface ISortProducts {
+export interface IProductsSorting {
   select: HTMLSelectElement | null;
   container: HTMLElement | null;
   filter: HTMLElement;
@@ -53,6 +52,7 @@ export interface ISortProducts {
     value: string,
     nameClass: string
   ): void;
+
   filterByPriceStock(
     numberFilter: number,
     class1: string,

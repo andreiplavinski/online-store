@@ -12,10 +12,10 @@ const app = new App();
 app.run();
 
 window.addEventListener("load", (): void => {
-  const a: HTMLElement | null = document.querySelector(".catalog");
-  const b: HTMLElement | null = document.querySelector(".filter");
-  if (a instanceof HTMLElement && b instanceof HTMLElement) {
-    const write = new SortProducts(a, b);
-    write.writeResSearch(3);
+  const catalog: HTMLElement | null = document.querySelector(".catalog");
+  const filter: HTMLElement | null = document.querySelector(".filter");
+  if (catalog instanceof HTMLElement && filter instanceof HTMLElement) {
+    const writer = new SortProducts(catalog, filter);
+    writer.writeResSearch(3);
   }
 });

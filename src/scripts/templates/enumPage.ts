@@ -1,5 +1,5 @@
-export const enum pageIds {
-  product = "product",
-  basket = "basket",
-  cards = "cards",
+export const enum PageIds {
+  Product = "product",
+  Basket = "basket",
+  Cards = "cards",
 }

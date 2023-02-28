@@ -1,25 +1,25 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
 import { Card } from "../../scripts/templates/interfaceData";
-import CreateCards from "./createCards";
-import { resFound, clickSize } from "./function";
-import CreateFilters from "./createFilters";
-import SortProducts from "./sortProducts";
+import CardCatalog from "./createCards";
+import { resFound, clickSize } from "./helpers";
+import Filters from "./createFilters";
+import ProductsSorting from "./sortProducts";
 import { IProductsPage } from "./types";
 
 const buttonsFilterName: string[] = ["Reset Filters", "Copy Link"];
 
 class ProductsPage extends Page implements IProductsPage {
-  static data: Card[];
-  static CreateCards: CreateCards;
-  static CreateFilters: CreateFilters;
-  static SortProducts: SortProducts;
+  static readonly data: Card[];
+  static readonly CardCatalog: CardCatalog;
+  static readonly Filters: Filters;
+  static readonly ProductsSorting: ProductsSorting;
 
   constructor(tagName: string, id: string, className: string) {
     super(tagName, id, className);
   }
 
-  protected createContent(): HTMLElement {
+  private createContent(): HTMLElement {
     const filters: HTMLElement = document.createElement("div");
     filters.className = "filter";
     const filterHeader = document.createElement("div");
@@ -82,35 +82,23 @@ class ProductsPage extends Page implements IProductsPage {
     emptyBlock.textContent = "Па вашым запыце нічога не знойдзена!";
     catalogCards.append(emptyBlock);
 
-    const productCard: CreateCards = new CreateCards(newdata, catalogCards);
+    const productCard: CardCatalog = new CardCatalog(newdata, catalogCards);
     productCard.renderCards();
 
-    const filterCategory: CreateFilters = new CreateFilters(
+    const filterCategory: Filters = new Filters(
       arrCategoryUnic,
       filters,
       "Category"
     );
     filterCategory.renderFilterCheckbox(arrCategory);
 
-    const filterBrand: CreateFilters = new CreateFilters(
-      arrBrandUnic,
-      filters,
-      "Brand"
-    );
+    const filterBrand: Filters = new Filters(arrBrandUnic, filters, "Brand");
     filterBrand.renderFilterCheckbox(arrBrand);
 
-    const filterPrice: CreateFilters = new CreateFilters(
-      arrPrice,
-      filters,
-      "Price"
-    );
+    const filterPrice: Filters = new Filters(arrPrice, filters, "Price");
     filterPrice.renderFilterRange("€");
 
-    const filterStock: CreateFilters = new CreateFilters(
-      arrStock,
-      filters,
-      "Stock"
-    );
+    const filterStock: Filters = new Filters(arrStock, filters, "Stock");
     filterStock.renderFilterRange("");
 
     const cardFound: HTMLElement = document.createElement("p");
@@ -172,16 +160,14 @@ class ProductsPage extends Page implements IProductsPage {
 
     this.container.append(filters, catalog);
 
-    const sort = new SortProducts(catalog, filters);
+    const sort = new ProductsSorting(catalog, filters);
 
     sort.getParams();
-
-    sort;
 
     return this.container;
   }
 
-  render(): HTMLElement {
+  public render(): HTMLElement {
     return this.createContent();
   }
 }
