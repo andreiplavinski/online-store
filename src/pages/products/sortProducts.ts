@@ -108,6 +108,7 @@ class SortProducts implements ISortProducts {
     });
   }
 
+  //Add Generic
   sortArray<T extends string, U>(dataAttribut: T, checkSort: U): void {
     const arrPrice: Array<number> = [];
     for (let i = 0; i < this.cardGoods.length; i++) {
