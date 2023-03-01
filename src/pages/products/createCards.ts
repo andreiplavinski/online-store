@@ -1,54 +1,55 @@
 import { Card } from "../../scripts/templates/interfaceData";
-import { pageIds } from "../../scripts/templates/enumPage";
-import { AddToCart } from "./function";
+import { PageIds } from "../../scripts/templates/enumPage";
+import { AddToCart } from "./helpers";
 import { writeToTalPriceCount } from "./script";
+import { ICardCatalog } from "./types";
 
-class CreateCards {
-  data: Card[];
-  container: HTMLElement;
+class CardCatalog implements ICardCatalog {
+  readonly data: Card[];
+  readonly container: HTMLElement;
   constructor(data: Card[], container: HTMLElement) {
     this.data = data;
     this.container = container;
   }
 
-  renderCards(): HTMLElement {
-    // if (this.container.children) {
-    //   this.container.replaceChildren();
-    // }
-
+  public renderCards(): HTMLElement {
     for (let i = 0; i < this.data.length; i++) {
-      const idCardCurrent = this.data[i].id;
-      const catalogCard = document.createElement("div");
-      catalogCard.className = "card";
-      catalogCard.style.backgroundImage = `url(${this.data[i].images[0]})`;
-      catalogCard.setAttribute("data-id", String(idCardCurrent));
-      catalogCard.setAttribute("data-category", String(this.data[i].category));
-      catalogCard.setAttribute("data-brand", String(this.data[i].brand));
-      catalogCard.setAttribute("data-price", String(this.data[i].price));
-      catalogCard.setAttribute("data-stock", String(this.data[i].stock));
-      catalogCard.setAttribute("data-rating", String(this.data[i].rating));
-      catalogCard.setAttribute(
+      const currentCardId = this.data[i].id;
+      const cardGallery: HTMLElement = document.createElement("div");
+      cardGallery.className = "card";
+      cardGallery.style.backgroundImage = `url(${this.data[i].images[0]})`;
+
+      cardGallery.setAttribute("data-id", String(currentCardId));
+      cardGallery.setAttribute("data-category", String(this.data[i].category));
+      cardGallery.setAttribute("data-brand", String(this.data[i].brand));
+      cardGallery.setAttribute("data-price", String(this.data[i].price));
+      cardGallery.setAttribute("data-stock", String(this.data[i].stock));
+      cardGallery.setAttribute("data-rating", String(this.data[i].rating));
+
+      cardGallery.setAttribute(
         "data-all",
         `${this.data[i].title}${this.data[i].description}${this.data[i].price}
         ${this.data[i].discountPercentage}${this.data[i].rating}${this.data[i].stock}
         ${this.data[i].brand}${this.data[i].category}`
       );
-      this.container.append(catalogCard);
-      const cardTitle = document.createElement("div");
+
+      this.container.append(cardGallery);
+      const cardTitle: HTMLElement = document.createElement("div");
       cardTitle.textContent = this.data[i].title;
       cardTitle.className = "card__title";
-      catalogCard.append(cardTitle);
-      const cardDescription = document.createElement("div");
+      cardGallery.append(cardTitle);
+      const cardDescription: HTMLElement = document.createElement("div");
       cardDescription.className = "card__description";
-      catalogCard.append(cardDescription);
+      cardGallery.append(cardDescription);
 
-      const cardCategory = document.createElement("p");
+      const cardCategory: HTMLElement = document.createElement("p");
       cardCategory.className = "card__category";
-      const cardBrand = document.createElement("p");
-      const cardPrice = document.createElement("p");
-      const cardDiscount = document.createElement("p");
-      const cardRating = document.createElement("p");
-      const cardStock = document.createElement("p");
+      const cardBrand: HTMLElement = document.createElement("p");
+      const cardPrice: HTMLElement = document.createElement("p");
+      const cardDiscount: HTMLElement = document.createElement("p");
+      const cardRating: HTMLElement = document.createElement("p");
+      const cardStock: HTMLElement = document.createElement("p");
+
       cardCategory.innerHTML = `Category:<span> ${this.data[i].category}</span>`;
       cardBrand.innerHTML = `Brand:<span> ${this.data[i].brand}</span`;
       cardPrice.innerHTML = `Price:<span> ${this.data[i].price}€</span`;
@@ -65,11 +66,12 @@ class CreateCards {
         cardStock
       );
 
-      const cardButtonAdd = document.createElement("button");
+      const cardButtonAdd: HTMLButtonElement = document.createElement("button");
       cardButtonAdd.classList.add("card__button");
       cardButtonAdd.setAttribute("id", "add-product");
-      cardButtonAdd.setAttribute("data-id", String(idCardCurrent));
-      const cardButtonDetails = document.createElement("button");
+      cardButtonAdd.setAttribute("data-id", String(currentCardId));
+      const cardButtonDetails: HTMLButtonElement =
+        document.createElement("button");
       cardButtonDetails.classList.add("card__button");
       cardButtonDetails.setAttribute("id", "view-product");
 
@@ -78,22 +80,22 @@ class CreateCards {
       } else if (
         Object.keys(
           JSON.parse(localStorage.getItem("product") || "{}")
-        ).includes(`${idCardCurrent}`)
+        ).includes(`${currentCardId}`)
       ) {
         cardButtonAdd.textContent = "Drop From Cart";
       } else {
         cardButtonAdd.textContent = "Add To Cart";
       }
       cardButtonDetails.textContent = "Details";
-      catalogCard.append(cardButtonAdd, cardButtonDetails);
+      cardGallery.append(cardButtonAdd, cardButtonDetails);
 
-      catalogCard.addEventListener("click", (event: Event) => {
+      cardGallery.addEventListener("click", (event: Event) => {
         if (
           event.target instanceof HTMLElement &&
           !event.target.closest("#add-product")
         ) {
-          window.location.hash = `${pageIds.cards}/${idCardCurrent}`;
-          localStorage.setItem("idCard", `${idCardCurrent}`);
+          window.location.hash = `${PageIds.Cards}/${currentCardId}`;
+          localStorage.setItem("idCard", `${currentCardId}`);
         }
       });
 
@@ -105,4 +107,4 @@ class CreateCards {
   }
 }
 
-export default CreateCards;
+export default CardCatalog;

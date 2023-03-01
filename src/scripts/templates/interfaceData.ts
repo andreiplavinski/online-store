@@ -18,4 +18,7 @@ interface CardProd {
   limit: number;
 }
 export default CardProd;
-//export default Card;
+
+export interface IPage {
+  render(): HTMLElement;
+}

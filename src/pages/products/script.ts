@@ -8,7 +8,7 @@ for (let i = 0; i < product.length; i++) {
   productPrice.push(product[i].price);
 }
 
-export function writeToTalPriceCount() {
+export function writeToTalPriceCount(): void {
   const writePrice: HTMLElement | null = document.querySelector(
     ".header__price-result"
   );

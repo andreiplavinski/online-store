@@ -1,4 +1,6 @@
-abstract class Page {
+import { IPage } from "./interfaceData";
+
+abstract class Page implements IPage {
   protected container: HTMLElement;
   static textObject = {};
 
@@ -8,7 +10,7 @@ abstract class Page {
     this.container.className = className;
   }
 
-  render() {
+  public render(): HTMLElement {
     return this.container;
   }
 }

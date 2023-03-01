@@ -11,11 +11,11 @@ import SortProducts from "./pages/products/sortProducts";
 const app = new App();
 app.run();
 
-window.addEventListener("load", () => {
-  const a = document.querySelector(".catalog");
-  const b = document.querySelector(".filter");
-  if (a instanceof HTMLElement && b instanceof HTMLElement) {
-    const write = new SortProducts(a, b);
-    write.writeResSearch(3);
+window.addEventListener("load", (): void => {
+  const catalog: HTMLElement | null = document.querySelector(".catalog");
+  const filter: HTMLElement | null = document.querySelector(".filter");
+  if (catalog instanceof HTMLElement && filter instanceof HTMLElement) {
+    const writer = new SortProducts(catalog, filter);
+    writer.writeResSearch(3);
   }
 });

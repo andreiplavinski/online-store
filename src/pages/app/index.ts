@@ -2,12 +2,16 @@ import Page from "../../scripts/templates/page";
 import ProductsPage from "../products";
 import BascetPage from "../bascet";
 import CardsPage from "../cards";
-import { pageIds } from "../../scripts/templates/enumPage";
+import { PageIds } from "../../scripts/templates/enumPage";
 import Header from "../../scripts/components/header";
 import ErrorPage from "../error/error";
 import Footer from "../../scripts/components/footer";
 
-class App {
+interface IApp {
+  run(): void;
+}
+
+class App implements IApp {
   private header: Header;
   private static container: HTMLElement = document.body;
   private static defauldPageClass = "current-page";
@@ -18,33 +22,33 @@ class App {
     this.footer = new Footer("footer", "footer", "footer");
   }
 
-  static RenderPage(idPage: string) {
-    const hash = window.location.hash.slice(1);
+  static renderPage(idPage: string) {
+    const hash: string = window.location.hash.slice(1);
     const currenPageHtml = document.querySelector(`.${this.defauldPageClass}`);
     if (currenPageHtml) {
       currenPageHtml.remove();
     }
     let page: Page | null = null;
 
-    if (idPage === pageIds.product) {
+    if (idPage === PageIds.Product) {
       page = new ProductsPage("main", idPage, "main");
     } else if (idPage === "") {
-      page = new ProductsPage("main", pageIds.product, "main");
-    } else if (idPage === pageIds.basket) {
+      page = new ProductsPage("main", PageIds.Product, "main");
+    } else if (idPage === PageIds.Basket) {
       page = new BascetPage("main", idPage, "main");
     } else if (
       new RegExp("^[1-9][0-9]?$|^100$").test(`${hash.split("/")[1]}`) &&
-      idPage === `${pageIds.cards}/${hash.split("/")[1]}`
+      idPage === `${PageIds.Cards}/${hash.split("/")[1]}`
     ) {
       page = new CardsPage("main", idPage, "main", Number(hash.split("/")[1]));
-    } else if (idPage === `${pageIds.cards}/${100 || 99}`) {
+    } else if (idPage === `${PageIds.Cards}/${100 || 99}`) {
       page = new CardsPage("main", idPage, "main", 100 || 99);
     } else {
       page = new ErrorPage("main", "error", "main", "404");
     }
 
     if (page) {
-      const pageHTML = page.render();
+      const pageHTML: HTMLElement = page.render();
       pageHTML.className = this.defauldPageClass;
       if (App.container) {
         App.container.append(pageHTML);
@@ -52,27 +56,27 @@ class App {
     }
   }
 
-  private enableRoundChange() {
+  private enableRoundChange(): void {
     window.addEventListener("hashchange", () => {
-      const hash = window.location.hash.slice(1);
+      const hash: string = window.location.hash.slice(1);
 
-      let url = location.href;
+      let url: string = location.href;
 
       if (url.includes("?")) {
         url = url.slice(0, url.indexOf("?")) + url.slice(url.indexOf("#"));
         window.history.replaceState({}, "", url);
       }
-      App.RenderPage(hash);
+      App.renderPage(hash);
     });
   }
-  private windowLoad() {
+  private windowLoad(): void {
     window.addEventListener("load", () => {
-      const hash = window.location.hash.slice(1);
-      App.RenderPage(hash);
+      const hash: string = window.location.hash.slice(1);
+      App.renderPage(hash);
     });
   }
 
-  run() {
+  public run(): void {
     App.container.append(this.header.render());
     this.enableRoundChange();
     this.windowLoad();
