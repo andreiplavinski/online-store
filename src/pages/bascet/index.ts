@@ -1,30 +1,11 @@
 import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
-import buyWindow from "../window";
+import Payment from "../payment";
 import "./bascet.scss";
 import { writeToTalPriceCount } from "../products/script";
-
-interface IProducts {
-  [key: number]: number;
-}
-
-interface IDiscounts {
-  [key: string]: number;
-}
-
-interface IDataProduct {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
+import { IDataProduct } from "./types";
+import { IProducts } from "./types";
+import { IDiscounts } from "./types";
 
 class BascetPage extends Page {
   dataBase: Array<IDataProduct> = data.products;
@@ -78,7 +59,7 @@ class BascetPage extends Page {
     }
   }
 
-  private setData(data: string) {
+  private setData(data: string): void {
     const currentUrl = window.location.href;
     const url = new URL(currentUrl);
     if (data === "page") {
@@ -97,7 +78,7 @@ class BascetPage extends Page {
     }
   }
 
-  protected changeProducts(id: number, operation: string) {
+  private changeProducts(id: number, operation: string): void {
     if (id in this.products && operation === "+") {
       this.products[id] = this.products[id] + 1;
     } else if (id in this.products && operation === "-") {
@@ -164,24 +145,17 @@ class BascetPage extends Page {
 
         const descriptions = document.createElement("div");
         descriptions.className = "cart__descriptions";
-        for (let i = 0; i < 4; i++) {
-          const descriptionItem = document.createElement("p");
-          descriptionItem.className = "cart__description";
-          if (i === 0) {
-            descriptionItem.innerText = selectItem.title;
-          }
-          if (i === 1) {
-            descriptionItem.innerText = selectItem.description;
-          }
-          if (i === 2) {
-            descriptionItem.innerText = `Rating: ${String(selectItem.rating)}`;
-          }
-          if (i === 3) {
-            descriptionItem.innerText = `Discount: ${String(
-              selectItem.discountPercentage
-            )}%`;
-          }
-          descriptions.append(descriptionItem);
+
+        const descriptionsTitle = document.createElement("p");
+        descriptionsTitle.className = "description-title";
+        descriptionsTitle.innerText = selectItem.title;
+
+        descriptions.append(descriptionsTitle);
+
+        const descriptionsArr = this.getDescription(selectItem, "bascet");
+
+        for (const description of descriptionsArr) {
+          descriptions.append(description);
         }
 
         const amount = document.createElement("div");
@@ -436,7 +410,7 @@ class BascetPage extends Page {
     return sumWraper;
   }
 
-  protected createCartHeader() {
+  private createCartHeader(): HTMLDivElement {
     const cartHeader = document.createElement("div");
     cartHeader.className = "cart__header";
 
@@ -560,15 +534,15 @@ class BascetPage extends Page {
   }
 
   private createWindow(): void {
-    const newWindow = new buyWindow();
-    const modalWindow = newWindow.createContent();
+    const payment = new Payment();
+    const modalWindow = payment.createContent();
     const page = document.querySelector("html");
     if (page !== null) {
       page.append(modalWindow);
     }
   }
 
-  render(): HTMLElement {
+  public render(): HTMLElement {
     this.getData();
     const page = this.createPage(this.products);
 

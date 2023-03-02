@@ -1,7 +1,7 @@
-import "./window.scss";
+import "./payment.scss";
 import { writeToTalPriceCount } from "../products/script";
 
-class window {
+class Payment {
   createContent(): HTMLDivElement {
     localStorage.removeItem("windowFlag");
 
@@ -252,4 +252,4 @@ class window {
     return counter;
   }
 }
-export default window;
+export default Payment;
