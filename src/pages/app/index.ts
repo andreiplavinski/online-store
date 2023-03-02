@@ -1,7 +1,7 @@
 import Page from "../../scripts/templates/page";
 import ProductsPage from "../products";
 import BascetPage from "../bascet";
-import CardsPage from "../cards";
+import CardPage from "../cards";
 import { PageIds } from "../../scripts/templates/enumPage";
 import Header from "../../scripts/components/header";
 import ErrorPage from "../error/error";
@@ -40,9 +40,9 @@ class App implements IApp {
       new RegExp("^[1-9][0-9]?$|^100$").test(`${hash.split("/")[1]}`) &&
       idPage === `${PageIds.Cards}/${hash.split("/")[1]}`
     ) {
-      page = new CardsPage("main", idPage, "main", Number(hash.split("/")[1]));
+      page = new CardPage("main", idPage, "main", Number(hash.split("/")[1]));
     } else if (idPage === `${PageIds.Cards}/${100 || 99}`) {
-      page = new CardsPage("main", idPage, "main", 100 || 99);
+      page = new CardPage("main", idPage, "main", 100 || 99);
     } else {
       page = new ErrorPage("main", "error", "main", "404");
     }

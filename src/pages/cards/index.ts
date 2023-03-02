@@ -2,26 +2,10 @@ import Page from "../../scripts/templates/page";
 import data from "../../data/data.json";
 import "./cards.scss";
 import { writeToTalPriceCount } from "../../pages/products/script";
+import { IProducts } from "../bascet/types";
+import { IDataProduct } from "../bascet/types";
 
-interface IProducts {
-  [key: number]: number;
-}
-
-interface IDataProduct {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
-
-class CardsPage extends Page {
+class CardPage extends Page {
   dataBase: Array<IDataProduct> = data.products;
   dataIdBase: Array<number> = this.dataBase.map((x) => x.id);
   idN: number;
@@ -127,43 +111,10 @@ class CardsPage extends Page {
 
     descriptionTable.append(descriptionTableTitle);
 
-    const cellNames = [
-      "Description:",
-      "Discount Percentage:",
-      "Rating:",
-      "Stock:",
-      "Brand:",
-      "Category:",
-    ];
+    const descriptions = this.getDescription(selectItem, "cards");
 
-    for (let i = 0; i < cellNames.length; i++) {
-      const descriptionCell = document.createElement("div");
-      descriptionCell.className = "description-card__cell";
-
-      const descriptionCellTitle = document.createElement("p");
-      descriptionCellTitle.innerText = cellNames[i];
-      descriptionCellTitle.className = "description-card__cell-title";
-
-      const descriptionCellValue = document.createElement("p");
-
-      if (i === 0) {
-        descriptionCellValue.innerText = selectItem.description;
-      } else if (i === 1) {
-        descriptionCellValue.innerText = String(selectItem.discountPercentage);
-      } else if (i === 2) {
-        descriptionCellValue.innerText = String(selectItem.rating);
-      } else if (i === 3) {
-        descriptionCellValue.innerText = String(selectItem.stock);
-      } else if (i === 4) {
-        descriptionCellValue.innerText = selectItem.brand.toLocaleUpperCase();
-      } else if (i === 5) {
-        descriptionCellValue.innerText =
-          selectItem.category.toLocaleUpperCase();
-      }
-      descriptionCellValue.className = "description-card__cell-value";
-      descriptionCell.append(descriptionCellTitle);
-      descriptionCell.append(descriptionCellValue);
-      descriptionTable.append(descriptionCell);
+    for (const description of descriptions) {
+      descriptionTable.append(description);
     }
 
     const priceWraper = document.createElement("div");
@@ -216,7 +167,7 @@ class CardsPage extends Page {
     return page;
   }
 
-  render() {
+  public render(): HTMLElement {
     const page = this.createContent(); // id product put here
     if (page instanceof HTMLDivElement) {
       this.container.append(page);
@@ -227,4 +178,4 @@ class CardsPage extends Page {
   }
 }
 
-export default CardsPage;
+export default CardPage;
